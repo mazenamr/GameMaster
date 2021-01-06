@@ -2,7 +2,6 @@
 using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.Extensions.Configuration;
 
 #nullable disable
 
@@ -44,14 +43,6 @@ namespace GameMaster.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                var builder = new ConfigurationBuilder()
-                   .SetBasePath(Directory.GetCurrentDirectory())
-                   .AddJsonFile("appSettings.json", optional: true, reloadOnChange: true);
-
-                IConfigurationRoot configuration = builder.Build();
-                var connectionString = configuration["connectionString"];
-
-                optionsBuilder.UseSqlServer(connectionString);
             }
         }
 
