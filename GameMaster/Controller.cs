@@ -18,5 +18,10 @@ namespace GameMaster
         {
             return _dbContext.Roles.FromSqlRaw("SELECT * FROM Role;").ToList();
         }
+
+        public User GetEmail(string email)
+        {
+            return _dbContext.Users.FromSqlInterpolated($"SELECT * FROM User where Email = {email};").FirstOrDefault();
+        }
     }
 }
