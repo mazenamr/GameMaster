@@ -2,10 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace GameMaster.Pages
 {
@@ -13,7 +11,12 @@ namespace GameMaster.Pages
     {
         private readonly ILogger<IndexModel> _logger;
         private readonly Controller _controller;
-        public List<Role> Roles { get; set; } = new();
+
+        public List<Role>? Roles { get; set; }
+
+        [Required]
+        [BindProperty]
+        public string? Role { get; set; }
 
         public IndexModel(ILogger<IndexModel> logger, Controller controller)
         {
@@ -24,6 +27,15 @@ namespace GameMaster.Pages
         public void OnGet()
         {
             Roles = _controller.GetRoles();
+        }
+
+        public IActionResult OnPostAddRole()
+        {
+            if (Role is not null)
+            {
+                _controller.AddRole(Role);
+            }
+            return RedirectToPage("Index");
         }
     }
 }

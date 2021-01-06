@@ -9,11 +9,27 @@
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 
-<div>
-    <ul>
-        @foreach (var role in Model.Roles)
-        {
-            <li>@role.Name</li>
-        }
-    </ul>
-</div>
+@if (Model.Roles is not null)
+{
+    <div>
+        <ul>
+            @foreach (var role in Model.Roles)
+            {
+                <li>@role.Name</li>
+            }
+        </ul>
+    </div>
+}
+
+<form asp-page="">
+    <div class="form-row">
+        <div class="form-group col">
+            <label asp-for="Role" class="col-form-label">Role Name</label>
+            <input asp-for="Role" class="form-control" />
+            <span asp-validation-for="Role" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-row">
+        <input asp-page-handler="AddRole" class="btn btn-primary" type="submit" value="Insert Role" />
+    </div>
+</form>
