@@ -26,6 +26,7 @@ namespace GameMaster
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<GameMasterContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddTransient<Controller>();
             services.AddRazorPages().AddRazorRuntimeCompilation();
         }
 
