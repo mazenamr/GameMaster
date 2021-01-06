@@ -1,4 +1,5 @@
 ﻿using GameMaster.Models;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,12 @@ namespace GameMaster
         public List<Role> GetRoles()
         {
             return _dbContext.Roles.FromSqlRaw("SELECT * FROM Role;").ToList();
+        }
+
+        public int AddRole(string roleName)
+        {
+            var x = nameof(_dbContext.Roles);
+            return _dbContext.Database.ExecuteSqlRaw("INSERT INTO Role (Name) VALUES(@rolename)", new SqlParameter("rolename", roleName));
         }
     }
 }
