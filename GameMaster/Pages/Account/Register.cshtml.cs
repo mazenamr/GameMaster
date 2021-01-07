@@ -64,10 +64,6 @@ namespace GameMaster.Pages.Account
                 return Page();
             }
 
-            _controller.AddPerson(Input.FirstName, Input.LastName, Input.Birthday);
-            List<Person> people = _controller.GetPersonByName(Input.FirstName, Input.LastName);
-            Person? person = people.OrderByDescending(x => x.Id).FirstOrDefault();
-
             User? user = _controller.GetUserByEmail(Input.Email);
             if (user != null)
             {
@@ -76,10 +72,10 @@ namespace GameMaster.Pages.Account
             }
             else
             {
-                user = new();
+                user = new() { Email = Input.Email.Trim() };
             }
 
-            _controller.AddUser(Input.Email.Trim(), _hasher.HashPassword(user, Input.Password), person.Id, 100);
+            _controller.NewUser(Input.FirstName, Input.LastName, Input.Birthday, Input.Email, _hasher.HashPassword(user, Input.Password), Constants.Roles.Player);
             return RedirectToPage("/Index");
         }
     }

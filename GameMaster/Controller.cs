@@ -36,12 +36,12 @@ namespace GameMaster
                 new SqlParameter("email", email)).FirstOrDefault();
         }
 
-        public int AddPerson(string firstName, string lastName, DateTime birthday)
+        public Person AddPerson(string firstName, string lastName, DateTime birthday)
         {
-            string query = "INSERT INTO [@tableName] (Birthday, DateCreated, FirstName, LastName) VALUES(@birthday, @datecreated, @firstname, @lastname);";
-            return _dbContext.Database.ExecuteSqlRaw(query, new SqlParameter("tableName", Constants.Tables.Person),
-                new SqlParameter("birthday", birthday), new SqlParameter("datecreated", DateTime.UtcNow), 
-                new SqlParameter("firstname", firstName), new SqlParameter("lastname", lastName));
+            string query = "Exec NewPerson @firstName, @lastName, @birthday, @dateCreated);";
+            return _dbContext.People.FromSqlRaw(query, new SqlParameter("tableName", Constants.Tables.Person),
+                new SqlParameter("birthday", birthday), new SqlParameter("dateCreated", DateTime.UtcNow), 
+                new SqlParameter("firstName", firstName), new SqlParameter("lastName", lastName)).First();
         }
 
         public List<Person> GetPersonByName(string firstName, string lastName)
@@ -60,5 +60,20 @@ namespace GameMaster
                 new SqlParameter("personId", personId), new SqlParameter("roleId", roleId));
         }
 
+        public int NewUser(string firstName, string lastName, DateTime birthday, string email, string password, int roleId)
+        {
+            _dbContext.Database.ExecuteSqlRaw("START TRANSACTION;");
+            try
+            {
+                Person person = AddPerson(firstName, lastName, birthday);
+                _dbContext.Database.ExecuteSqlRaw("COMMIT;");
+                return AddUser(email, password, person.Id, roleId);
+            }
+            catch
+            {
+                _dbContext.Database.ExecuteSqlRaw("ROLLBACK;");
+                throw;
+            }
+        }
     }
 }
