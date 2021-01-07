@@ -50,7 +50,12 @@ namespace GameMaster.Pages.Account
 
         public async Task<IActionResult> OnPostAsync()
         {
-            User user = _controller.GetUserByEmail(Input.Email.Trim());
+            User? user = _controller.GetUserByEmail(Input.Email.Trim());
+            if (user is null)
+            {
+                ModelState.AddModelError(string.Empty, "No account is registered with this email!");
+                return Page();
+            }
 
             if (_hasher.VerifyHashedPassword(user, user.Password, Input.Password) != PasswordVerificationResult.Success)
             {
