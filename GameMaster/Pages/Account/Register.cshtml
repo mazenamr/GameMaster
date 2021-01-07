@@ -8,8 +8,8 @@
     <div class="col-md-4">
         <section>
             <form id="account" method="post">
-                <h4>Register a local account</h4>
-                <hr>
+                <h1>Register</h1>
+                <hr />
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div>
                     <label asp-for="Input.FirstName">First name</label>
@@ -36,6 +36,7 @@
                     <input type="date" asp-for="Input.Birthday" class="form-control" />
                     <span asp-validation-for="Input.Birthday"></span>
                 </div>
+                <hr />
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">Register</button>
                 </div>
