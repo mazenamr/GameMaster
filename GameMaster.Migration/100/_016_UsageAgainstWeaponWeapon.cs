@@ -7,10 +7,10 @@ namespace GameMaster.Migration._100
     {
         public override void Up()
         {
-            Create.Table(Tables.UsageAgainstWeaponWeapon)
+            Create.Table(Constants.Tables.UsageAgainstWeaponWeapon)
                 .AutoId()
-                .IntForeignKeyIndexed("Weapon1Id", Tables.Weapon, false, false)
-                .IntForeignKeyIndexed("Weapon2Id", Tables.Weapon, false, false)
+                .IntForeignKeyIndexed("Weapon1Id", Constants.Tables.Weapon, isNullable: false, isPK: false)
+                .IntForeignKeyIndexed("Weapon2Id", Constants.Tables.Weapon, isNullable: false, isPK: false)
                 .WithColumn("GamesPlayed").AsInt32().Nullable()
                 .WithColumn("GamesWon").AsInt32().Nullable();
         }

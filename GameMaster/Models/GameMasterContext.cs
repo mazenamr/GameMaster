@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -34,6 +33,7 @@ namespace GameMaster.Models
         public virtual DbSet<UsageAgainstCharacterCharacter> UsageAgainstCharacterCharacters { get; set; }
         public virtual DbSet<UsageAgainstCharacterWeapon> UsageAgainstCharacterWeapons { get; set; }
         public virtual DbSet<UsageAgainstWeaponWeapon> UsageAgainstWeaponWeapons { get; set; }
+        public virtual DbSet<UsageWith> UsageWiths { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<VersionInfo> VersionInfos { get; set; }
         public virtual DbSet<Weapon> Weapons { get; set; }
@@ -41,9 +41,6 @@ namespace GameMaster.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -102,6 +99,8 @@ namespace GameMaster.Models
 
                 entity.HasIndex(e => e.Weapon2Id, "IX_Game_Weapon2Id");
 
+                entity.Property(e => e.DateTime).HasColumnType("datetime");
+
                 entity.HasOne(d => d.Character1)
                     .WithMany(p => p.GameCharacter1s)
                     .HasForeignKey(d => d.Character1Id)
@@ -157,7 +156,7 @@ namespace GameMaster.Models
 
                 entity.Property(e => e.Birthday).HasColumnType("date");
 
-                entity.Property(e => e.DateCreated).HasColumnType("date");
+                entity.Property(e => e.DateCreated).HasColumnType("datetime");
 
                 entity.Property(e => e.FirstName)
                     .IsRequired()
@@ -211,6 +210,8 @@ namespace GameMaster.Models
             {
                 entity.ToTable("Rank");
 
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
                 entity.Property(e => e.IsActive)
                     .IsRequired()
                     .HasDefaultValueSql("((1))");
@@ -237,6 +238,8 @@ namespace GameMaster.Models
             {
                 entity.ToTable("Role");
 
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
                 entity.Property(e => e.IsActive)
                     .IsRequired()
                     .HasDefaultValueSql("((1))");
@@ -250,7 +253,7 @@ namespace GameMaster.Models
             {
                 entity.ToTable("Season");
 
-                entity.Property(e => e.EndDate).HasColumnType("date");
+                entity.Property(e => e.EndDate).HasColumnType("datetime");
 
                 entity.Property(e => e.IsActive)
                     .IsRequired()
@@ -260,7 +263,7 @@ namespace GameMaster.Models
                     .IsRequired()
                     .HasMaxLength(100);
 
-                entity.Property(e => e.StartDate).HasColumnType("date");
+                entity.Property(e => e.StartDate).HasColumnType("datetime");
             });
 
             modelBuilder.Entity<SynergiesAgainstCharacterCharacter>(entity =>
@@ -410,6 +413,27 @@ namespace GameMaster.Models
                     .HasForeignKey(d => d.Weapon2Id)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_UsageAgainstWeaponWeapon_Weapon2Id_Weapon_id");
+            });
+
+            modelBuilder.Entity<UsageWith>(entity =>
+            {
+                entity.ToTable("UsageWith");
+
+                entity.HasIndex(e => e.CharacterId, "IX_UsageWith_CharacterId");
+
+                entity.HasIndex(e => e.WeaponId, "IX_UsageWith_WeaponId");
+
+                entity.HasOne(d => d.Character)
+                    .WithMany(p => p.UsageWiths)
+                    .HasForeignKey(d => d.CharacterId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UsageWith_CharacterId_Character_id");
+
+                entity.HasOne(d => d.Weapon)
+                    .WithMany(p => p.UsageWiths)
+                    .HasForeignKey(d => d.WeaponId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UsageWith_WeaponId_Weapon_id");
             });
 
             modelBuilder.Entity<User>(entity =>

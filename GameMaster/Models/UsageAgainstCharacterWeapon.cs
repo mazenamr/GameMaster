@@ -12,7 +12,6 @@ namespace GameMaster.Models
         public int WeaponId { get; set; }
         public int? GamesPlayed { get; set; }
         public int? GamesWon { get; set; }
-        public float? WinRate { get; set; }
 
         public virtual Character Character { get; set; }
         public virtual Weapon Weapon { get; set; }

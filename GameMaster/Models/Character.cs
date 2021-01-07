@@ -19,6 +19,7 @@ namespace GameMaster.Models
             UsageAgainstCharacterCharacterCharacter1s = new HashSet<UsageAgainstCharacterCharacter>();
             UsageAgainstCharacterCharacterCharacter2s = new HashSet<UsageAgainstCharacterCharacter>();
             UsageAgainstCharacterWeapons = new HashSet<UsageAgainstCharacterWeapon>();
+            UsageWiths = new HashSet<UsageWith>();
         }
 
         public int Id { get; set; }
@@ -38,5 +39,6 @@ namespace GameMaster.Models
         public virtual ICollection<UsageAgainstCharacterCharacter> UsageAgainstCharacterCharacterCharacter1s { get; set; }
         public virtual ICollection<UsageAgainstCharacterCharacter> UsageAgainstCharacterCharacterCharacter2s { get; set; }
         public virtual ICollection<UsageAgainstCharacterWeapon> UsageAgainstCharacterWeapons { get; set; }
+        public virtual ICollection<UsageWith> UsageWiths { get; set; }
     }
 }

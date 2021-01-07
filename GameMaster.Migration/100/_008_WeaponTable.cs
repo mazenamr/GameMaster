@@ -7,7 +7,7 @@ namespace GameMaster.Migration._100
     {
         public override void Up()
         {
-            Create.Table(Tables.Weapon)
+            Create.Table(Constants.Tables.Weapon)
                 .AutoId()
                 .WithColumn("Name").AsString(StringLength.Fifty).NotNullable()
                 .WithColumn("Power").AsInt32().NotNullable()

@@ -7,14 +7,14 @@ namespace GameMaster.Migration._100
     {
         public override void Up()
         {
-            Create.Table(Tables.Player)
+            Create.Table(Constants.Tables.Player)
                 .AutoId()
-                .IntForeignKeyIndexed("PersonId", Tables.Person, false, false)
-                .IntForeignKeyIndexed("RegionId", Tables.Region, false, false)
-                .IntForeignKeyIndexed("RankId", Tables.Rank, false, false)
                 .WithColumn("Score").AsInt32().Nullable()
                 .WithColumn("Skill").AsInt32().NotNullable()
                 .WithColumn("Temper").AsInt32().NotNullable()
+                .IntForeignKeyIndexed("RegionId", Constants.Tables.Region, isNullable: false, isPK: false)
+                .IntForeignKeyIndexed("RankId", Constants.Tables.Rank, isNullable: false, isPK: false)
+                .IntForeignKeyIndexed("PersonId", Constants.Tables.Person, isNullable: false, isPK: false)
                 .WithColumn("DateCreated").AsDate().NotNullable()
                 .IsActive();
         }

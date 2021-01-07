@@ -7,7 +7,7 @@ namespace GameMaster.Migration._100
     {
         public override void Up()
         {
-            Create.Table(Tables.Region)
+            Create.Table(Constants.Tables.Region)
                 .AutoId()
                 .WithColumn("Name").AsString(StringLength.Twenty).NotNullable()
                 .IsActive();

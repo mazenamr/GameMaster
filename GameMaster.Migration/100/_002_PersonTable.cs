@@ -7,12 +7,12 @@ namespace GameMaster.Migration._100
     {
         public override void Up()
         {
-            Create.Table(Tables.Person)
+            Create.Table(Constants.Tables.Person)
                 .AutoId()
-                .WithColumn("Birthday").AsDate().NotNullable()
-                .WithColumn("DateCreated").AsDate().NotNullable()
                 .WithColumn("FirstName").AsString(StringLength.Fifty).NotNullable()
                 .WithColumn("LastName").AsString(StringLength.Fifty).NotNullable()
+                .WithColumn("Birthday").AsDate().NotNullable()
+                .WithColumn("DateCreated").AsDateTime().NotNullable()
                 .IsActive();
         }
     }

@@ -7,12 +7,12 @@ namespace GameMaster.Migration._100
     {
         public override void Up()
         {
-            Create.Table(Tables.User)
+            Create.Table(Constants.Tables.User)
                 .AutoId()
                 .WithColumn("Email").AsString(StringLength.Hundred).NotNullable()
                 .WithColumn("Password").AsString(StringLength.Hundred).NotNullable()
-                .IntForeignKeyIndexed("RoleId", Tables.Role, false, false)
-                .IntForeignKeyIndexed("PersonId", Tables.Person, false, false)
+                .IntForeignKeyIndexed("RoleId", Constants.Tables.Role, isNullable: false, isPK: false)
+                .IntForeignKeyIndexed("PersonId", Constants.Tables.Person, isNullable: false, isPK: false)
                 .IsActive();
         }
     }

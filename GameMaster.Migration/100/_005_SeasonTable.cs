@@ -7,11 +7,11 @@ namespace GameMaster.Migration._100
     {
         public override void Up()
         {
-            Create.Table(Tables.Season)
+            Create.Table(Constants.Tables.Season)
                 .AutoId()
                 .WithColumn("Name").AsString(StringLength.Hundred).NotNullable()
-                .WithColumn("StartDate").AsDate().NotNullable()
-                .WithColumn("EndDate").AsDate().NotNullable()
+                .WithColumn("StartDate").AsDateTime().NotNullable()
+                .WithColumn("EndDate").AsDateTime().NotNullable()
                 .IsActive();
         }
     }

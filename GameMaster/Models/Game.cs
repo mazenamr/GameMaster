@@ -16,6 +16,7 @@ namespace GameMaster.Models
         public int Weapon2Id { get; set; }
         public int GamewinnerId { get; set; }
         public int SeasonId { get; set; }
+        public DateTime DateTime { get; set; }
 
         public virtual Character Character1 { get; set; }
         public virtual Character Character2 { get; set; }

@@ -7,10 +7,10 @@ namespace GameMaster.Migration._100
     {
         public override void Up()
         {
-            Create.Table(Tables.SynergiesAgainstCharacterCharacter)
+            Create.Table(Constants.Tables.SynergiesAgainstCharacterCharacter)
                 .AutoId()
-                .IntForeignKeyIndexed("Character1Id", Tables.Character, false, false)
-                .IntForeignKeyIndexed("Character2Id", Tables.Character, false, false)
+                .IntForeignKeyIndexed("Character1Id", Constants.Tables.Character, isNullable: false, isPK: false)
+                .IntForeignKeyIndexed("Character2Id", Constants.Tables.Character, isNullable: false, isPK: false)
                 .WithColumn("Constant").AsInt32().NotNullable()
                 .WithColumn("Multiplier").AsInt32().NotNullable();
         }

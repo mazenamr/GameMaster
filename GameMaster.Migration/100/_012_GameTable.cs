@@ -7,17 +7,17 @@ namespace GameMaster.Migration._100
     {
         public override void Up()
         {
-            Create.Table(Tables.Game)
+            Create.Table(Constants.Tables.Game)
                 .AutoId()
-                .WithColumn("DateTime").AsDateTime().NotNullable()
-                .IntForeignKeyIndexed("Player1Id", Tables.Player, false, false)
-                .IntForeignKeyIndexed("Player2Id", Tables.Player, false, false)
-                .IntForeignKeyIndexed("Character1Id", Tables.Character, false, false)
-                .IntForeignKeyIndexed("Character2Id", Tables.Character, false, false)
-                .IntForeignKeyIndexed("Weapon1Id", Tables.Weapon, false, false)
-                .IntForeignKeyIndexed("Weapon2Id", Tables.Weapon, false, false)
-                .IntForeignKeyIndexed("GamewinnerId", Tables.Player, false, false)
-                .IntForeignKeyIndexed("SeasonId", Tables.Season, false, false);
+                .IntForeignKeyIndexed("Player1Id", Constants.Tables.Player, isNullable: false, isPK: false)
+                .IntForeignKeyIndexed("Player2Id", Constants.Tables.Player, isNullable: false, isPK: false)
+                .IntForeignKeyIndexed("Character1Id", Constants.Tables.Character, isNullable: false, isPK: false)
+                .IntForeignKeyIndexed("Character2Id", Constants.Tables.Character, isNullable: false, isPK: false)
+                .IntForeignKeyIndexed("Weapon1Id", Constants.Tables.Weapon, isNullable: false, isPK: false)
+                .IntForeignKeyIndexed("Weapon2Id", Constants.Tables.Weapon, isNullable: false, isPK: false)
+                .IntForeignKeyIndexed("GamewinnerId", Constants.Tables.Player, isNullable: false, isPK: false)
+                .IntForeignKeyIndexed("SeasonId", Constants.Tables.Season, isNullable: false, isPK: false)
+                .WithColumn("DateTime").AsDateTime().NotNullable();
         }
     }
 }

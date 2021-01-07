@@ -7,13 +7,12 @@ namespace GameMaster.Migration._100
     {
         public override void Up()
         {
-            Create.Table(Tables.CharacterDetails)
+            Create.Table(Constants.Tables.CharacterDetails)
                 .AutoId()
-                .IntForeignKeyIndexed("CharacterId", Tables.Character, false, false)
+                .IntForeignKeyIndexed("CharacterId", Constants.Tables.Character, isNullable: false, isPK: false)
                 .WithColumn("GamesPlayed").AsInt32().Nullable()
                 .WithColumn("GamesWon").AsInt32().Nullable()
-                .IntForeignKeyIndexed("SeasonId", Tables.Season, false, false)
-                .WithColumn("WinRate").AsFloat().Nullable(); 
+                .IntForeignKeyIndexed("SeasonId", Constants.Tables.Season, isNullable: false, isPK: false);
         }
     }
 }

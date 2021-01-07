@@ -5,15 +5,15 @@ using System.Collections.Generic;
 
 namespace GameMaster.Models
 {
-    public partial class UsageAgainstWeaponWeapon
+    public partial class UsageWith
     {
         public int Id { get; set; }
-        public int Weapon1Id { get; set; }
-        public int Weapon2Id { get; set; }
+        public int CharacterId { get; set; }
+        public int WeaponId { get; set; }
         public int? GamesPlayed { get; set; }
         public int? GamesWon { get; set; }
 
-        public virtual Weapon Weapon1 { get; set; }
-        public virtual Weapon Weapon2 { get; set; }
+        public virtual Character Character { get; set; }
+        public virtual Weapon Weapon { get; set; }
     }
 }
