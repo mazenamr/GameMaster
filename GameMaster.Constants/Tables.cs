@@ -22,10 +22,10 @@
 
             #region Items
 
-            public const string Weapon = "Weapon";
-            public const string WeaponDetails = "WeaponDetails";
             public const string Character = "Character";
+            public const string Weapon = "Weapon";
             public const string CharacterDetails = "CharacterDetails";
+            public const string WeaponDetails = "WeaponDetails";
 
             #endregion Items
 

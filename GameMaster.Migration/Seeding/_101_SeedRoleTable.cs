@@ -7,7 +7,6 @@ namespace GameMaster.Migration.Seeding
     {
         public override void Down()
         {
-            Delete.FromTable(Constants.Tables.Role).AllRows();
         }
 
         public override void Up()

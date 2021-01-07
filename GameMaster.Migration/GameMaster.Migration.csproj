@@ -15,10 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Tables\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\GameMaster.Constants\GameMaster.Constants.csproj" />
   </ItemGroup>
 
