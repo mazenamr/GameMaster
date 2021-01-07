@@ -22,7 +22,7 @@ namespace GameMaster.Migration
             List<string> procedures = File.ReadAllText(StoredProcedures).Split('\n')
                 .Select(x => x.Split(' '))
                 .Where(x => x.FirstOrDefault().ToLower() == "create")
-                .Select(x => x[1]).ToList();
+                .Select(x => x[2]).ToList();
             procedures.ForEach(x => Execute.Sql($"DROP PROCEDURE {x}"));
         }
     }
