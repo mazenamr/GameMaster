@@ -21,6 +21,7 @@ namespace GameMaster.Pages.Account
 
         private readonly PasswordHasher<User> _hasher;
 
+        [BindProperty]
         public InputModel Input { get; set; } = new();
 
         public LoginModel(ILogger<LoginModel> logger, PasswordHasher<User> hasher, Controller controller)
@@ -49,7 +50,7 @@ namespace GameMaster.Pages.Account
 
         public async Task<IActionResult> OnPostAsync()
         {
-            User user = _controller.GetEmail(Input.Email.Trim());
+            User user = _controller.GetUserByEmail(Input.Email.Trim());
 
             if (_hasher.VerifyHashedPassword(user, user.Password, Input.Password) != PasswordVerificationResult.Success)
             {

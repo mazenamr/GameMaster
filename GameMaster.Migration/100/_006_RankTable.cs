@@ -8,7 +8,7 @@ namespace GameMaster.Migration._100
         public override void Up()
         {
             Create.Table(Tables.Rank)
-                .AutoId()
+                .WithColumn("Id").AsInt32().PrimaryKey().NotNullable()
                 .WithColumn("Name").AsString(StringLength.Fifty).NotNullable()
                 .WithColumn("Score").AsInt32().NotNullable()
                 .IsActive();
