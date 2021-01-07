@@ -17,22 +17,22 @@ namespace GameMaster
 
         public List<Role> GetRoles()
         {
-            return _dbContext.Roles.FromSqlInterpolated($"SELECT * FROM [Role] WHERE IsActive = 1;").ToList();
+            return _dbContext.Roles.FromSqlInterpolated($"SELECT * FROM [Role] WHERE IsActive = 1").ToList();
         }
 
         public int AddRole(string roleName)
         {
-            return _dbContext.Database.ExecuteSqlInterpolated($"INSERT INTO [Role] (Name) VALUES({roleName});");
+            return _dbContext.Database.ExecuteSqlInterpolated($"INSERT INTO [Role] (Name) VALUES({roleName})");
         }
 
         public Person AddPerson(string firstName, string lastName, DateTime birthday)
         {
-            return _dbContext.People.FromSqlInterpolated($"Exec NewPerson {firstName}, {lastName}, {birthday}, {DateTime.UtcNow};").First();
+            return _dbContext.People.FromSqlInterpolated($"Exec NewPerson {firstName}, {lastName}, {birthday}, {DateTime.UtcNow}").AsEnumerable().First();
         }
 
         public User? GetUserByEmail(string email)
         {
-            return _dbContext.Users.FromSqlInterpolated($"SELECT * FROM [User] where Email = {email} and IsActive = 1;").FirstOrDefault();
+            return _dbContext.Users.FromSqlInterpolated($"SELECT * FROM [User] where Email = {email} and IsActive = 1").FirstOrDefault();
         }
 
         public int AddUser(string email, string password, int personId, int roleId)
@@ -42,16 +42,17 @@ namespace GameMaster
 
         public int NewUser(string firstName, string lastName, DateTime birthday, string email, string password, int roleId)
         {
-            _dbContext.Database.ExecuteSqlRaw("START TRANSACTION;");
+            _dbContext.Database.BeginTransaction(System.Data.IsolationLevel.ReadCommitted);
             try
             {
                 Person person = AddPerson(firstName, lastName, birthday);
-                _dbContext.Database.ExecuteSqlRaw("COMMIT;");
-                return AddUser(email, password, person.Id, roleId);
+                int result = AddUser(email, password, person.Id, roleId);
+                _dbContext.Database.CommitTransaction();
+                return result;
             }
             catch
             {
-                _dbContext.Database.ExecuteSqlRaw("ROLLBACK;");
+                _dbContext.Database.RollbackTransaction();
                 throw;
             }
         }
