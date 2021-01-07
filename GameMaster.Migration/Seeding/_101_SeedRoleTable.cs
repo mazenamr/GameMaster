@@ -1,9 +1,4 @@
 ﻿using FluentMigrator;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GameMaster.Migration.Seeding
 {
@@ -12,10 +7,19 @@ namespace GameMaster.Migration.Seeding
     {
         public override void Down()
         {
+            Delete.FromTable(Constants.Tables.Role).AllRows();
         }
 
         public override void Up()
         {
+            Constants.Roles.AllRoles.ForEach(role =>
+            {
+                Insert.IntoTable(Constants.Tables.Role).Row(new
+                {
+                    role.Id,
+                    role.Name
+                });
+            });
         }
     }
 }
