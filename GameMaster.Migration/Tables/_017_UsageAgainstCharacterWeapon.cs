@@ -1,13 +1,13 @@
 ﻿using FluentMigrator;
 
-namespace GameMaster.Migration._100
+namespace GameMaster.Migration.Tables
 {
-    [Migration(13)]
-    public class _013_UsageWithTable : AutoReversingMigration
+    [Migration(17)]
+    public class _017_UsageAgainstCharacterWeapon : AutoReversingMigration
     {
         public override void Up()
         {
-            Create.Table(Constants.Tables.UsageWith)
+            Create.Table(Constants.Tables.UsageAgainstCharacterWeapon)
                 .AutoId()
                 .IntForeignKeyIndexed("CharacterId", Constants.Tables.Character, isNullable: false, isPK: false)
                 .IntForeignKeyIndexed("WeaponId", Constants.Tables.Weapon, isNullable: false, isPK: false)

@@ -1,6 +1,6 @@
 ﻿using FluentMigrator;
 
-namespace GameMaster.Migration._100
+namespace GameMaster.Migration.Tables
 {
     [Migration(10)]
     public class _010_CharacterDetailsTable : AutoReversingMigration

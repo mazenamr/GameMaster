@@ -1,16 +1,15 @@
 ﻿using FluentMigrator;
 
-namespace GameMaster.Migration._100
+namespace GameMaster.Migration.Tables
 {
-    [Migration(6)]
-    public class _006_RankTable : AutoReversingMigration
+    [Migration(1)]
+    public class _001_RoleTable : AutoReversingMigration
     {
         public override void Up()
         {
-            Create.Table(Constants.Tables.Rank)
+            Create.Table(Constants.Tables.Role)
                 .WithColumn("Id").AsInt32().PrimaryKey().NotNullable()
                 .WithColumn("Name").AsString(StringLength.Fifty).NotNullable()
-                .WithColumn("Score").AsInt32().NotNullable()
                 .IsActive();
         }
     }

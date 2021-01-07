@@ -1,18 +1,18 @@
 ﻿using FluentMigrator;
 
-namespace GameMaster.Migration._100
+namespace GameMaster.Migration.Tables
 {
-    [Migration(15)]
-    public class _015_UsageAgainstCharacterCharacter : AutoReversingMigration
+    [Migration(18)]
+    public class _018_SynergiesAgainstCharacterCharacter : AutoReversingMigration
     {
         public override void Up()
         {
-            Create.Table(Constants.Tables.UsageAgainstCharacterCharacter)
+            Create.Table(Constants.Tables.SynergiesAgainstCharacterCharacter)
                 .AutoId()
                 .IntForeignKeyIndexed("Character1Id", Constants.Tables.Character, isNullable: false, isPK: false)
                 .IntForeignKeyIndexed("Character2Id", Constants.Tables.Character, isNullable: false, isPK: false)
-                .WithColumn("GamesPlayed").AsInt32().Nullable()
-                .WithColumn("GamesWon").AsInt32().Nullable();
+                .WithColumn("Constant").AsInt32().NotNullable()
+                .WithColumn("Multiplier").AsInt32().NotNullable();
         }
     }
 }
