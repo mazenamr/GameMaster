@@ -1,9 +1,7 @@
-﻿namespace GameMaster
+﻿namespace GameMaster.Constants
 {
-    public static class Constants
+    public static class Tables
     {
-        public static class Tables
-        {
             #region UserInfo
 
             public const string User = "User";
@@ -48,6 +46,5 @@
             public const string SynergiesWith = "SynergiesWith";
 
             #endregion WithCombinations
-        }
     }
 }

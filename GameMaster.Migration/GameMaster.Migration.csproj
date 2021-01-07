@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GameMaster\GameMaster.csproj" />
+    <ProjectReference Include="..\GameMaster.Constants\GameMaster.Constants.csproj" />
   </ItemGroup>
 
 </Project>
