@@ -26,7 +26,8 @@ namespace GameMaster.Pages
 
         public void OnGet()
         {
-            Roles = _controller.GetRoles();
+            List<Character> characters = _controller.GetAllCharacters();
+            List<Weapon> weapons = _controller.GetAllWeapons();
         }
 
         public IActionResult OnPostAddRole()
