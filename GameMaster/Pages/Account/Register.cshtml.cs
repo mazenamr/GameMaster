@@ -59,7 +59,7 @@ namespace GameMaster.Pages.Account
 
             if (_controller.GetUserByEmail(Input.Email) != null)
             {
-                ModelState.AddModelError(string.Empty, "Email or username already in use");
+                ModelState.AddModelError(string.Empty, "Email already in use");
                 return Page();
             }
 

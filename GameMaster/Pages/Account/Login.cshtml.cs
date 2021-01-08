@@ -53,13 +53,13 @@ namespace GameMaster.Pages.Account
             User? user = _controller.GetUserByEmail(Input.Email.Trim());
             if (user is null)
             {
-                ModelState.AddModelError(string.Empty, "No account is registered with this email!");
+                ModelState.AddModelError(string.Empty, "No account is registered with this email address");
                 return Page();
             }
 
             if (_hasher.VerifyHashedPassword(user, user.Password, Input.Password) != PasswordVerificationResult.Success)
             {
-                ModelState.AddModelError(string.Empty, "Username or password incorrect");
+                ModelState.AddModelError(string.Empty, "Email or password incorrect");
                 return Page();
             }
 
