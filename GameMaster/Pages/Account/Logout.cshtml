@@ -1,4 +1,11 @@
 ﻿@page
 @model GameMaster.Pages.Account.LogoutModel
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @{
+    ViewData["Title"] = "Log Out";
 }
+
+
+<p>
+    you have logged out successfully
+</p>
