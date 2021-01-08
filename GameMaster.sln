@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameMaster", "GameMaster\Ga
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameMaster.Migration", "GameMaster.Migration\GameMaster.Migration.csproj", "{E6C30DEB-DBBC-45BD-B152-270D301D2A7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameMaster.Constants", "GameMaster.Constants\GameMaster.Constants.csproj", "{5779675B-E1C1-42A8-9792-61761196C77F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameMaster.Constants", "GameMaster.Constants\GameMaster.Constants.csproj", "{5779675B-E1C1-42A8-9792-61761196C77F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
