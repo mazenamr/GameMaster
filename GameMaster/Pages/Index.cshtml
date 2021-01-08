@@ -2,19 +2,69 @@
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
-}
+    int counter = 0;
+} 
 
-@if (Model.Roles is not null)
-{
-    <div>
-        <ul>
-            @foreach (var role in Model.Roles)
+<table class="table table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th class="col-auto" scope="col">#</th>
+            <th class="col-auto" scope="col">Type</th>
+            <th class="col-auto" scope="col">Name</th>
+            <th class="col-auto" scope="col">Games Played</th>
+            <th class="col-auto" scope="col">Win Rate</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Characters is not null)
+        {
+            @foreach(var character in Model.Characters)
             {
-                <li>@role.Name</li>
+                var cDetails = Model.CharacterDetails.Where(c => c.CharacterId == character.Id).FirstOrDefault();
+                @if (cDetails is not null)
+                {
+                    counter++;
+                    string winRate = "N/A";
+                    @if (cDetails.GamesWon.HasValue)
+                    {
+                        winRate = $"{(((double)cDetails.GamesWon / cDetails.GamesPlayed ) * 100):00.00}%";
+                    }
+                    <tr>
+                        <th scope="row">@counter</th>
+                        <td>Character</td>
+                        <td>@character.Name</td>
+                        <td>@cDetails.GamesPlayed</td>
+                        <td>@winRate</td>
+                    </tr>
+                }
             }
-        </ul>
-    </div>
-}
+        }
+        @if (Model.Weapons is not null)
+        {
+            @foreach(var weapon in Model.Weapons)
+            {
+                var wDetails = Model.WeaponDetails.Where(w => w.WeaponId == weapon.Id).FirstOrDefault();
+                @if (wDetails is not null)
+                {
+                    counter++;
+                    string winRate = "N/A";
+                    @if (wDetails.GamesWon.HasValue)
+                    {
+                        winRate = $"{(((double)wDetails.GamesWon / wDetails.GamesPlayed ) * 100):00.00}%";
+                    }
+                    <tr>
+                        <th scope="row">@counter</th>
+                        <td>Weapon</td>
+                        <td>@weapon.Name</td>
+                        <td>@wDetails.GamesPlayed</td>
+                        <td>@winRate</td>
+                    </tr>
+                }
+            }
+        }
+    </tbody>
+</table>
+
 
 <form asp-page="">
     <div class="form-row">

@@ -10,7 +10,16 @@ namespace GameMaster.Pages
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
+
         private readonly Controller _controller;
+
+        public List<Character> Characters { get; set; }
+
+        public List<CharacterDetail> CharacterDetails { get; set; }
+
+        public List<Weapon> Weapons { get; set; }
+
+        public List<WeaponDetail> WeaponDetails { get; set; }
 
         public List<Role>? Roles { get; set; }
 
@@ -26,8 +35,10 @@ namespace GameMaster.Pages
 
         public void OnGet()
         {
-            List<Character> characters = _controller.GetAllCharacters();
-            List<Weapon> weapons = _controller.GetAllWeapons();
+            Characters = _controller.GetAllCharacters();
+            Weapons = _controller.GetAllWeapons();
+            CharacterDetails = _controller.GetAllCharacterDetails();
+            WeaponDetails = _controller.GetAllWeaponDetails();
         }
 
         public IActionResult OnPostAddRole()
