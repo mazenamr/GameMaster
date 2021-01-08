@@ -2,16 +2,16 @@
 
 namespace GameMaster.Constants
 {
-    public static class Roles
+    public static class Role
     {
         public const int Player = 100;
         public const int Business = 200;
         public const int GameMaster = 300;
         public const int Admin = 400;
 
-        public record Role(int Id, string Name);
+        public record RoleInfo(int Id, string Name);
 
-        public static List<Role> AllRoles = new()
+        public static List<RoleInfo> Roles = new()
         {
             new(Player, nameof(Player)),
             new(Business, nameof(Business)),

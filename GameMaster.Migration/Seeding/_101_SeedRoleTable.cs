@@ -11,7 +11,7 @@ namespace GameMaster.Migration.Seeding
 
         public override void Up()
         {
-            Constants.Roles.AllRoles.ForEach(role =>
+            Constants.Role.Roles.ForEach(role =>
             {
                 Insert.IntoTable(Constants.Tables.Role).Row(new
                 {
