@@ -2,13 +2,13 @@
 
 namespace GameMaster.Migration.Tables
 {
-    [Migration(3)]
-    public class _003_RegionTable : AutoReversingMigration
+    [Migration(2)]
+    public class _002_RegionTable : AutoReversingMigration
     {
         public override void Up()
         {
             Create.Table(Constants.Tables.Region)
-                .AutoId()
+                .WithColumn("Id").AsInt32().PrimaryKey().NotNullable()
                 .WithColumn("Name").AsString(StringLength.Twenty).NotNullable()
                 .IsActive();
         }
