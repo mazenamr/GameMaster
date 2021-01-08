@@ -1,6 +1,6 @@
 ﻿using GameMaster.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +10,12 @@ namespace GameMaster
     public class Controller
     {
         private readonly GameMasterContext _dbContext;
+        private readonly PasswordHasher<User> _hasher;
 
-        public Controller(GameMasterContext dbContext)
+        public Controller(GameMasterContext dbContext, PasswordHasher<User> hasher)
         {
             _dbContext = dbContext;
+            _hasher = hasher;
         }
 
         public List<Role> GetRoles()
@@ -91,17 +93,25 @@ namespace GameMaster
             return _dbContext.CharacterDetails.FromSqlInterpolated($"Select D.Id, D.CharacterId, D.GamesPlayed, D.GamesWon, D.SeasonId from [CharacterDetails] D, [Weapon] C WHERE D.CharacterId = C.Id and C.IsActive = 1").ToList();
         }
 
-        public int NewUser(string firstName, string lastName, DateTime birthday, string email, string password, int roleId)
+        public int CreateUser(string firstName, string lastName, DateTime birthday, string email, string password, int roleId)
         {
             _dbContext.Database.BeginTransaction(System.Data.IsolationLevel.ReadCommitted);
             try
             {
                 Person person = AddPerson(firstName, lastName, birthday);
-                int result = AddUser(email, password, person.Id, roleId);
+                User user = new()
+                {
+                    Email = email,
+                    PersonId = person.Id,
+                    Person = person,
+                    RoleId = roleId
+                };
+                string hashedPassword = _hasher.HashPassword(user, password);
+                int result = AddUser(email, hashedPassword, person.Id, roleId);
                 _dbContext.Database.CommitTransaction();
                 return result;
             }
-            catch (Exception e)
+            catch
             {
                 _dbContext.Database.RollbackTransaction();
                 throw;

@@ -1,13 +1,8 @@
-using GameMaster.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 
 namespace GameMaster.Pages.Account
 {
@@ -17,35 +12,33 @@ namespace GameMaster.Pages.Account
 
         private readonly Controller _controller;
 
-        private readonly PasswordHasher<User> _hasher;
 
         [BindProperty]
         public InputModel Input { get; set; } = new();
 
-        public RegisterModel(ILogger<RegisterModel> logger, Controller controller, PasswordHasher<User> hasher)
+        public RegisterModel(ILogger<RegisterModel> logger, Controller controller)
         {
             _logger = logger;
             _controller = controller;
-            _hasher = hasher;
         }
     
         public class InputModel
-        { 
+        {
             [Required]
             [EmailAddress]
-            public string Email { get; set; }
+            public string Email { get; set; } = string.Empty;
 
             [Required]
             [DataType(DataType.Password)]
-            public string Password { get; set; }
+            public string Password { get; set; } = string.Empty;
 
             [Required]
             [DataType(DataType.Text)]
-            public string FirstName { get; set; }
+            public string FirstName { get; set; } = string.Empty;
 
             [Required]
             [DataType(DataType.Text)]
-            public string LastName { get; set; }
+            public string LastName { get; set; } = string.Empty;
 
             [Required]
             [DataType(DataType.Date)]
@@ -64,18 +57,13 @@ namespace GameMaster.Pages.Account
                 return Page();
             }
 
-            User? user = _controller.GetUserByEmail(Input.Email);
-            if (user != null)
+            if (_controller.GetUserByEmail(Input.Email) != null)
             {
                 ModelState.AddModelError(string.Empty, "Email or username already in use");
                 return Page();
             }
-            else
-            {
-                user = new() { Email = Input.Email.Trim() };
-            }
 
-            _controller.NewUser(Input.FirstName, Input.LastName, Input.Birthday, Input.Email, _hasher.HashPassword(user, Input.Password), Constants.Roles.Player);
+            _controller.CreateUser(Input.FirstName, Input.LastName, Input.Birthday, Input.Email, Input.Password, Constants.Roles.Player);
             return RedirectToPage("/Index");
         }
     }
