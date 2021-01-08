@@ -61,6 +61,11 @@ namespace GameMaster
             return _dbContext.WeaponDetails.FromSqlInterpolated($"SELECT * FROM [WeaponDetails] WHERE WeaponId={id}").FirstOrDefault();
         }
 
+        public List<WeaponDetail> GetAllWeaponDetails()
+        {
+            return _dbContext.WeaponDetails.FromSqlInterpolated($"Select D.Id, D.WeaponId, D.GamesPlayed, D.GamesWon, D.SeasonId from [WeaponDetails] D, [Weapon] W WHERE D.WeaponId = W.Id and W.IsActive = 1").ToList();
+        }
+
         public List<Character> GetAllCharacters()
         {
             return _dbContext.Characters.FromSqlInterpolated($"SELECT * FROM [Character] WHERE IsActive = 1").ToList();
@@ -79,6 +84,11 @@ namespace GameMaster
         public CharacterDetail? GetCharacterDetails(int id)
         {
             return _dbContext.CharacterDetails.FromSqlInterpolated($"SELECT * FROM [CharacterDetails] WHERE CharacterId={id}").FirstOrDefault();
+        }
+
+        public List<CharacterDetail> GetAllCharacterDetails()
+        {
+            return _dbContext.CharacterDetails.FromSqlInterpolated($"Select D.Id, D.CharacterId, D.GamesPlayed, D.GamesWon, D.SeasonId from [CharacterDetails] D, [Weapon] C WHERE D.CharacterId = C.Id and C.IsActive = 1").ToList();
         }
 
         public int NewUser(string firstName, string lastName, DateTime birthday, string email, string password, int roleId)
