@@ -132,5 +132,26 @@ namespace GameMaster
                 throw;
             }
         }
+
+        public int NumberOfPlayedGamesByPlayerInASeason(string playerId, int seasonId)
+        {
+            return _dbContext.Database.ExecuteSqlInterpolated($"SELECT COUNT(*) FROM GamePlayer Where PlayerId = {playerId} and GameId IN (SELECT Id FROM Game Where SeasonId = {seasonId})");
+        }
+
+        public int NumberOfGamesWonByPlayerInSeason(string playerId, int seasonId)
+        {
+            return _dbContext.Database.ExecuteSqlInterpolated($"SELECT COUNT(*) FROM GamePlayer WHERE PlayerId = {playerId} and IsWinner = 1 and GameId IN (SELECT Id FROM Game WHERE SeasonId = {seasonId}");
+        }
+
+        public Weapon? MostUsedWeaponByPlayerInSeason(string playerId, int seasonId)
+        {
+            return _dbContext.Weapons.FromSqlInterpolated($"SELECT * FROM Weapon WHERE Id IN (SELECT TOP (1) WeaponId FROM Gameplayer WHERE PlayerId = 1 AND GameId IN (SELECT Id FROM Game WHERE SeasonId = {seasonId}) GROUP BY WeaponId ORDER BY COUNT(WeaponId) DESC)").FirstOrDefault();
+        }
+
+        public Character? MostUsedCharacterByPlayerInSeason(string playerId, int seasonId)
+        {
+            return _dbContext.Characters.FromSqlInterpolated($"SELECT * FROM Character WHERE Id IN (SELECT TOP (1) CharacterId FROM Gameplayer WHERE PlayerId = {playerId} AND GameId IN (SELECT Id FROM Game WHERE SeasonId = {seasonId}) GROUP BY CharacterId ORDER BY COUNT(CharacterId) DESC)").FirstOrDefault();
+        }
+
     }
 }
