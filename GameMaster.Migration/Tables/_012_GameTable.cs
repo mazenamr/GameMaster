@@ -18,7 +18,7 @@ namespace GameMaster.Migration.Tables
                 .IntForeignKeyIndexed("GamewinnerId", Constants.Tables.Player, isNullable: false, isPK: false)
                 .IntForeignKeyIndexed("SeasonId", Constants.Tables.Season, isNullable: false, isPK: false)
                 .IntForeignKeyIndexed("RegionId", Constants.Tables.Region, isNullable: false, isPK: false)
-                .WithColumn("DateTime").AsDateTime().NotNullable();
+                .WithColumn("StartTime").AsDateTime().NotNullable();
         }
     }
 }

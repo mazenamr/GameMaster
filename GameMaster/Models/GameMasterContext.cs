@@ -101,7 +101,7 @@ namespace GameMaster.Models
 
                 entity.HasIndex(e => e.Weapon2Id, "IX_Game_Weapon2Id");
 
-                entity.Property(e => e.DateTime).HasColumnType("datetime");
+                entity.Property(e => e.StartTime).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Character1)
                     .WithMany(p => p.GameCharacter1s)

@@ -17,7 +17,7 @@ namespace GameMaster.Models
         public int GamewinnerId { get; set; }
         public int SeasonId { get; set; }
         public int RegionId { get; set; }
-        public DateTime DateTime { get; set; }
+        public DateTime StartTime { get; set; }
 
         public virtual Character Character1 { get; set; }
         public virtual Character Character2 { get; set; }
