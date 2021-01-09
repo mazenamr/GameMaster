@@ -30,19 +30,19 @@
                 <li class="nav-item">
                     <a class="nav-link text-dark" asp-area="" asp-page="/Player/ViewPlayer">View Player</a>
                 </li>
-                @if (userRoleId == GameMaster.Constants.Roles.Business || userRoleId == GameMaster.Constants.Roles.Admin)
+                @if (userRoleId == GameMaster.Constants.Role.Business || userRoleId == GameMaster.Constants.Role.Admin)
                 {
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-page="/Business/ViewPlayer">View Player</a>
                     </li>
                 }
-                @if (userRoleId == GameMaster.Constants.Roles.GameMaster || userRoleId == GameMaster.Constants.Roles.Admin)
+                @if (userRoleId == GameMaster.Constants.Role.GameMaster || userRoleId == GameMaster.Constants.Role.Admin)
                 {
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-page="/GameMaster/"></a>
                     </li>
                 }
-                @if (userRoleId == GameMaster.Constants.Roles.Admin)
+                @if (userRoleId == GameMaster.Constants.Role.Admin)
                 {
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-page="/GameMaster/"></a>
