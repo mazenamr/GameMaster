@@ -63,7 +63,7 @@ namespace GameMaster.Pages.Account
                 return Page();
             }
 
-            _controller.CreateUser(Input.FirstName, Input.LastName, Input.Birthday, Input.Email, Input.Password, Constants.Roles.Player);
+            _controller.CreateUser(Input.FirstName, Input.LastName, Input.Birthday, Input.Email, Input.Password, Constants.Role.Player);
             return RedirectToPage("/Index");
         }
     }

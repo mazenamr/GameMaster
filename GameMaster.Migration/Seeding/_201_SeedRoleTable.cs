@@ -2,8 +2,8 @@
 
 namespace GameMaster.Migration.Seeding
 {
-    [Migration(101)]
-    public class _101_SeedRoleTable : FluentMigrator.Migration
+    [Migration(201)]
+    public class _201_SeedRoleTable : FluentMigrator.Migration
     {
         public override void Down()
         {
@@ -11,7 +11,7 @@ namespace GameMaster.Migration.Seeding
 
         public override void Up()
         {
-            Constants.Roles.AllRoles.ForEach(role =>
+            Constants.Role.Roles.ForEach(role =>
             {
                 Insert.IntoTable(Constants.Tables.Role).Row(new
                 {

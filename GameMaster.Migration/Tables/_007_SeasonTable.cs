@@ -2,8 +2,8 @@
 
 namespace GameMaster.Migration.Tables
 {
-    [Migration(5)]
-    public class _005_SeasonTable : AutoReversingMigration
+    [Migration(7)]
+    public class _007_SeasonTable : AutoReversingMigration
     {
         public override void Up()
         {
