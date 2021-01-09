@@ -2,8 +2,8 @@
 
 namespace GameMaster.Migration.Seeding
 {
-    [Migration(103)]
-    public class _103_SeedRankTable : FluentMigrator.Migration
+    [Migration(203)]
+    public class _203_SeedRankTable : FluentMigrator.Migration
     {
         public override void Down()
         {

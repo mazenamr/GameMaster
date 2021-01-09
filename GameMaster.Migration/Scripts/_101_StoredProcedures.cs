@@ -6,8 +6,8 @@ using System.Linq;
 namespace GameMaster.Migration.Scripts
 {
 
-    [Migration(201)]
-    public class _201_StoredProcedures : FluentMigrator.Migration
+    [Migration(101)]
+    public class _101_StoredProcedures : FluentMigrator.Migration
     {
         private static string StoredProcedures { get; set; } = Path.Combine(Directory.GetCurrentDirectory(), "StoredProcedures.sql");
 
