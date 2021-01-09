@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace GameMaster.Pages.Player
+namespace GameMaster.Pages.PlayerView
 {
-    public class LeaderboardModel : PageModel
+    public class ViewPlayerModel : PageModel
     {
         public void OnGet()
         {

@@ -93,6 +93,16 @@ namespace GameMaster
             return _dbContext.CharacterDetails.FromSqlInterpolated($"Select D.Id, D.CharacterId, D.GamesPlayed, D.GamesWon, D.SeasonId from [CharacterDetails] D, [Weapon] C WHERE D.CharacterId = C.Id and C.IsActive = 1").ToList();
         }
 
+        public List<Player> GetTop100Players()
+        {
+            return _dbContext.Players.FromSqlInterpolated($"SELECT TOP (100) * FROM [Player] WHERE IsActive = 1 ORDER BY Score DESC").ToList();
+        }
+
+        public List<Person> GetPerson()
+        {
+            return _dbContext.People.FromSqlInterpolated($"SELECT * FROM [Person] WHERE IsActive=1" ).ToList();
+        }
+
         public int CreateUser(string firstName, string lastName, DateTime birthday, string email, string password, int roleId)
         {
             _dbContext.Database.BeginTransaction(System.Data.IsolationLevel.ReadCommitted);
