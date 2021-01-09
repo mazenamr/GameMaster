@@ -25,10 +25,10 @@
                     <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-page="/Player/Leaderboard">Leaderboard</a>
+                    <a class="nav-link text-dark" asp-area="" asp-page="/PlayerView/Leaderboard">Leaderboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-page="/Player/ViewPlayer">View Player</a>
+                    <a class="nav-link text-dark" asp-area="" asp-page="/PlayerView/ViewPlayer">View Player</a>
                 </li>
                 @if (userRoleId == GameMaster.Constants.Role.Business || userRoleId == GameMaster.Constants.Role.Admin)
                 {
@@ -48,29 +48,27 @@
                         <a class="nav-link text-dark" asp-area="" asp-page="/GameMaster/"></a>
                     </li>
                 }
+                @if (HttpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item">
+                        <div class="nav-link text-dark" asp-area="Identity">Hello @name</div>
+                    </li>
+                    <li class="nav-item">
+                        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" method="post">
+                            <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                        </form>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                    </li>
+                }
             </ul>
         </div>
     </div>
-    <ul class="navbar-nav">
-        @if (HttpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
-        {
-            <li class="nav-item">
-                <div class="nav-link text-dark" asp-area="Identity">Hello @name</div>
-            </li>
-            <li class="nav-item">
-                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" method="post">
-                    <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-                </form>
-            </li>
-        }
-        else
-        {
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-            </li>
-        }
-    </ul>
 </nav>
