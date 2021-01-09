@@ -1,4 +1,38 @@
 ﻿@page
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
 @model GameMaster.Pages.PlayerView.ViewPlayerModel
 @{
+    ViewData["Title"] = "View Player";
 }
+
+<div class="container">
+@if (HttpContextAccessor.HttpContext.Request.Method == "POST")
+{
+    @if (string.IsNullOrWhiteSpace(Model.playerName))
+    {
+        <p class="text-dark">Please make sure to add a player name before searching</p>
+    }
+    else if (Model.player is null)
+    {
+        <p class="text-dark">No player found with this name</p>
+    }
+    else
+    {
+        <h1 class="text-dark">@Model.player.Name</h1>
+    }
+}
+</div>
+
+<form asp-page="">
+    <div class="form-row">
+        <div class="form-group col">
+            <label class="col-form-label">Enter Player Name</label>
+            <input asp-for="playerName" class="form-control" />
+            <span asp-validation-for="playerName" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-row">
+        <input asp-page-handler="" class="btn btn-primary" type="submit" value="Insert Role" />
+    </div>
+</form>
+
