@@ -9,8 +9,7 @@ namespace GameMaster.Models
     {
         public Weapon()
         {
-            GameWeapon1s = new HashSet<Game>();
-            GameWeapon2s = new HashSet<Game>();
+            GamePlayers = new HashSet<GamePlayer>();
             SynergiesAgainstCharacterWeapons = new HashSet<SynergiesAgainstCharacterWeapon>();
             SynergiesAgainstWeaponWeaponWeapon1s = new HashSet<SynergiesAgainstWeaponWeapon>();
             SynergiesAgainstWeaponWeaponWeapon2s = new HashSet<SynergiesAgainstWeaponWeapon>();
@@ -29,8 +28,7 @@ namespace GameMaster.Models
         public int Block { get; set; }
         public bool? IsActive { get; set; }
 
-        public virtual ICollection<Game> GameWeapon1s { get; set; }
-        public virtual ICollection<Game> GameWeapon2s { get; set; }
+        public virtual ICollection<GamePlayer> GamePlayers { get; set; }
         public virtual ICollection<SynergiesAgainstCharacterWeapon> SynergiesAgainstCharacterWeapons { get; set; }
         public virtual ICollection<SynergiesAgainstWeaponWeapon> SynergiesAgainstWeaponWeaponWeapon1s { get; set; }
         public virtual ICollection<SynergiesAgainstWeaponWeapon> SynergiesAgainstWeaponWeaponWeapon2s { get; set; }
