@@ -2,8 +2,8 @@
 
 namespace GameMaster.Migration.Tables
 {
-    [Migration(19)]
-    public class _019_SynergiesAgainstWeaponWeapon : AutoReversingMigration
+    [Migration(20)]
+    public class _020_SynergiesAgainstWeaponWeapon : AutoReversingMigration
     {
         public override void Up()
         {

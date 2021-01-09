@@ -26,6 +26,7 @@
             public const string Weapon = "Weapon";
             public const string CharacterDetails = "CharacterDetails";
             public const string WeaponDetails = "WeaponDetails";
+            public const string GamePlayer = "GamePlayer";
 
             #endregion Items
 
