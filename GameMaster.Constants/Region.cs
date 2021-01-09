@@ -12,17 +12,17 @@ namespace GameMaster.Constants
         public const int NorthAmerica = 600;
         public const int SouthAmerica = 700;
 
-        public record RegionInfo(int Id, string Name);
+        public record RegionInfo(int Id, string Name, int PlayerPercentage);
 
         public static List<RegionInfo> Regions = new()
         {
-            new(Africa, nameof(Africa)),
-            new(Asia, nameof(Asia)),
-            new(Australia, nameof(Australia)),
-            new(Europe, nameof(Europe)),
-            new(MiddleEast, nameof(MiddleEast)),
-            new(NorthAmerica, nameof(NorthAmerica)),
-            new(SouthAmerica, nameof(SouthAmerica))
+            new(Africa, nameof(Africa), 5),
+            new(Asia, nameof(Asia), 25),
+            new(Australia, nameof(Australia), 5),
+            new(Europe, nameof(Europe), 20),
+            new(MiddleEast, nameof(MiddleEast), 15),
+            new(NorthAmerica, nameof(NorthAmerica), 20),
+            new(SouthAmerica, nameof(SouthAmerica), 10)
         };
     }
 }

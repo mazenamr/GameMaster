@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace GameMaster.Constants
 {
@@ -14,15 +10,15 @@ namespace GameMaster.Constants
         public const int Platinum = 400;
         public const int Diamond = 500;
 
-        public record RankInfo(int Id, string Name, int Score);
+        public record RankInfo(int Id, string Name, int Score, int PlayerPercentage);
 
         public static List<RankInfo> Ranks = new()
         {
-            new(Bronze, nameof(Bronze), 0000),
-            new(Silver, nameof(Silver), 1000),
-            new(Gold, nameof(Gold), 2000),
-            new(Platinum, nameof(Platinum), 3000),
-            new(Diamond, nameof(Diamond), 4000)
+            new(Bronze, nameof(Bronze), 0000, 10),
+            new(Silver, nameof(Silver), 1000, 70),
+            new(Gold, nameof(Gold), 2000, 15),
+            new(Platinum, nameof(Platinum), 3000, 4),
+            new(Diamond, nameof(Diamond), 4000, 1)
         };
     }
 }
