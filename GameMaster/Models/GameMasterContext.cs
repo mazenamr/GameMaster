@@ -225,6 +225,8 @@ namespace GameMaster.Models
             {
                 entity.ToTable("Region");
 
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
                 entity.Property(e => e.IsActive)
                     .IsRequired()
                     .HasDefaultValueSql("((1))");
@@ -440,9 +442,15 @@ namespace GameMaster.Models
             {
                 entity.ToTable("User");
 
+                entity.HasIndex(e => e.Email, "IX_User_Email")
+                    .IsUnique();
+
                 entity.HasIndex(e => e.PersonId, "IX_User_PersonId");
 
                 entity.HasIndex(e => e.RoleId, "IX_User_RoleId");
+
+                entity.HasIndex(e => e.Username, "IX_User_Username")
+                    .IsUnique();
 
                 entity.Property(e => e.Email)
                     .IsRequired()
@@ -455,6 +463,10 @@ namespace GameMaster.Models
                 entity.Property(e => e.Password)
                     .IsRequired()
                     .HasMaxLength(100);
+
+                entity.Property(e => e.Username)
+                    .IsRequired()
+                    .HasMaxLength(50);
 
                 entity.HasOne(d => d.Person)
                     .WithMany(p => p.Users)

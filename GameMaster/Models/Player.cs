@@ -15,11 +15,12 @@ namespace GameMaster.Models
         }
 
         public int Id { get; set; }
-        public int? Score { get; set; }
+        public int Activity { get; set; }
         public int Skill { get; set; }
         public int Temper { get; set; }
-        public int RegionId { get; set; }
+        public int? Score { get; set; }
         public int RankId { get; set; }
+        public int RegionId { get; set; }
         public int PersonId { get; set; }
         public DateTime DateCreated { get; set; }
         public bool? IsActive { get; set; }
