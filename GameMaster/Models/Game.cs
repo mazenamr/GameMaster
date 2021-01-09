@@ -16,6 +16,7 @@ namespace GameMaster.Models
         public int Weapon2Id { get; set; }
         public int GamewinnerId { get; set; }
         public int SeasonId { get; set; }
+        public int RegionId { get; set; }
         public DateTime DateTime { get; set; }
 
         public virtual Character Character1 { get; set; }
@@ -23,6 +24,7 @@ namespace GameMaster.Models
         public virtual Player Gamewinner { get; set; }
         public virtual Player Player1 { get; set; }
         public virtual Player Player2 { get; set; }
+        public virtual Region Region { get; set; }
         public virtual Season Season { get; set; }
         public virtual Weapon Weapon1 { get; set; }
         public virtual Weapon Weapon2 { get; set; }

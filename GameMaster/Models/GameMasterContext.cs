@@ -93,6 +93,8 @@ namespace GameMaster.Models
 
                 entity.HasIndex(e => e.Player2Id, "IX_Game_Player2Id");
 
+                entity.HasIndex(e => e.RegionId, "IX_Game_RegionId");
+
                 entity.HasIndex(e => e.SeasonId, "IX_Game_SeasonId");
 
                 entity.HasIndex(e => e.Weapon1Id, "IX_Game_Weapon1Id");
@@ -130,6 +132,12 @@ namespace GameMaster.Models
                     .HasForeignKey(d => d.Player2Id)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Game_Player2Id_Player_id");
+
+                entity.HasOne(d => d.Region)
+                    .WithMany(p => p.Games)
+                    .HasForeignKey(d => d.RegionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Game_RegionId_Region_id");
 
                 entity.HasOne(d => d.Season)
                     .WithMany(p => p.Games)
@@ -177,6 +185,9 @@ namespace GameMaster.Models
 
                 entity.HasIndex(e => e.PersonId, "IX_Player_PersonId");
 
+                entity.HasIndex(e => e.PlayerId, "IX_Player_PlayerId")
+                    .IsUnique();
+
                 entity.HasIndex(e => e.RankId, "IX_Player_RankId");
 
                 entity.HasIndex(e => e.RegionId, "IX_Player_RegionId");
@@ -186,6 +197,10 @@ namespace GameMaster.Models
                 entity.Property(e => e.IsActive)
                     .IsRequired()
                     .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.PlayerId)
+                    .IsRequired()
+                    .HasMaxLength(50);
 
                 entity.HasOne(d => d.Person)
                     .WithMany(p => p.Players)

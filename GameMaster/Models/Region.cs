@@ -9,6 +9,7 @@ namespace GameMaster.Models
     {
         public Region()
         {
+            Games = new HashSet<Game>();
             Players = new HashSet<Player>();
         }
 
@@ -16,6 +17,7 @@ namespace GameMaster.Models
         public string Name { get; set; }
         public bool? IsActive { get; set; }
 
+        public virtual ICollection<Game> Games { get; set; }
         public virtual ICollection<Player> Players { get; set; }
     }
 }
