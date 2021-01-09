@@ -1,0 +1,76 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+@{ 
+    var claims = Context.User.Claims;
+
+    var name = claims.Where(x => x.Type == System.Security.Claims.ClaimTypes.Name).Select(x => x.Value).FirstOrDefault();
+
+    var userRole = claims.Where(x => x.Type == System.Security.Claims.ClaimTypes.Role).Select(x => x.Value).FirstOrDefault();
+    int? userRoleId = 0;
+    if (userRole is not null)
+    {
+        userRoleId = Int16.Parse(userRole);
+    }
+}
+
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <div class="container">
+        <a class="navbar-brand" asp-area="" asp-page="/Index">GameMaster</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+            <ul class="navbar-nav flex-grow-1">
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-page="/Player/Leaderboard">Leaderboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-page="/Player/ViewPlayer">View Player</a>
+                </li>
+                @if (userRoleId == GameMaster.Constants.Roles.Business || userRoleId == GameMaster.Constants.Roles.Admin)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-page="/Business/ViewPlayer">View Player</a>
+                    </li>
+                }
+                @if (userRoleId == GameMaster.Constants.Roles.GameMaster || userRoleId == GameMaster.Constants.Roles.Admin)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-page="/GameMaster/"></a>
+                    </li>
+                }
+                @if (userRoleId == GameMaster.Constants.Roles.Admin)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-page="/GameMaster/"></a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+    <ul class="navbar-nav">
+        @if (HttpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
+        {
+            <li class="nav-item">
+                <div class="nav-link text-dark" asp-area="Identity">Hello @name</div>
+            </li>
+            <li class="nav-item">
+                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" method="post">
+                    <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                </form>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+            </li>
+        }
+    </ul>
+</nav>
