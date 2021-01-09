@@ -22,7 +22,6 @@ namespace GameMaster.Pages.PlayerView
         public void OnGet()
         {
             Players = _controller.GetTop100Players();
-            People = _controller.GetPerson();
         }
 
     }
