@@ -192,8 +192,6 @@ namespace GameMaster.Models
 
                 entity.HasIndex(e => e.RegionId, "IX_Player_RegionId");
 
-                entity.Property(e => e.DateCreated).HasColumnType("date");
-
                 entity.Property(e => e.IsActive)
                     .IsRequired()
                     .HasDefaultValueSql("((1))");

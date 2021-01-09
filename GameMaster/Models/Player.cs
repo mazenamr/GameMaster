@@ -23,7 +23,6 @@ namespace GameMaster.Models
         public int RankId { get; set; }
         public int RegionId { get; set; }
         public int PersonId { get; set; }
-        public DateTime DateCreated { get; set; }
         public bool? IsActive { get; set; }
 
         public virtual Person Person { get; set; }

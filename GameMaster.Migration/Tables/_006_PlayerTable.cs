@@ -17,7 +17,6 @@ namespace GameMaster.Migration.Tables
                 .IntForeignKeyIndexed("RankId", Constants.Tables.Rank, isNullable: false, isPK: false)
                 .IntForeignKeyIndexed("RegionId", Constants.Tables.Region, isNullable: false, isPK: false)
                 .IntForeignKeyIndexed("PersonId", Constants.Tables.Person, isNullable: false, isPK: false)
-                .WithColumn("DateCreated").AsDate().NotNullable()
                 .IsActive();
         }
     }
