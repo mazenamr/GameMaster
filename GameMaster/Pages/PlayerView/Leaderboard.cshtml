@@ -4,6 +4,7 @@
     ViewData["Title"] = "Leaderboard";
     int counter = 0;
 }
+
 <table class="table table-hover">
     <thead class="thead-dark">
         <tr>
@@ -17,16 +18,12 @@
         {
             @foreach (var player in Model.Players)
             {
-                var Person = Model.People.Where(P => P.Id == player.PersonId).FirstOrDefault();
-                @if (Person is not null)
-                {
-                    counter++;
-                    <tr>
-                        <th scope="row">@counter</th>
-                        <td>@Person.FirstName</td>
-                        <td>@player.Score</td>
-                    </tr>
-                }
+                counter++;
+                <tr>
+                    <th scope="row">@counter</th>
+                    <td>@player.Name</td>
+                    <td>@player.Score</td>
+                </tr>
             }
         }
     </tbody>
