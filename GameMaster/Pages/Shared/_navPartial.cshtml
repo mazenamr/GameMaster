@@ -19,7 +19,7 @@
                 aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+        <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row">
             <ul class="navbar-nav flex-grow-1">
                 <li class="nav-item">
                     <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
@@ -42,30 +42,26 @@
                         <a class="nav-link text-dark" asp-area="" asp-page="/GameMaster/"></a>
                     </li>
                 }
-                @if (userRoleId == GameMaster.Constants.Role.Admin)
-                {
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-page="/GameMaster/"></a>
-                    </li>
-                }
+            </ul>
+            <ul class="navbar-nav flex-grow-1 d-sm-inline-flex flex-sm-row-reverse">
                 @if (HttpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
                 {
                     <li class="nav-item">
-                        <div class="nav-link text-dark" asp-area="Identity">Hello @name</div>
-                    </li>
-                    <li class="nav-item">
-                        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" method="post">
+                        <form asp-area="Identity" asp-page="/Account/Logout" method="post">
                             <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
                         </form>
+                    </li>
+                    <li class="nav-item">
+                        <div class="nav-link btn btn-link text-dark" asp-area="Identity">Hello, @name</div>
                     </li>
                 }
                 else
                 {
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
                     </li>
                 }
             </ul>

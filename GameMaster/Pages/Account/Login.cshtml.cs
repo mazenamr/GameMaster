@@ -63,13 +63,9 @@ namespace GameMaster.Pages.Account
                 return Page();
             }
 
-
-            int index = user.Email.IndexOf('@');
-            string name = user.Email.Substring(0, index);
-            
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, name),
+                new Claim(ClaimTypes.Name, user.Username),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Role, user.RoleId.ToString())
             };

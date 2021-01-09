@@ -39,7 +39,7 @@ VALUES (@Email, @Username, @Password, @RoleId, (SELECT Id FROM @PersonOutput), 1
 SELECT * FROM @UserOutput;
 GO
 
-CREATE PROCEDURE NewPlayer @FirstName nvarchar(50), @LastName nvarchar(50), @Birthday date, @DateCreated datetime, @PlayerID nvarchar(50), @Activity int, @Skill int, @Temper int, @Score int, @RankId int, @RegionId int
+CREATE PROCEDURE NewPlayer @FirstName nvarchar(50), @LastName nvarchar(50), @Birthday date, @DateCreated datetime, @Name nvarchar(50), @Activity int, @Skill int, @Temper int, @Score int, @RankId int, @RegionId int
 AS
 DECLARE @PersonOutput table(Id int,
                            FirstName nvarchar(50),
@@ -52,7 +52,7 @@ INSERT [Person] (FirstName, LastName, Birthday, DateCreated, IsActive)
         INTO @PersonOutput
 VALUES (@FirstName, @LastName, @Birthday, @DateCreated, 1);
 DECLARE @PlayerOutput table(Id int,
-                           PlayerId nvarchar(50),
+                           Name nvarchar(50),
                            Activity int,
                            Skill int,
                            Temper int,
@@ -61,10 +61,10 @@ DECLARE @PlayerOutput table(Id int,
                            RegionId int,
                            PersonId int,
                            IsActive bit);
-INSERT [Player] (PlayerId, Activity, Skill, Temper, Score, RankId, RegionId, PersonId, IsActive)
-    OUTPUT INSERTED.Id, INSERTED.PlayerId, INSERTED.Activity, INSERTED.Skill, INSERTED.Temper, INSERTED.Score, INSERTED.RankId, INSERTED.RegionId, INSERTED.PersonId, INSERTED.IsActive
+INSERT [Player] (Name, Activity, Skill, Temper, Score, RankId, RegionId, PersonId, IsActive)
+    OUTPUT INSERTED.Id, INSERTED.Name, INSERTED.Activity, INSERTED.Skill, INSERTED.Temper, INSERTED.Score, INSERTED.RankId, INSERTED.RegionId, INSERTED.PersonId, INSERTED.IsActive
         INTO @PlayerOutput
-VALUES (@PlayerId, @Activity, @Skill, @Temper, @Score, @RankId, @RegionId, (SELECT Id FROM @PersonOutput), 1);
+VALUES (@Name, @Activity, @Skill, @Temper, @Score, @RankId, @RegionId, (SELECT Id FROM @PersonOutput), 1);
 SELECT * FROM @PlayerOutput;
 GO
 
