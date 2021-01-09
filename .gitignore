@@ -43,5 +43,4 @@ msbuild.wrn
 .vs/
 
 # appsettings
-appSettings.json
-appsettings.json
+app[Ss]ettings.json
