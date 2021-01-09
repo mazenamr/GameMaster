@@ -9,6 +9,7 @@ namespace GameMaster.Migration.Tables
         {
             Create.Table(Constants.Tables.Player)
                 .AutoId()
+                .WithColumn("PlayerId").AsString(StringLength.Fifty).NotNullable().Unique()
                 .WithColumn("Activity").AsInt32().NotNullable()
                 .WithColumn("Skill").AsInt32().NotNullable()
                 .WithColumn("Temper").AsInt32().NotNullable()
