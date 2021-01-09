@@ -20,6 +20,7 @@ namespace GameMaster.Models
         public virtual DbSet<Character> Characters { get; set; }
         public virtual DbSet<CharacterDetail> CharacterDetails { get; set; }
         public virtual DbSet<Game> Games { get; set; }
+        public virtual DbSet<GamePlayer> GamePlayers { get; set; }
         public virtual DbSet<Person> People { get; set; }
         public virtual DbSet<Player> Players { get; set; }
         public virtual DbSet<Rank> Ranks { get; set; }
@@ -83,55 +84,13 @@ namespace GameMaster.Models
             {
                 entity.ToTable("Game");
 
-                entity.HasIndex(e => e.Character1Id, "IX_Game_Character1Id");
-
-                entity.HasIndex(e => e.Character2Id, "IX_Game_Character2Id");
-
-                entity.HasIndex(e => e.GamewinnerId, "IX_Game_GamewinnerId");
-
-                entity.HasIndex(e => e.Player1Id, "IX_Game_Player1Id");
-
-                entity.HasIndex(e => e.Player2Id, "IX_Game_Player2Id");
-
                 entity.HasIndex(e => e.RegionId, "IX_Game_RegionId");
 
                 entity.HasIndex(e => e.SeasonId, "IX_Game_SeasonId");
 
-                entity.HasIndex(e => e.Weapon1Id, "IX_Game_Weapon1Id");
-
-                entity.HasIndex(e => e.Weapon2Id, "IX_Game_Weapon2Id");
+                entity.HasIndex(e => e.WinnerId, "IX_Game_WinnerId");
 
                 entity.Property(e => e.StartTime).HasColumnType("datetime");
-
-                entity.HasOne(d => d.Character1)
-                    .WithMany(p => p.GameCharacter1s)
-                    .HasForeignKey(d => d.Character1Id)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Game_Character1Id_Character_id");
-
-                entity.HasOne(d => d.Character2)
-                    .WithMany(p => p.GameCharacter2s)
-                    .HasForeignKey(d => d.Character2Id)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Game_Character2Id_Character_id");
-
-                entity.HasOne(d => d.Gamewinner)
-                    .WithMany(p => p.GameGamewinners)
-                    .HasForeignKey(d => d.GamewinnerId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Game_GamewinnerId_Player_id");
-
-                entity.HasOne(d => d.Player1)
-                    .WithMany(p => p.GamePlayer1s)
-                    .HasForeignKey(d => d.Player1Id)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Game_Player1Id_Player_id");
-
-                entity.HasOne(d => d.Player2)
-                    .WithMany(p => p.GamePlayer2s)
-                    .HasForeignKey(d => d.Player2Id)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Game_Player2Id_Player_id");
 
                 entity.HasOne(d => d.Region)
                     .WithMany(p => p.Games)
@@ -145,17 +104,48 @@ namespace GameMaster.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Game_SeasonId_Season_id");
 
-                entity.HasOne(d => d.Weapon1)
-                    .WithMany(p => p.GameWeapon1s)
-                    .HasForeignKey(d => d.Weapon1Id)
+                entity.HasOne(d => d.Winner)
+                    .WithMany(p => p.Games)
+                    .HasForeignKey(d => d.WinnerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Game_Weapon1Id_Weapon_id");
+                    .HasConstraintName("FK_Game_WinnerId_Player_id");
+            });
 
-                entity.HasOne(d => d.Weapon2)
-                    .WithMany(p => p.GameWeapon2s)
-                    .HasForeignKey(d => d.Weapon2Id)
+            modelBuilder.Entity<GamePlayer>(entity =>
+            {
+                entity.ToTable("GamePlayer");
+
+                entity.HasIndex(e => e.CharacterId, "IX_GamePlayer_CharacterId");
+
+                entity.HasIndex(e => e.GameId, "IX_GamePlayer_GameId");
+
+                entity.HasIndex(e => e.PlayerId, "IX_GamePlayer_PlayerId");
+
+                entity.HasIndex(e => e.WeaponId, "IX_GamePlayer_WeaponId");
+
+                entity.HasOne(d => d.Character)
+                    .WithMany(p => p.GamePlayers)
+                    .HasForeignKey(d => d.CharacterId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Game_Weapon2Id_Weapon_id");
+                    .HasConstraintName("FK_GamePlayer_CharacterId_Character_id");
+
+                entity.HasOne(d => d.Game)
+                    .WithMany(p => p.GamePlayers)
+                    .HasForeignKey(d => d.GameId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_GamePlayer_GameId_Player_id");
+
+                entity.HasOne(d => d.Player)
+                    .WithMany(p => p.GamePlayers)
+                    .HasForeignKey(d => d.PlayerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_GamePlayer_PlayerId_Game_id");
+
+                entity.HasOne(d => d.Weapon)
+                    .WithMany(p => p.GamePlayers)
+                    .HasForeignKey(d => d.WeaponId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_GamePlayer_WeaponId_Weapon_id");
             });
 
             modelBuilder.Entity<Person>(entity =>

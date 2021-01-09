@@ -10,8 +10,7 @@ namespace GameMaster.Models
         public Character()
         {
             CharacterDetails = new HashSet<CharacterDetail>();
-            GameCharacter1s = new HashSet<Game>();
-            GameCharacter2s = new HashSet<Game>();
+            GamePlayers = new HashSet<GamePlayer>();
             SynergiesAgainstCharacterCharacterCharacter1s = new HashSet<SynergiesAgainstCharacterCharacter>();
             SynergiesAgainstCharacterCharacterCharacter2s = new HashSet<SynergiesAgainstCharacterCharacter>();
             SynergiesAgainstCharacterWeapons = new HashSet<SynergiesAgainstCharacterWeapon>();
@@ -30,8 +29,7 @@ namespace GameMaster.Models
         public bool? IsActive { get; set; }
 
         public virtual ICollection<CharacterDetail> CharacterDetails { get; set; }
-        public virtual ICollection<Game> GameCharacter1s { get; set; }
-        public virtual ICollection<Game> GameCharacter2s { get; set; }
+        public virtual ICollection<GamePlayer> GamePlayers { get; set; }
         public virtual ICollection<SynergiesAgainstCharacterCharacter> SynergiesAgainstCharacterCharacterCharacter1s { get; set; }
         public virtual ICollection<SynergiesAgainstCharacterCharacter> SynergiesAgainstCharacterCharacterCharacter2s { get; set; }
         public virtual ICollection<SynergiesAgainstCharacterWeapon> SynergiesAgainstCharacterWeapons { get; set; }

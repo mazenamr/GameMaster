@@ -2,8 +2,8 @@
 
 namespace GameMaster.Migration.Tables
 {
-    [Migration(18)]
-    public class _018_SynergiesAgainstCharacterCharacter : AutoReversingMigration
+    [Migration(19)]
+    public class _019_SynergiesAgainstCharacterCharacter : AutoReversingMigration
     {
         public override void Up()
         {
