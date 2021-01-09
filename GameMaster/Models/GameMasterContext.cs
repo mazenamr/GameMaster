@@ -183,10 +183,10 @@ namespace GameMaster.Models
             {
                 entity.ToTable("Player");
 
-                entity.HasIndex(e => e.PersonId, "IX_Player_PersonId");
-
-                entity.HasIndex(e => e.PlayerId, "IX_Player_PlayerId")
+                entity.HasIndex(e => e.Name, "IX_Player_Name")
                     .IsUnique();
+
+                entity.HasIndex(e => e.PersonId, "IX_Player_PersonId");
 
                 entity.HasIndex(e => e.RankId, "IX_Player_RankId");
 
@@ -198,7 +198,7 @@ namespace GameMaster.Models
                     .IsRequired()
                     .HasDefaultValueSql("((1))");
 
-                entity.Property(e => e.PlayerId)
+                entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(50);
 
