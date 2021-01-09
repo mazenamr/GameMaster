@@ -21,4 +21,9 @@
     <ProjectReference Include="..\GameMaster.Constants\GameMaster.Constants.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\Business\" />
+    <Folder Include="Pages\Admin\" />
+  </ItemGroup>
+
 </Project>
