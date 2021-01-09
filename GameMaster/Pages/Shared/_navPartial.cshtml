@@ -42,12 +42,6 @@
                         <a class="nav-link text-dark" asp-area="" asp-page="/GameMaster/"></a>
                     </li>
                 }
-                @if (userRoleId == GameMaster.Constants.Role.Admin)
-                {
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-page="/GameMaster/"></a>
-                    </li>
-                }
             </ul>
             <ul class="navbar-nav flex-grow-1 d-sm-inline-flex flex-sm-row-reverse">
                 @if (HttpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
