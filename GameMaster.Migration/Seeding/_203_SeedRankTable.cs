@@ -15,7 +15,6 @@ namespace GameMaster.Migration.Seeding
             {
                 Insert.IntoTable(Constants.Tables.Rank).Row(new
                 {
-                    rank.Id,
                     rank.Name,
                     rank.Score
                 });

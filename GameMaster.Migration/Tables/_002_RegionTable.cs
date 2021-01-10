@@ -8,7 +8,7 @@ namespace GameMaster.Migration.Tables
         public override void Up()
         {
             Create.Table(Constants.Tables.Region)
-                .WithColumn("Id").AsInt32().PrimaryKey().NotNullable()
+                .AutoId()
                 .WithColumn("Name").AsString(StringLength.Twenty).NotNullable()
                 .IsActive();
         }

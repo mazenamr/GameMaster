@@ -15,7 +15,6 @@ namespace GameMaster.Migration.Seeding
             {
                 Insert.IntoTable(Constants.Tables.Region).Row(new
                 {
-                    region.Id,
                     region.Name
                 });
             });

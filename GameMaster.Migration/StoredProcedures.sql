@@ -39,7 +39,7 @@ VALUES (@Email, @Username, @Password, @RoleId, (SELECT Id FROM @PersonOutput), 1
 SELECT * FROM @UserOutput;
 GO
 
-CREATE PROCEDURE NewPlayer @FirstName nvarchar(50), @LastName nvarchar(50), @Birthday date, @DateCreated datetime, @Name nvarchar(50), @Activity int, @Skill int, @Temper int, @Score int, @RankId int, @RegionId int
+CREATE PROCEDURE NewPlayer @FirstName nvarchar(50), @LastName nvarchar(50), @Birthday date, @DateCreated datetime, @Name nvarchar(50), @Activity int, @Skill int, @Temper int, @Score int, @RegionId int
 AS
 DECLARE @PersonOutput table(Id int,
                            FirstName nvarchar(50),
@@ -64,7 +64,7 @@ DECLARE @PlayerOutput table(Id int,
 INSERT [Player] (Name, Activity, Skill, Temper, Score, RankId, RegionId, PersonId, IsActive)
     OUTPUT INSERTED.Id, INSERTED.Name, INSERTED.Activity, INSERTED.Skill, INSERTED.Temper, INSERTED.Score, INSERTED.RankId, INSERTED.RegionId, INSERTED.PersonId, INSERTED.IsActive
         INTO @PlayerOutput
-VALUES (@Name, @Activity, @Skill, @Temper, @Score, @RankId, @RegionId, (SELECT Id FROM @PersonOutput), 1);
+VALUES (@Name, @Activity, @Skill, @Temper, @Score, (SELECT TOP(1) Id FROM [Rank] WHERE Score <= @Score ORDER BY Score DESC), @RegionId, (SELECT Id FROM @PersonOutput), 1);
 SELECT * FROM @PlayerOutput;
 GO
 
@@ -103,8 +103,8 @@ AS
 UPDATE P
     SET RankId = (
     SELECT TOP(1) Id
-    FROM RANK
+    FROM [Rank]
     WHERE Score <= P.Score
-    ORDER BY SCORE DESC)
+    ORDER BY Score DESC)
 FROM [Player] P;
 GO
