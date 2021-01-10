@@ -5,11 +5,11 @@ using System.Collections.Generic;
 
 namespace GameMaster.Models
 {
-    public partial class SynergiesAgainstCharacterWeapon
+    public partial class SynergiesCharacterWeapon
     {
         public int Id { get; set; }
-        public int WeaponId { get; set; }
         public int CharacterId { get; set; }
+        public int WeaponId { get; set; }
         public int Constant { get; set; }
         public int Multiplier { get; set; }
 

@@ -11,10 +11,9 @@ namespace GameMaster.Models
         {
             CharacterDetails = new HashSet<CharacterDetail>();
             GamePlayers = new HashSet<GamePlayer>();
-            SynergiesAgainstCharacterCharacterCharacter1s = new HashSet<SynergiesAgainstCharacterCharacter>();
-            SynergiesAgainstCharacterCharacterCharacter2s = new HashSet<SynergiesAgainstCharacterCharacter>();
-            SynergiesAgainstCharacterWeapons = new HashSet<SynergiesAgainstCharacterWeapon>();
-            SynergiesWiths = new HashSet<SynergiesWith>();
+            SynergiesCharacterCharacterCharacter1s = new HashSet<SynergiesCharacterCharacter>();
+            SynergiesCharacterCharacterCharacter2s = new HashSet<SynergiesCharacterCharacter>();
+            SynergiesCharacterWeapons = new HashSet<SynergiesCharacterWeapon>();
             UsageAgainstCharacterCharacterCharacter1s = new HashSet<UsageAgainstCharacterCharacter>();
             UsageAgainstCharacterCharacterCharacter2s = new HashSet<UsageAgainstCharacterCharacter>();
             UsageAgainstCharacterWeapons = new HashSet<UsageAgainstCharacterWeapon>();
@@ -23,17 +22,16 @@ namespace GameMaster.Models
 
         public int Id { get; set; }
         public string Name { get; set; }
-        public int Strength { get; set; }
-        public int Mobility { get; set; }
         public int Health { get; set; }
+        public int Mobility { get; set; }
+        public int Strength { get; set; }
         public bool? IsActive { get; set; }
 
         public virtual ICollection<CharacterDetail> CharacterDetails { get; set; }
         public virtual ICollection<GamePlayer> GamePlayers { get; set; }
-        public virtual ICollection<SynergiesAgainstCharacterCharacter> SynergiesAgainstCharacterCharacterCharacter1s { get; set; }
-        public virtual ICollection<SynergiesAgainstCharacterCharacter> SynergiesAgainstCharacterCharacterCharacter2s { get; set; }
-        public virtual ICollection<SynergiesAgainstCharacterWeapon> SynergiesAgainstCharacterWeapons { get; set; }
-        public virtual ICollection<SynergiesWith> SynergiesWiths { get; set; }
+        public virtual ICollection<SynergiesCharacterCharacter> SynergiesCharacterCharacterCharacter1s { get; set; }
+        public virtual ICollection<SynergiesCharacterCharacter> SynergiesCharacterCharacterCharacter2s { get; set; }
+        public virtual ICollection<SynergiesCharacterWeapon> SynergiesCharacterWeapons { get; set; }
         public virtual ICollection<UsageAgainstCharacterCharacter> UsageAgainstCharacterCharacterCharacter1s { get; set; }
         public virtual ICollection<UsageAgainstCharacterCharacter> UsageAgainstCharacterCharacterCharacter2s { get; set; }
         public virtual ICollection<UsageAgainstCharacterWeapon> UsageAgainstCharacterWeapons { get; set; }

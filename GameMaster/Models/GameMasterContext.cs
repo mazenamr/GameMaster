@@ -27,10 +27,9 @@ namespace GameMaster.Models
         public virtual DbSet<Region> Regions { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Season> Seasons { get; set; }
-        public virtual DbSet<SynergiesAgainstCharacterCharacter> SynergiesAgainstCharacterCharacters { get; set; }
-        public virtual DbSet<SynergiesAgainstCharacterWeapon> SynergiesAgainstCharacterWeapons { get; set; }
-        public virtual DbSet<SynergiesAgainstWeaponWeapon> SynergiesAgainstWeaponWeapons { get; set; }
-        public virtual DbSet<SynergiesWith> SynergiesWiths { get; set; }
+        public virtual DbSet<SynergiesCharacterCharacter> SynergiesCharacterCharacters { get; set; }
+        public virtual DbSet<SynergiesCharacterWeapon> SynergiesCharacterWeapons { get; set; }
+        public virtual DbSet<SynergiesWeaponWeapon> SynergiesWeaponWeapons { get; set; }
         public virtual DbSet<UsageAgainstCharacterCharacter> UsageAgainstCharacterCharacters { get; set; }
         public virtual DbSet<UsageAgainstCharacterWeapon> UsageAgainstCharacterWeapons { get; set; }
         public virtual DbSet<UsageAgainstWeaponWeapon> UsageAgainstWeaponWeapons { get; set; }
@@ -271,90 +270,67 @@ namespace GameMaster.Models
                 entity.Property(e => e.StartDate).HasColumnType("datetime");
             });
 
-            modelBuilder.Entity<SynergiesAgainstCharacterCharacter>(entity =>
+            modelBuilder.Entity<SynergiesCharacterCharacter>(entity =>
             {
-                entity.ToTable("SynergiesAgainstCharacterCharacter");
+                entity.ToTable("SynergiesCharacterCharacter");
 
-                entity.HasIndex(e => e.Character1Id, "IX_SynergiesAgainstCharacterCharacter_Character1Id");
+                entity.HasIndex(e => e.Character1Id, "IX_SynergiesCharacterCharacter_Character1Id");
 
-                entity.HasIndex(e => e.Character2Id, "IX_SynergiesAgainstCharacterCharacter_Character2Id");
+                entity.HasIndex(e => e.Character2Id, "IX_SynergiesCharacterCharacter_Character2Id");
 
                 entity.HasOne(d => d.Character1)
-                    .WithMany(p => p.SynergiesAgainstCharacterCharacterCharacter1s)
+                    .WithMany(p => p.SynergiesCharacterCharacterCharacter1s)
                     .HasForeignKey(d => d.Character1Id)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_SynergiesAgainstCharacterCharacter_Character1Id_Character_id");
+                    .HasConstraintName("FK_SynergiesCharacterCharacter_Character1Id_Character_id");
 
                 entity.HasOne(d => d.Character2)
-                    .WithMany(p => p.SynergiesAgainstCharacterCharacterCharacter2s)
+                    .WithMany(p => p.SynergiesCharacterCharacterCharacter2s)
                     .HasForeignKey(d => d.Character2Id)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_SynergiesAgainstCharacterCharacter_Character2Id_Character_id");
+                    .HasConstraintName("FK_SynergiesCharacterCharacter_Character2Id_Character_id");
             });
 
-            modelBuilder.Entity<SynergiesAgainstCharacterWeapon>(entity =>
+            modelBuilder.Entity<SynergiesCharacterWeapon>(entity =>
             {
-                entity.ToTable("SynergiesAgainstCharacterWeapon");
+                entity.ToTable("SynergiesCharacterWeapon");
 
-                entity.HasIndex(e => e.CharacterId, "IX_SynergiesAgainstCharacterWeapon_CharacterId");
+                entity.HasIndex(e => e.CharacterId, "IX_SynergiesCharacterWeapon_CharacterId");
 
-                entity.HasIndex(e => e.WeaponId, "IX_SynergiesAgainstCharacterWeapon_WeaponId");
+                entity.HasIndex(e => e.WeaponId, "IX_SynergiesCharacterWeapon_WeaponId");
 
                 entity.HasOne(d => d.Character)
-                    .WithMany(p => p.SynergiesAgainstCharacterWeapons)
+                    .WithMany(p => p.SynergiesCharacterWeapons)
                     .HasForeignKey(d => d.CharacterId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_SynergiesAgainstCharacterWeapon_CharacterId_Character_id");
+                    .HasConstraintName("FK_SynergiesCharacterWeapon_CharacterId_Character_id");
 
                 entity.HasOne(d => d.Weapon)
-                    .WithMany(p => p.SynergiesAgainstCharacterWeapons)
+                    .WithMany(p => p.SynergiesCharacterWeapons)
                     .HasForeignKey(d => d.WeaponId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_SynergiesAgainstCharacterWeapon_WeaponId_Weapon_id");
+                    .HasConstraintName("FK_SynergiesCharacterWeapon_WeaponId_Weapon_id");
             });
 
-            modelBuilder.Entity<SynergiesAgainstWeaponWeapon>(entity =>
+            modelBuilder.Entity<SynergiesWeaponWeapon>(entity =>
             {
-                entity.ToTable("SynergiesAgainstWeaponWeapon");
+                entity.ToTable("SynergiesWeaponWeapon");
 
-                entity.HasIndex(e => e.Weapon1Id, "IX_SynergiesAgainstWeaponWeapon_Weapon1Id");
+                entity.HasIndex(e => e.Weapon1Id, "IX_SynergiesWeaponWeapon_Weapon1Id");
 
-                entity.HasIndex(e => e.Weapon2Id, "IX_SynergiesAgainstWeaponWeapon_Weapon2_id");
-
-                entity.Property(e => e.Weapon2Id).HasColumnName("Weapon2_id");
+                entity.HasIndex(e => e.Weapon2Id, "IX_SynergiesWeaponWeapon_Weapon2Id");
 
                 entity.HasOne(d => d.Weapon1)
-                    .WithMany(p => p.SynergiesAgainstWeaponWeaponWeapon1s)
+                    .WithMany(p => p.SynergiesWeaponWeaponWeapon1s)
                     .HasForeignKey(d => d.Weapon1Id)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_SynergiesAgainstWeaponWeapon_Weapon1Id_Weapon_id");
+                    .HasConstraintName("FK_SynergiesWeaponWeapon_Weapon1Id_Weapon_id");
 
                 entity.HasOne(d => d.Weapon2)
-                    .WithMany(p => p.SynergiesAgainstWeaponWeaponWeapon2s)
+                    .WithMany(p => p.SynergiesWeaponWeaponWeapon2s)
                     .HasForeignKey(d => d.Weapon2Id)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_SynergiesAgainstWeaponWeapon_Weapon2_id_Weapon_id");
-            });
-
-            modelBuilder.Entity<SynergiesWith>(entity =>
-            {
-                entity.ToTable("SynergiesWith");
-
-                entity.HasIndex(e => e.CharacterId, "IX_SynergiesWith_CharacterId");
-
-                entity.HasIndex(e => e.WeaponId, "IX_SynergiesWith_WeaponId");
-
-                entity.HasOne(d => d.Character)
-                    .WithMany(p => p.SynergiesWiths)
-                    .HasForeignKey(d => d.CharacterId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_SynergiesWith_CharacterId_Character_id");
-
-                entity.HasOne(d => d.Weapon)
-                    .WithMany(p => p.SynergiesWiths)
-                    .HasForeignKey(d => d.WeaponId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_SynergiesWith_WeaponId_Weapon_id");
+                    .HasConstraintName("FK_SynergiesWeaponWeapon_Weapon2Id_Weapon_id");
             });
 
             modelBuilder.Entity<UsageAgainstCharacterCharacter>(entity =>
