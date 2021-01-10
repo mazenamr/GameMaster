@@ -10,9 +10,9 @@ namespace GameMaster.Migration.Tables
             Create.Table(Constants.Tables.Character)
                 .AutoId()
                 .WithColumn("Name").AsString(StringLength.Fifty).NotNullable()
-                .WithColumn("Strength").AsInt32().NotNullable()
-                .WithColumn("Mobility").AsInt32().NotNullable()
                 .WithColumn("Health").AsInt32().NotNullable()
+                .WithColumn("Mobility").AsInt32().NotNullable()
+                .WithColumn("Strength").AsInt32().NotNullable()
                 .IsActive();
         }
     }
