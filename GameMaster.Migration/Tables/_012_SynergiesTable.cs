@@ -3,7 +3,7 @@
 namespace GameMaster.Migration.Tables
 {
     [Migration(12)]
-    public class _012_Synergies : AutoReversingMigration
+    public class _012_SynergiesTable : AutoReversingMigration
     {
         public override void Up()
         {
