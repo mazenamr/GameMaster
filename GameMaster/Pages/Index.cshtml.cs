@@ -21,12 +21,6 @@ namespace GameMaster.Pages
 
         public List<WeaponDetail> WeaponDetails { get; set; }
 
-        public List<Role>? Roles { get; set; }
-
-        [Required]
-        [BindProperty]
-        public string? Role { get; set; }
-
         public IndexModel(ILogger<IndexModel> logger, Controller controller)
         {
             _logger = logger;
@@ -39,15 +33,6 @@ namespace GameMaster.Pages
             Weapons = _controller.GetAllWeapons();
             CharacterDetails = _controller.GetAllCharacterDetails();
             WeaponDetails = _controller.GetAllWeaponDetails();
-        }
-
-        public IActionResult OnPostAddRole()
-        {
-            if (Role is not null)
-            {
-                _controller.AddRole(Role);
-            }
-            return RedirectToPage("Index");
         }
     }
 }

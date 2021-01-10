@@ -18,14 +18,24 @@ namespace GameMaster
             _hasher = hasher;
         }
 
-        public List<Role> GetRoles()
+        public List<Region> GetRegions()
         {
-            return _dbContext.Roles.FromSqlInterpolated($"SELECT * FROM [Role] WHERE IsActive = 1").ToList();
+            return _dbContext.Regions.FromSqlInterpolated($"SELECT * FROM [Region] WHERE IsActive = 1").ToList();
         }
 
-        public int AddRole(string roleName)
+        public int AddRegion(string name)
         {
-            return _dbContext.Database.ExecuteSqlInterpolated($"INSERT INTO [Role] (Name) VALUES({roleName})");
+            return _dbContext.Database.ExecuteSqlInterpolated($"INSERT INTO [Region] (Name) VALUES({name})");
+        }
+
+        public int EditRegion(int id, string name)
+        {
+            return _dbContext.Database.ExecuteSqlInterpolated($"UPDATE [Region] SET Name = {name} WHERE Id = {id}");
+        }
+
+        public int DeleteRegion(int id)
+        {
+            return _dbContext.Database.ExecuteSqlInterpolated($"UPDATE [Region] SET IsActive = 0 WHERE Id = {id}");
         }
 
         public Rank? GetRankById(int rankId)

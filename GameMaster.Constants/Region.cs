@@ -12,9 +12,9 @@ namespace GameMaster.Constants
             new("Asia", 25),
             new("Australia", 5),
             new("Europe", 20),
-            new("MiddleEast", 15),
-            new("NorthAmerica", 20),
-            new("SouthAmerica", 10)
+            new("Middle East", 15),
+            new("North America", 20),
+            new("South America", 10)
         };
     }
 }
