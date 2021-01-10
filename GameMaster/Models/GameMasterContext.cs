@@ -21,6 +21,7 @@ namespace GameMaster.Models
         public virtual DbSet<CharacterDetail> CharacterDetails { get; set; }
         public virtual DbSet<Game> Games { get; set; }
         public virtual DbSet<GamePlayer> GamePlayers { get; set; }
+        public virtual DbSet<History> Histories { get; set; }
         public virtual DbSet<Person> People { get; set; }
         public virtual DbSet<Player> Players { get; set; }
         public virtual DbSet<Rank> Ranks { get; set; }
@@ -143,6 +144,25 @@ namespace GameMaster.Models
                     .HasForeignKey(d => d.WeaponId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_GamePlayer_WeaponId_Weapon_id");
+            });
+
+            modelBuilder.Entity<History>(entity =>
+            {
+                entity.ToTable("History");
+
+                entity.HasIndex(e => e.UserId, "IX_History_UserId");
+
+                entity.Property(e => e.Message)
+                    .IsRequired()
+                    .HasMaxLength(500);
+
+                entity.Property(e => e.TimeCreated).HasColumnType("datetime");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Histories)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_History_UserId_User_id");
             });
 
             modelBuilder.Entity<Person>(entity =>

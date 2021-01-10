@@ -31,5 +31,9 @@
             public const string UsageAgainstWeaponWeapon = "UsageAgainstWeaponWeapon";
             public const string UsageAgainstCharacterWeapon = "UsageAgainstCharacterWeapon";
         #endregion Usage
+
+        #region Other
+            public const string History = "History";
+        #endregion Other
     }
 }

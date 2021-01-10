@@ -12,6 +12,7 @@ namespace GameMaster.Migration
         public const int Fifty = 50;
         public const int Hundred = 100;
         public const int TwoHundredFifty = 250;
+        public const int FiveHundred = 500;
     }
 
     public static class FluentMigratorExtensions
