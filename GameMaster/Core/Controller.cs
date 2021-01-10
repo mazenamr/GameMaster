@@ -43,6 +43,11 @@ namespace GameMaster
             return _dbContext.Ranks.FromSqlInterpolated($"SELECT * FROM Rank WHERE Id = {rankId}").FirstOrDefault();
         }
 
+        public List<Region> GetAllRegions()
+        {
+            return _dbContext.Regions.FromSqlInterpolated($"SELECT * FROM Region WHERE IsActive = 1").ToList();
+        }
+
         public Region? GetRegionById(int regionId)
         {
             return _dbContext.Regions.FromSqlInterpolated($"SELECT * FROM Region WHERE Id = {regionId}").FirstOrDefault();
@@ -56,6 +61,16 @@ namespace GameMaster
         public User? GetUserByEmail(string email)
         {
             return _dbContext.Users.FromSqlInterpolated($"SELECT * FROM [User] where Email = {email} and IsActive = 1").FirstOrDefault();
+        }
+
+        public User? GetUserByUsername(string username)
+        {
+            return _dbContext.Users.FromSqlInterpolated($"SELECT * FROM [User] WHERE Username = {username} and IsActive = 1").FirstOrDefault();
+        }
+
+        public int EditUserPassword(string username, string password)
+        {
+            return _dbContext.Database.ExecuteSqlInterpolated($"UPDATE [User] SET password = {password} WHERE Username = {username}");
         }
 
         public int AddUser(string email, string password, int personId, int roleId)
@@ -186,6 +201,16 @@ namespace GameMaster
         public List<GamePlayer> OpponentsOfPlayerInLastTenGames(int playerId)
         {
             return _dbContext.GamePlayers.FromSqlInterpolated($"SELECT TOP(10) Gp.* FROM GamePlayer Gp,Game G  WHERE  Gp.PlayerId != {playerId} AND Gp.GameId = G.Id AND G.Id IN (SELECT GameId FROM GamePlayer WHERE PlayerId = 1) ORDER BY G.StartTime DESC").ToList();
+        }
+
+        public int GetPlayerCountInRegionByRegionId(int regionId)
+        {
+            return _dbContext.Database.ExecuteSqlInterpolated($"SELECT COUNT(*) FROM [Player] WHERE RegionId = {regionId} and IsActive = 1");
+        }
+
+        public int GetGamesCountInRegionByRegionIdAndSeasonId(int regionId, int seasonId)
+        {
+            return _dbContext.Database.ExecuteSqlInterpolated($"SELECT COUNT(*) FROM [Game] WHERE RegionId = {regionId} and SeasonId = {seasonId}");
         }
     }
 }
