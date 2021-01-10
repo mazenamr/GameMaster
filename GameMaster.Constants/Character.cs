@@ -4,7 +4,7 @@ namespace GameMaster.Constants
 {
     public static class Character
     {
-        public record CharacterInfo(string Name, int Strength, int Mobility, int Health);
+        public record CharacterInfo(string Name, int Health, int Mobility, int Strength);
 
         public static CharacterInfo Archer = new("Archer", 200, 8, 8);
         public static CharacterInfo Assassin = new("Assassin", 500, 9, 5);
