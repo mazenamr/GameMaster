@@ -11,6 +11,7 @@ namespace GameMaster.Migration.Tables
                 .AutoId()
                 .WithColumn("Name").AsString(StringLength.Fifty).NotNullable()
                 .WithColumn("Health").AsInt32().NotNullable()
+                .WithColumn("Mana").AsInt32().NotNullable()
                 .WithColumn("Mobility").AsInt32().NotNullable()
                 .WithColumn("Strength").AsInt32().NotNullable()
                 .IsActive();
