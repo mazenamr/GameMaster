@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Threading.Tasks;
 using GameMaster.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -37,19 +36,19 @@ namespace GameMaster.Pages.Account
             [Required]
             [DataType(DataType.Password)]
             [MinLength(8)]
-            [MaxLength(50)]
+            [MaxLength(100)]
             public string currentPass { get; set; } = string.Empty;
 
             [Required]
             [DataType(DataType.Password)]
             [MinLength(8)]
-            [MaxLength(50)]
+            [MaxLength(100)]
             public string newPass { get; set; } = string.Empty;
 
             [Required]
             [DataType(DataType.Password)]
             [MinLength(8)]
-            [MaxLength(50)]
+            [MaxLength(100)]
             public string verifyPass { get; set; } = string.Empty;
 
         }
