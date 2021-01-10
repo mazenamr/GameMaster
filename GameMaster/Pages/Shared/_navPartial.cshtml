@@ -33,13 +33,19 @@
                 @if (userRoleId == GameMaster.Constants.Role.Business || userRoleId == GameMaster.Constants.Role.Admin)
                 {
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-page="/Business/ViewPlayer">View Player</a>
+                        <a class="nav-link text-dark" asp-area="" asp-page="/BusinessView/Engagements">Engagements</a>
                     </li>
                 }
                 @if (userRoleId == GameMaster.Constants.Role.GameMaster || userRoleId == GameMaster.Constants.Role.Admin)
                 {
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-page="/GameMaster/"></a>
+                        <a class="nav-link text-dark" asp-area="" asp-page="/GameMasterView/"></a>
+                    </li>
+                }
+                @if (userRoleId == GameMaster.Constants.Role.Admin)
+                {
+                    <li>
+                        <a class="nav-link text-dark" asp-area="" asp-page="/AdminView/Region">Edit Regions</a>
                     </li>
                 }
             </ul>
@@ -52,7 +58,7 @@
                         </form>
                     </li>
                     <li class="nav-item">
-                        <div class="nav-link btn btn-link text-dark" asp-area="Identity">Hello, @name</div>
+                        <a class="nav-link btn btn-link text-dark" asp-area="Identity" asp-page="/Account/EditUser">Hello, @name</a>
                     </li>
                 }
                 else
