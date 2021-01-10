@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace GameMaster.Models
 {
-    public partial class SynergiesCharacterWeapon
+    public partial class Synergy
     {
         public int Id { get; set; }
         public int CharacterId { get; set; }

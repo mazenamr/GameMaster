@@ -2,12 +2,12 @@
 
 namespace GameMaster.Migration.Tables
 {
-    [Migration(20)]
-    public class _020_UsageAgainstCharacterWeapon : AutoReversingMigration
+    [Migration(15)]
+    public class _015_UsageWithTable : AutoReversingMigration
     {
         public override void Up()
         {
-            Create.Table(Constants.Tables.UsageAgainstCharacterWeapon)
+            Create.Table(Constants.Tables.UsageWith)
                 .AutoId()
                 .IntForeignKeyIndexed("CharacterId", Constants.Tables.Character, isNullable: false, isPK: false)
                 .IntForeignKeyIndexed("WeaponId", Constants.Tables.Weapon, isNullable: false, isPK: false)

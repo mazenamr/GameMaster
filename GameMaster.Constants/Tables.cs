@@ -18,17 +18,12 @@
             public const string Season = "Season";
             public const string Character = "Character";
             public const string CharacterDetails = "CharacterDetails";
-            public const string WeaponDetails = "WeaponDetails";
             public const string Weapon = "Weapon";
+            public const string WeaponDetails = "WeaponDetails";
+            public const string Synergies = "Synergies";
             public const string Game = "Game";
             public const string GamePlayer = "GamePlayer";
         #endregion Game
-
-        #region Synergies
-            public const string SynergiesCharacterCharacter = "SynergiesCharacterCharacter";
-            public const string SynergiesWeaponWeapon = "SynergiesWeaponWeapon";
-            public const string SynergiesCharacterWeapon = "SynergiesCharacterWeapon";
-        #endregion Synergies
 
         #region Usage
             public const string UsageWith = "UsageWith";

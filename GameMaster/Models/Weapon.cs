@@ -10,9 +10,7 @@ namespace GameMaster.Models
         public Weapon()
         {
             GamePlayers = new HashSet<GamePlayer>();
-            SynergiesCharacterWeapons = new HashSet<SynergiesCharacterWeapon>();
-            SynergiesWeaponWeaponWeapon1s = new HashSet<SynergiesWeaponWeapon>();
-            SynergiesWeaponWeaponWeapon2s = new HashSet<SynergiesWeaponWeapon>();
+            Synergies = new HashSet<Synergy>();
             UsageAgainstCharacterWeapons = new HashSet<UsageAgainstCharacterWeapon>();
             UsageAgainstWeaponWeaponWeapon1s = new HashSet<UsageAgainstWeaponWeapon>();
             UsageAgainstWeaponWeaponWeapon2s = new HashSet<UsageAgainstWeaponWeapon>();
@@ -28,9 +26,7 @@ namespace GameMaster.Models
         public bool? IsActive { get; set; }
 
         public virtual ICollection<GamePlayer> GamePlayers { get; set; }
-        public virtual ICollection<SynergiesCharacterWeapon> SynergiesCharacterWeapons { get; set; }
-        public virtual ICollection<SynergiesWeaponWeapon> SynergiesWeaponWeaponWeapon1s { get; set; }
-        public virtual ICollection<SynergiesWeaponWeapon> SynergiesWeaponWeaponWeapon2s { get; set; }
+        public virtual ICollection<Synergy> Synergies { get; set; }
         public virtual ICollection<UsageAgainstCharacterWeapon> UsageAgainstCharacterWeapons { get; set; }
         public virtual ICollection<UsageAgainstWeaponWeapon> UsageAgainstWeaponWeaponWeapon1s { get; set; }
         public virtual ICollection<UsageAgainstWeaponWeapon> UsageAgainstWeaponWeaponWeapon2s { get; set; }
