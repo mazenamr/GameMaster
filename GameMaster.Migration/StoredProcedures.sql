@@ -97,3 +97,14 @@ INSERT [Character] (Name, Strength, Mobility, Health, IsActive)
 VALUES (@Name, @Strength, @Mobility, @Health, 1);
 SELECT * FROM @CharacterOutput;
 GO
+
+CREATE PROCEDURE UpdatePlayerRank
+AS
+UPDATE P
+    SET RankId = (
+    SELECT TOP(1) Id
+    FROM RANK
+    WHERE Score <= P.Score
+    ORDER BY SCORE DESC)
+FROM [Player] P;
+GO
