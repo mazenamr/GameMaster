@@ -59,7 +59,7 @@
                         <th scope="row">@counter</th>
                         <td>@region.Name</td>
                         <td>
-                            <a asp-page="" data-toggle="modal" data-target="#confirm_edit_@region.Id">Edit</a>
+                            <a asp-page="" data-toggle="modal" data-target="#confirm_edit_@region.Id" class="btn btn-primary">Edit</a>
                             <form method="post">
                                 <div class="modal fade" id="confirm_edit_@region.Id">
                                     <div class="modal-dialog">
@@ -85,7 +85,7 @@
                             </form>
                         </td>
                         <td>
-                            <a asp-page="" data-toggle="modal" data-target="#confirm_delete_@region.Id">Delete</a>
+                            <a asp-page="" data-toggle="modal" data-target="#confirm_delete_@region.Id" class="btn btn-danger">Delete</a>
                             <form method="post">
                                 <div class="modal fade" id="confirm_delete_@region.Id">
                                     <div class="modal-dialog">
