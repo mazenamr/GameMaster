@@ -2,17 +2,17 @@
 
 namespace GameMaster.Migration.Tables
 {
-    [Migration(16)]
-    public class _016_UsageAgainstWeaponWeapon : AutoReversingMigration
+    [Migration(15)]
+    public class _015_SynergiesWeaponWeapon : AutoReversingMigration
     {
         public override void Up()
         {
-            Create.Table(Constants.Tables.UsageAgainstWeaponWeapon)
+            Create.Table(Constants.Tables.SynergiesWeaponWeapon)
                 .AutoId()
                 .IntForeignKeyIndexed("Weapon1Id", Constants.Tables.Weapon, isNullable: false, isPK: false)
                 .IntForeignKeyIndexed("Weapon2Id", Constants.Tables.Weapon, isNullable: false, isPK: false)
-                .WithColumn("GamesPlayed").AsInt32().Nullable()
-                .WithColumn("GamesWon").AsInt32().Nullable();
+                .WithColumn("Constant").AsInt32().NotNullable()
+                .WithColumn("Multiplier").AsInt32().NotNullable();
         }
     }
 }

@@ -24,18 +24,17 @@
             public const string GamePlayer = "GamePlayer";
         #endregion Game
 
+        #region Synergies
+            public const string SynergiesCharacterCharacter = "SynergiesCharacterCharacter";
+            public const string SynergiesWeaponWeapon = "SynergiesWeaponWeapon";
+            public const string SynergiesCharacterWeapon = "SynergiesCharacterWeapon";
+        #endregion Synergies
+
         #region Usage
             public const string UsageWith = "UsageWith";
             public const string UsageAgainstCharacterCharacter = "UsageAgainstCharacterCharacter";
             public const string UsageAgainstWeaponWeapon = "UsageAgainstWeaponWeapon";
             public const string UsageAgainstCharacterWeapon = "UsageAgainstCharacterWeapon";
         #endregion Usage
-
-        #region Synergies
-            public const string SynergiesWith = "SynergiesWith";
-            public const string SynergiesAgainstCharacterCharacter = "SynergiesAgainstCharacterCharacter";
-            public const string SynergiesAgainstWeaponWeapon = "SynergiesAgainstWeaponWeapon";
-            public const string SynergiesAgainstCharacterWeapon = "SynergiesAgainstCharacterWeapon";
-        #endregion Synergies
     }
 }
