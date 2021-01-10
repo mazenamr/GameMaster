@@ -1,0 +1,62 @@
+﻿@page
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+@model GameMaster.Pages.Account.EditUserModel
+@{
+    ViewData["Title"] = "Edit User";
+}
+
+@if (HttpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
+{
+    @if (!string.IsNullOrWhiteSpace(Model.SuccessMessage))
+    {
+        <div class="alert alert-success" role="alert">@Model.SuccessMessage</div>
+    }
+    <div class="card">
+        <div class="card-header bg-dark text-white">
+            <h4>Edit Password</h4>
+        </div>
+        <form asp-page="">
+            <div class="card-body">
+                @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+                {
+                    <div class="text-danger">@Model.ErrorMessage</div>
+                }
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label asp-for="@Model.input.currentPass" class="col-form-label">Enter Old Password</label>
+                        <input asp-for="@Model.input.currentPass" class="form-control" />
+                        <span asp-validation-for="@Model.input.currentPass" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label asp-for="@Model.input.newPass" class="col-form-label">Enter New Password</label>
+                        <input asp-for="@Model.input.newPass" class="form-control" />
+                        <span asp-validation-for="@Model.input.newPass" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label asp-for="@Model.input.verifyPass" class="col-form-label">Verify New Password</label>
+                        <input asp-for="@Model.input.verifyPass" class="form-control" />
+                        <span asp-validation-for="@Model.input.verifyPass" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="form-row">
+                    <input asp-page-handler="Edit" class="btn btn-primary" type="submit" value="Edit Password" />
+                </div>
+            </div>
+        </form>
+    </div>
+}
+else
+{
+    <h1 class="text-danger text-center">Error.</h1>
+    <h2 class="text-danger text-center">You do not have access to this page</h2>
+}
