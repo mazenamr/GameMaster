@@ -39,6 +39,8 @@ namespace GameMaster.Pages.Account
 
             [Required]
             [DataType(DataType.Password)]
+            [MinLength(8)]
+            [MaxLength(100)]
             public string Password { get; set; } = string.Empty;
         }
 
