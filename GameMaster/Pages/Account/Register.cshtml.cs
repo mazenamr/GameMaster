@@ -30,6 +30,8 @@ namespace GameMaster.Pages.Account
 
             [Required]
             [DataType(DataType.Password)]
+            [MinLength(8)]
+            [MaxLength(100)]
             public string Password { get; set; } = string.Empty;
 
             [Required]
@@ -42,6 +44,7 @@ namespace GameMaster.Pages.Account
 
             [Required]
             [DataType(DataType.Date)]
+            [Range(typeof(DateTime), "1/1/1975", "1/1/2021")]
             public DateTime Birthday { get; set; }
         }
 
