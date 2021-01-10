@@ -14,11 +14,11 @@ namespace GameMaster.Constants
 
         public static List<RankInfo> Ranks = new()
         {
-            new(Bronze, nameof(Bronze), 0000, 10),
-            new(Silver, nameof(Silver), 1000, 70),
-            new(Gold, nameof(Gold), 2000, 15),
-            new(Platinum, nameof(Platinum), 3000, 4),
-            new(Diamond, nameof(Diamond), 4000, 1)
+            new(Bronze, nameof(Bronze), 0000, 15),
+            new(Silver, nameof(Silver), 1000, 40),
+            new(Gold, nameof(Gold), 2000, 30),
+            new(Platinum, nameof(Platinum), 3000, 10),
+            new(Diamond, nameof(Diamond), 4000, 5)
         };
     }
 }
