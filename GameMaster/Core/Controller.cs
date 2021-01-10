@@ -28,6 +28,16 @@ namespace GameMaster
             return _dbContext.Database.ExecuteSqlInterpolated($"INSERT INTO [Role] (Name) VALUES({roleName})");
         }
 
+        public Rank? GetRankById(int rankId)
+        {
+            return _dbContext.Ranks.FromSqlInterpolated($"SELECT * FROM Rank WHERE Id = {rankId}").FirstOrDefault();
+        }
+
+        public Region? GetRegionById(int regionId)
+        {
+            return _dbContext.Regions.FromSqlInterpolated($"SELECT * FROM Region WHERE Id = {regionId}").FirstOrDefault();
+        }
+
         public Person AddPerson(string firstName, string lastName, DateTime birthday)
         {
             return _dbContext.People.FromSqlInterpolated($"Exec NewPerson {firstName}, {lastName}, {birthday}, {DateTime.UtcNow}").AsEnumerable().First();
@@ -48,9 +58,9 @@ namespace GameMaster
             return _dbContext.Weapons.FromSqlInterpolated($"SELECT * FROM [Weapon] WHERE IsActive = 1").ToList();
         }
 
-        public Weapon? GetWeapon(string name)
+        public Weapon? GetWeaponById(int id)
         {
-            return _dbContext.Weapons.FromSqlInterpolated($"SELECT * FROM [Weapon] WHERE Name = {name} AND IsActive = 1").FirstOrDefault();
+            return _dbContext.Weapons.FromSqlInterpolated($"SELECT * FROM [Weapon] WHERE Id = {id} AND IsActive = 1").FirstOrDefault();
         }
 
         public Weapon AddWeapon(string name, int power, int speed, int block)
@@ -67,15 +77,20 @@ namespace GameMaster
         {
             return _dbContext.WeaponDetails.FromSqlInterpolated($"Select D.Id, D.WeaponId, D.GamesPlayed, D.GamesWon, D.SeasonId from [WeaponDetails] D, [Weapon] W WHERE D.WeaponId = W.Id and W.IsActive = 1").ToList();
         }
+        
+        public Weapon? MostUsedWeaponByPlayerInSeason(int playerId, int seasonId)
+        {
+            return _dbContext.Weapons.FromSqlInterpolated($"SELECT * FROM Weapon WHERE Id IN (SELECT TOP (1) WeaponId FROM Gameplayer WHERE PlayerId = 1 AND GameId IN (SELECT Id FROM Game WHERE SeasonId = {seasonId}) GROUP BY WeaponId ORDER BY COUNT(WeaponId) DESC)").FirstOrDefault();
+        }
 
         public List<Character> GetAllCharacters()
         {
             return _dbContext.Characters.FromSqlInterpolated($"SELECT * FROM [Character] WHERE IsActive = 1").ToList();
         }
 
-        public Character? GetCharacter(string name)
+        public Character? GetCharacterById(int id)
         {
-            return _dbContext.Characters.FromSqlInterpolated($"SELECT * FROM [Character] WHERE Name = {name} AND IsActive = 1").FirstOrDefault();
+            return _dbContext.Characters.FromSqlInterpolated($"SELECT * FROM [Character] WHERE Id = {id} AND IsActive = 1").FirstOrDefault();
         }
 
         public Character AddCharacter(string name, int strength, int mobility, int health)
@@ -93,9 +108,19 @@ namespace GameMaster
             return _dbContext.CharacterDetails.FromSqlInterpolated($"Select D.Id, D.CharacterId, D.GamesPlayed, D.GamesWon, D.SeasonId from [CharacterDetails] D, [Weapon] C WHERE D.CharacterId = C.Id and C.IsActive = 1").ToList();
         }
 
+        public Character? MostUsedCharacterByPlayerInSeason(int playerId, int seasonId)
+        {
+            return _dbContext.Characters.FromSqlInterpolated($"SELECT * FROM Character WHERE Id IN (SELECT TOP (1) CharacterId FROM Gameplayer WHERE PlayerId = {playerId} AND GameId IN (SELECT Id FROM Game WHERE SeasonId = {seasonId}) GROUP BY CharacterId ORDER BY COUNT(CharacterId) DESC)").FirstOrDefault();
+        }
+
         public Player? GetPlayerByName(string name)
         {
             return _dbContext.Players.FromSqlInterpolated($"SELECT * FROM [Player] WHERE Name={name} and IsActive = 1").FirstOrDefault();
+        }
+
+        public Player? GetPlayerById(int id)
+        {
+            return _dbContext.Players.FromSqlInterpolated($"SELECT * FROM [Player] WHERE Id={id} and IsActive = 1").FirstOrDefault();
         }
 
         public List<Player> GetTop100Players()
@@ -131,6 +156,26 @@ namespace GameMaster
                 _dbContext.Database.RollbackTransaction();
                 throw;
             }
+        }
+
+        public int NumberOfPlayedGamesByPlayerInASeason(int playerId, int seasonId)
+        {
+            return _dbContext.Database.ExecuteSqlInterpolated($"SELECT COUNT(*) FROM GamePlayer Where PlayerId = {playerId} and GameId IN (SELECT Id FROM Game Where SeasonId = {seasonId})");
+        }
+
+        public int NumberOfGamesWonByPlayerInSeason(int playerId, int seasonId)
+        {
+            return _dbContext.Database.ExecuteSqlInterpolated($"SELECT COUNT(*) FROM GamePlayer WHERE PlayerId = {playerId} and IsWinner = 1 and GameId IN (SELECT Id FROM Game WHERE SeasonId = {seasonId})");
+        }
+
+        public List<GamePlayer> LastTenPlayedGamesByPlayer(int playerId)
+        {
+            return _dbContext.GamePlayers.FromSqlInterpolated($"SELECT TOP(10) Gp.* FROM GamePlayer Gp,Game G  WHERE  Gp.PlayerId = {playerId} AND Gp.GameId = G.Id ORDER BY G.StartTime DESC").ToList();
+        }
+
+        public List<GamePlayer> OpponentsOfPlayerInLastTenGames(int playerId)
+        {
+            return _dbContext.GamePlayers.FromSqlInterpolated($"SELECT TOP(10) Gp.* FROM GamePlayer Gp,Game G  WHERE  Gp.PlayerId != {playerId} AND Gp.GameId = G.Id AND G.Id IN (SELECT GameId FROM GamePlayer WHERE PlayerId = 1) ORDER BY G.StartTime DESC").ToList();
         }
     }
 }
