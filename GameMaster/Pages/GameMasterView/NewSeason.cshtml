@@ -1,0 +1,27 @@
+﻿@page
+@model GameMaster.Pages.GameMasterView.NewSeasonModel
+@{
+    ViewData["Title"] = "New Season";
+
+    var claims = HttpContext.User.Claims;
+
+    var userRole = claims.Where(x => x.Type == System.Security.Claims.ClaimTypes.Role).Select(x => x.Value).FirstOrDefault();
+    int? userRoleId = 0;
+    if (userRole is not null)
+    {
+        userRoleId = Int16.Parse(userRole);
+    }
+}
+
+@if (userRoleId == GameMaster.Constants.Role.GameMaster || userRoleId == GameMaster.Constants.Role.Admin)
+{
+<div class="container">
+    <form asp-page="">
+        <button type="submit" class="btn btn-primary">Simulate</button>
+    </form>
+</div>
+}
+else
+{
+    <div class="alert alert-danger" role="alert">Error - You do not have access to this page</div>
+}
