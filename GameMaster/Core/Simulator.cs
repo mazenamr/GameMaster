@@ -35,7 +35,7 @@ namespace GameMaster.Core
         {
             _controller = controller;
             _simulatorSettings = simulatorSettings;
-            NewSeason = _controller.NewSeason(Guid.NewGuid().ToString(), DateTime.UtcNow, null);
+            NewSeason = _controller.NewSeason(Guid.NewGuid().ToString(), DateTime.UtcNow, DateTime.UtcNow.AddDays(7));
             PlayerIds = _controller.GetPlayerIds();
             Regions = _controller.GetRegions();
             Ranks = _controller.GetRanks();
@@ -88,20 +88,21 @@ namespace GameMaster.Core
             List<Task> runners = new();
             foreach (var q in Players.Values)
             {
-                runners.Add(Task.Factory.StartNew(() => SimulateGames(q)));
+                //runners.Add(Task.Factory.StartNew(() => SimulateGames(q)));
+                SimulateGames(q);
             }
-            await Task.WhenAll(runners);
+            //await Task.WhenAll(runners);
             GamePlayers.ForEach(g =>
             {
                 _controller.AddGamePlayer(g.GameId, g.PlayerId, g.CharacterId, g.WeaponId, g.IsWinner);
             });
             foreach (int c in CharacterDetails.Keys)
             {
-                _controller.AddCharacterDetails(c, CharacterDetails[c].GamesPlayed.GetValueOrDefault(), CharacterDetails[c].GamesWon.GetValueOrDefault());
+                _controller.AddCharacterDetails(NewSeason.Id, c, CharacterDetails[c].GamesPlayed.GetValueOrDefault(), CharacterDetails[c].GamesWon.GetValueOrDefault());
             }
             foreach (int w in WeaponDetails.Keys)
             {
-                _controller.AddWeaponDetails(w, WeaponDetails[w].GamesPlayed.GetValueOrDefault(), WeaponDetails[w].GamesWon.GetValueOrDefault());
+                _controller.AddWeaponDetails(NewSeason.Id, w, WeaponDetails[w].GamesPlayed.GetValueOrDefault(), WeaponDetails[w].GamesWon.GetValueOrDefault());
             }
             foreach (Queue<Player> q in Players.Values)
             {
@@ -114,7 +115,7 @@ namespace GameMaster.Core
 
         private void SimulateGames(Queue<Player> players)
         {
-            int games = players.Count / PlayerIds.Count;
+            int games = players.Count * _simulatorSettings.GamesCount / PlayerIds.Count;
             Random random = new();
             for (int gameNumber = 0; gameNumber < games; gameNumber++)
             {
@@ -141,8 +142,8 @@ namespace GameMaster.Core
                     Weapon weapon;
                     if (!PlayerItems.ContainsKey(player.Id))
                     {
-                        character = Characters[random.Next(Characters.Count)];
-                        weapon = Weapons[random.Next(Weapons.Count)];
+                        character = Characters[Characters.Keys.ToList()[random.Next(Characters.Count)]];
+                        weapon = Weapons[Weapons.Keys.ToList()[random.Next(Weapons.Count)]];
                         PlayerItems.Add(player.Id, (character, weapon));
                     }
                     else
@@ -156,9 +157,10 @@ namespace GameMaster.Core
                     playerScore *= player.Skill;
                     playerScores.Add(playerScore);
                 }
-                for (int playerId = 0; playerId < 2; playerId++)
+                for (int playerNumber = 0; playerNumber < 2; playerNumber++)
                 {
-                    Player player = gamePlayers[playerId];
+                    Player player = gamePlayers[playerNumber];
+                    int playerId = player.Id;
                     Character character = PlayerItems[playerId].Item1;
                     Weapon weapon = PlayerItems[playerId].Item2;
                     CharacterDetails[character.Id].GamesPlayed += 1;
@@ -170,14 +172,14 @@ namespace GameMaster.Core
                         CharacterId = character.Id,
                         WeaponId = weapon.Id
                     };
-                    if (playerScores[playerId] > playerScores[1-playerId])
+                    if (playerScores[playerNumber] > playerScores[1-playerNumber])
                     {
                         gamePlayer.IsWinner = true;
                         player.Score += 10;
                         CharacterDetails[character.Id].GamesWon += 1;
                         WeaponDetails[weapon.Id].GamesWon += 1;
                     }
-                    else if (playerScores[playerId] < playerScores[1-playerId])
+                    else if (playerScores[playerNumber] < playerScores[1-playerNumber])
                     {
                         gamePlayer.IsWinner = false;
                         player.Score -= 10;
