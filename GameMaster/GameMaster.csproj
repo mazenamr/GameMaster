@@ -22,7 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\GameMasterView\" />
+    <Folder Include="Pages\BusinessView\" />
+    <Folder Include="Pages\AdminView\" />
   </ItemGroup>
 
 </Project>
