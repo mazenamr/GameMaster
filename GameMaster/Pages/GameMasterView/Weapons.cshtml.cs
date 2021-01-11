@@ -71,12 +71,13 @@ namespace GameMaster.Pages.GameMasterView
         public IActionResult OnPostEdit(int id)
         {
             Weapon oldWeapon = _controller.GetWeaponById(id);
-            _controller.EditWeapon(id, Input.Name, Input.Block, Input.Magic, Input.Power, Input.Speed);
-
             string username = _httpContextAccessor.HttpContext.User.Identity.Name;
             string message = $"Weapon {oldWeapon} has been edited";
 
             _controller.AddMessage(message, username);
+
+            _controller.EditWeapon(id, Input.Name, Input.Block, Input.Magic, Input.Power, Input.Speed);
+
 
             return RedirectToPage("Weapons");
         }
@@ -84,14 +85,14 @@ namespace GameMaster.Pages.GameMasterView
         public IActionResult OnPostDelete(int id)
         {
             string weaponName = _controller.GetWeaponById(id).Name;
-            _controller.DeleteWeapon(id);
-
             string username = _httpContextAccessor.HttpContext.User.Identity.Name;
             string message = $"Weapon {weaponName} has been removed from the game";
 
             _controller.AddMessage(message, username);
 
             SuccessMessage = $"Weapon {weaponName} has been deleted successfully";
+            _controller.DeleteWeapon(id);
+
             return Page();
         }
     }

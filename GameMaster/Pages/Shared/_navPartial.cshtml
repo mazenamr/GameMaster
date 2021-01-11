@@ -30,10 +30,10 @@
                 @if (userRoleId == GameMaster.Constants.Role.Business || userRoleId == GameMaster.Constants.Role.Admin)
                 {
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-page="/BusinessView/Engagement">Engagements</a>
+                        <a class="nav-link text-dark" asp-area="" asp-page="/BusinessView/Engagement">Activity</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-page="/BusinessView/PatchNotes">Patch Notes</a>
+                        <a class="nav-link text-dark" asp-area="" asp-page="/BusinessView/PatchNotes">Notes</a>
                     </li>
                 }
                 @if (userRoleId == GameMaster.Constants.Role.GameMaster || userRoleId == GameMaster.Constants.Role.Admin)

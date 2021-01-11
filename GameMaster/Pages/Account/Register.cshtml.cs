@@ -24,23 +24,16 @@ namespace GameMaster.Pages.Account
             public string Email { get; set; } = string.Empty;
 
             [Required]
-            [DataType(DataType.Text)]
-            [MinLength(8)]
-            [MaxLength(50)]
             public string Username { get; set; } = string.Empty;
 
             [Required]
             [DataType(DataType.Password)]
-            [MinLength(8)]
-            [MaxLength(100)]
             public string Password { get; set; } = string.Empty;
 
             [Required]
-            [DataType(DataType.Text)]
             public string FirstName { get; set; } = string.Empty;
 
             [Required]
-            [DataType(DataType.Text)]
             public string LastName { get; set; } = string.Empty;
 
             [Required]
@@ -60,9 +53,9 @@ namespace GameMaster.Pages.Account
                 return Page();
             }
 
-            if (_controller.GetUserByEmail(Input.Email) != null)
+            if (_controller.GetUserByEmail(Input.Email) != null || _controller.GetUserByUsername(Input.Username) != null)
             {
-                ModelState.AddModelError(string.Empty, "Email already in use");
+                ModelState.AddModelError(string.Empty, "Email or username already in use");
                 return Page();
             }
 

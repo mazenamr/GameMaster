@@ -24,8 +24,6 @@ namespace GameMaster.Pages.GameMasterView
         public class InputModel
         {
             [Required]
-            [MinLength(8)]
-            [MaxLength(50)]
             public string Name { get; set; } = string.Empty;
 
             [Required]
@@ -62,7 +60,6 @@ namespace GameMaster.Pages.GameMasterView
 
             string username = _httpContextAccessor.HttpContext.User.Identity.Name;
             string message = $"Character {Input.Name} has been added to the game";
-
             _controller.AddMessage(message, username);
 
             return RedirectToPage("Characters");
@@ -71,12 +68,12 @@ namespace GameMaster.Pages.GameMasterView
         public IActionResult OnPostEdit(int id)
         {
             string oldName = _controller.GetCharacterById(id).Name;
-            _controller.EditCharacter(id, Input.Name, Input.Health, Input.Mana, Input.Mobility, Input.Strength);
-
             string username = _httpContextAccessor.HttpContext.User.Identity.Name;
             string message = $"Changes have been made to character {Input.Name}";
 
             _controller.AddMessage(message, username);
+
+            _controller.EditCharacter(id, Input.Name, Input.Health, Input.Mana, Input.Mobility, Input.Strength);
 
             return RedirectToPage("Characters");
         }
@@ -84,12 +81,11 @@ namespace GameMaster.Pages.GameMasterView
         public IActionResult OnPostDelete(int id)
         {
             string oldName = _controller.GetCharacterById(id).Name;
-            _controller.DeleteCharacter(id);
-
             string username = _httpContextAccessor.HttpContext.User.Identity.Name;
             string message = $"Character {Input.Name} has been removed from the game";
-
             _controller.AddMessage(message, username);
+
+            _controller.DeleteCharacter(id);
 
             SuccessMessage = $"Character {Input.Name} has been deleted successfully";
             return Page();

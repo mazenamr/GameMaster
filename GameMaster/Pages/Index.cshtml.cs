@@ -32,8 +32,16 @@ namespace GameMaster.Pages
             Characters = _controller.GetAllCharacters();
             Weapons = _controller.GetAllWeapons();
             Season season = _controller.GetCurrentSeason();
-            CharacterDetails = _controller.GetAllCharacterDetailsBySeasonId(season.Id);
-            WeaponDetails = _controller.GetAllWeaponDetailsBySeasonId(season.Id);
+            if (season is not null)
+            {
+                CharacterDetails = _controller.GetAllCharacterDetailsBySeasonId(season.Id);
+                WeaponDetails = _controller.GetAllWeaponDetailsBySeasonId(season.Id);
+            }
+            else
+            {
+                CharacterDetails = _controller.GetAllCharacterDetails();
+                WeaponDetails = _controller.GetAllWeaponDetails();
+            }
         }
     }
 }
