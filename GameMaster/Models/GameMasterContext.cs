@@ -286,21 +286,23 @@ namespace GameMaster.Models
 
             modelBuilder.Entity<Synergy>(entity =>
             {
-                entity.HasIndex(e => e.CharacterId, "IX_Synergies_CharacterId");
+                entity.ToTable("Synergy");
 
-                entity.HasIndex(e => e.WeaponId, "IX_Synergies_WeaponId");
+                entity.HasIndex(e => e.CharacterId, "IX_Synergy_CharacterId");
+
+                entity.HasIndex(e => e.WeaponId, "IX_Synergy_WeaponId");
 
                 entity.HasOne(d => d.Character)
                     .WithMany(p => p.Synergies)
                     .HasForeignKey(d => d.CharacterId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Synergies_CharacterId_Character_id");
+                    .HasConstraintName("FK_Synergy_CharacterId_Character_id");
 
                 entity.HasOne(d => d.Weapon)
                     .WithMany(p => p.Synergies)
                     .HasForeignKey(d => d.WeaponId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Synergies_WeaponId_Weapon_id");
+                    .HasConstraintName("FK_Synergy_WeaponId_Weapon_id");
             });
 
             modelBuilder.Entity<UsageAgainstCharacterCharacter>(entity =>

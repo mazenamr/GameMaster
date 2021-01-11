@@ -21,6 +21,7 @@ namespace GameMaster.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public int Health { get; set; }
+        public int Mana { get; set; }
         public int Mobility { get; set; }
         public int Strength { get; set; }
         public bool? IsActive { get; set; }

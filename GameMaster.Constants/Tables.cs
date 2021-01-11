@@ -20,7 +20,7 @@
             public const string CharacterDetails = "CharacterDetails";
             public const string Weapon = "Weapon";
             public const string WeaponDetails = "WeaponDetails";
-            public const string Synergies = "Synergies";
+            public const string Synergy = "Synergy";
             public const string Game = "Game";
             public const string GamePlayer = "GamePlayer";
         #endregion Game
