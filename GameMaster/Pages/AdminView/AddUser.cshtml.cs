@@ -55,7 +55,6 @@ namespace GameMaster.Pages.AdminView
 
             [Required]
             [DataType(DataType.Date)]
-            [Range(typeof(DateTime), "1/1/1975", "1/1/2021")]
             public DateTime Birthday { get; set; }
 
             [Required]

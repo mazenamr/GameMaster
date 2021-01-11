@@ -40,9 +40,9 @@ namespace GameMaster.Core
             Regions = _controller.GetRegions();
             Ranks = _controller.GetRanks();
             Characters = _controller.GetAllCharacters().ToDictionary(x => x.Id, x => x);
-            CharacterDetails = _controller.GetAllCharacters().ToDictionary(x => x.Id, x => new CharacterDetail());
+            CharacterDetails = _controller.GetAllCharacters().ToDictionary(x => x.Id, x => new CharacterDetail{ GamesPlayed = 0, GamesWon = 0 });
             Weapons = _controller.GetAllWeapons().ToDictionary(x => x.Id, x => x);
-            WeaponDetails = _controller.GetAllWeapons().ToDictionary(x => x.Id, x => new WeaponDetail());
+            WeaponDetails = _controller.GetAllWeapons().ToDictionary(x => x.Id, x => new WeaponDetail{ GamesPlayed = 0, GamesWon = 0 });
             Synergies = _controller.GetSynergies().ToDictionary(x => (x.CharacterId, x.WeaponId), x => x);
             _controller.GetAllCharacters().ForEach(c =>
             {

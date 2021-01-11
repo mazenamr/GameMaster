@@ -20,7 +20,7 @@ namespace GameMaster.Pages.GameMasterView
 
         public async Task<IActionResult> OnPostAsync()
         {
-            Simulator.SimulatorSettings simulatorSettings = new(100000, 0, 0);
+            Simulator.SimulatorSettings simulatorSettings = new(20000, 0, 0);
             Simulator simulator = new(_controller, simulatorSettings);
             await simulator.SimulateSeason();
             return Page();
