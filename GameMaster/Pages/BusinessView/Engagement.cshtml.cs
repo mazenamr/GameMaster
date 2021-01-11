@@ -11,9 +11,13 @@ namespace GameMaster.Pages.BusinessView
 
         public List<Region> regions { get; set; }
 
-        public List<int> regionPlayers { get; set; }
+        public List<int> regionPlayers { get; set; } = new();
 
-        public List<int> regionGames { get; set; }
+        public List<int> regionGames { get; set; } = new();
+
+        public List<Character> regionCharacters { get; set; }
+
+        public List<Weapon> regionWeapons { get; set; }
 
         public EngagementModel(Controller controller)
         {
@@ -25,8 +29,10 @@ namespace GameMaster.Pages.BusinessView
             regions = _controller.GetAllRegions();
             foreach(var region in regions)
             {
-                regionPlayers.Append(_controller.GetPlayerCountInRegionByRegionId(region.Id));
-                regionGames.Append(_controller.GetGamesCountInRegionByRegionIdAndSeasonId(region.Id, 0));
+                regionPlayers.Add(_controller.GetPlayerCountInRegionByRegionId(region.Id));
+                regionGames.Add(_controller.GetGamesCountInRegionByRegionIdAndSeasonId(region.Id, 0));
+                regionCharacters.Add(_controller.GetMostPopularCharacterByRegionIdAndSeasonId(region.Id, 0));
+                regionWeapons.Add(_controller.GetMostPopularWeaponByRegionIdAndSeasonId(region.Id, 0));
             }
         }
     }

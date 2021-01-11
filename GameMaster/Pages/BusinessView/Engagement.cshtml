@@ -2,4 +2,56 @@
 @model GameMaster.Pages.BusinessView.EngagementModel
 @{
     ViewData["Title"] = "Engagement";
+    int counter = 0;
+
+    var claims = HttpContext.User.Claims;
+
+    var userRole = claims.Where(x => x.Type == System.Security.Claims.ClaimTypes.Role).Select(x => x.Value).FirstOrDefault();
+    int? userRoleId = 0;
+    if (userRole is not null)
+    {
+        userRoleId = Int16.Parse(userRole);
+    }
+}
+
+@if (userRoleId == GameMaster.Constants.Role.Business || userRoleId == GameMaster.Constants.Role.Admin)
+{
+    <h2 class="text-dark">Player Engagement Numbers</h2>
+    <table class="table table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th class="col-auto" scope="col">#</th>
+                <th class="col-auto" scope="col">Region</th>
+                <th class="col-auto" scope="col">Player Count</th>
+                <th class="col-auto" scope="col">Game Count</th>
+                <th class="col-auto" scope="col">Most Popular Character</th>
+                <th class="col-auto" scope="col">Most Popular Weapon</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.regions is not null)
+            {
+                int limit = Model.regions.Count;
+                @for (int i = 0; i < limit; i++)
+                {
+                    counter++;
+                    <tr>
+                        <th scope="row">@counter</th>
+                        <td>@Model.regions[i].Name</td>
+                        <td>@Model.regionPlayers[i]</td>
+                        <td>@Model.regionGames[i]</td>
+                        @if (Model.regionCharacters is not null)
+                        {
+                            <td>@Model.regionCharacters[i].Name</td>
+                            <td>@Model.regionWeapons[i].Name</td>
+                        }
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-danger" role="alert">Error - You do not have access to this page</div>
 }
