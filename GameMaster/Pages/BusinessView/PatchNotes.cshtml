@@ -1,0 +1,43 @@
+﻿@page
+@model GameMaster.Pages.BusinessView.PatchNotesModel
+@{
+    ViewData["Title"] = "Patch Notes";
+
+    ViewData["Title"] = "Weapons";
+
+    var claims = HttpContext.User.Claims;
+
+    var userRole = claims.Where(x => x.Type == System.Security.Claims.ClaimTypes.Role).Select(x => x.Value).FirstOrDefault();
+    int? userRoleId = 0;
+    if (userRole is not null)
+    {
+        userRoleId = Int16.Parse(userRole);
+    }
+}
+
+@if (userRoleId == GameMaster.Constants.Role.Business || userRoleId == GameMaster.Constants.Role.Admin)
+{
+    <div class="card">
+        <div class="card-header bg-dark text-white">
+            <h4>Recent Changes</h4>
+        </div>
+        <div class="card-body">
+            @if (Model.Changes is not null)
+            {
+                @for (int i = 0; i < Model.count; i++)
+                {
+                    <div class="form-row">
+                        <div class="form-group col">
+                            @Model.Changes[i].Message
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-danger" role="alert">Error - You do not have access to this page</div>
+}
+

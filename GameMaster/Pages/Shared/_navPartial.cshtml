@@ -22,10 +22,7 @@
         <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row">
             <ul class="navbar-nav flex-grow-1">
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-page="/PlayerView/Leaderboard">Leaderboard</a>
+                    <a class="nav-link text-dark" asp-area="" asp-page="/PlayerView/Leaderboard">Ranking</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-dark" asp-area="" asp-page="/PlayerView/ViewPlayer">View Player</a>
@@ -34,6 +31,9 @@
                 {
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-page="/BusinessView/Engagement">Engagements</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-page="/BusinessView/PatchNotes">Patch Notes</a>
                     </li>
                 }
                 @if (userRoleId == GameMaster.Constants.Role.GameMaster || userRoleId == GameMaster.Constants.Role.Admin)
@@ -47,6 +47,9 @@
                 }
                 @if (userRoleId == GameMaster.Constants.Role.Admin)
                 {
+                    <li>
+                        <a class="nav-link text-dark" asp-area="" asp-page="/AdminView/AddUser">Add User</a>
+                    </li>
                     <li>
                         <a class="nav-link text-dark" asp-area="" asp-page="/AdminView/Regions">Edit Regions</a>
                     </li>
