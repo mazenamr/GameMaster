@@ -31,8 +31,9 @@ namespace GameMaster.Pages
         {
             Characters = _controller.GetAllCharacters();
             Weapons = _controller.GetAllWeapons();
-            CharacterDetails = _controller.GetAllCharacterDetails();
-            WeaponDetails = _controller.GetAllWeaponDetails();
+            Season season = _controller.GetCurrentSeason();
+            CharacterDetails = _controller.GetAllCharacterDetailsBySeasonId(season.Id);
+            WeaponDetails = _controller.GetAllWeaponDetailsBySeasonId(season.Id);
         }
     }
 }

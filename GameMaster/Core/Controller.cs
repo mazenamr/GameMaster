@@ -117,6 +117,11 @@ namespace GameMaster
         {
             return _dbContext.WeaponDetails.FromSqlInterpolated($"Select D.Id, D.WeaponId, D.GamesPlayed, D.GamesWon, D.SeasonId from [WeaponDetails] D, [Weapon] W WHERE D.WeaponId = W.Id and W.IsActive = 1").ToList();
         }
+
+        public List<WeaponDetail> GetAllWeaponDetailsBySeasonId(int seasonId)
+        {
+            return _dbContext.WeaponDetails.FromSqlInterpolated($"Select D.Id, D.WeaponId, D.GamesPlayed, D.GamesWon, D.SeasonId from [WeaponDetails] D, [Weapon] W WHERE D.WeaponId = W.Id and W.IsActive = 1 and D.SeasonId = {seasonId}").ToList();
+        }
         
         public Weapon? MostUsedWeaponByPlayerInSeason(int playerId, int seasonId)
         {
@@ -156,6 +161,11 @@ namespace GameMaster
         public List<CharacterDetail> GetAllCharacterDetails()
         {
             return _dbContext.CharacterDetails.FromSqlInterpolated($"Select D.Id, D.CharacterId, D.GamesPlayed, D.GamesWon, D.SeasonId from [CharacterDetails] D, [Weapon] C WHERE D.CharacterId = C.Id and C.IsActive = 1").ToList();
+        }
+
+        public List<CharacterDetail> GetAllCharacterDetailsBySeasonId(int seasonId)
+        {
+            return _dbContext.CharacterDetails.FromSqlInterpolated($"Select D.Id, D.CharacterId, D.GamesPlayed, D.GamesWon, D.SeasonId from [CharacterDetails] D, [Weapon] C WHERE D.CharacterId = C.Id and C.IsActive = 1 and D.SeasonId = {seasonId}").ToList();
         }
 
         public Character? MostUsedCharacterByPlayerInSeason(int playerId, int seasonId)
