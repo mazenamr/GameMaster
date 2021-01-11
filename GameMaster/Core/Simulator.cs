@@ -86,16 +86,22 @@ namespace GameMaster.Core
         public async Task SimulateSeason()
         {
             List<Task> runners = new();
-            foreach (var q in Players.Values)
+            foreach (var q in Players.Keys)
             {
-                //runners.Add(Task.Factory.StartNew(() => SimulateGames(q)));
-                SimulateGames(q);
+                int gamesCount = Players[q].Count * _simulatorSettings.GamesCount / PlayerIds.Count;
+                Queue<Game> games = new();
+                while (games.Count < gamesCount)
+                {
+                    games.Enqueue(_controller.NewGame(NewSeason.Id, (q.Item1), DateTime.Now));
+                }
+                runners.Add(Task.Factory.StartNew(() => SimulateGames(Players[q], games)));
+                //SimulateGames(q);
             }
-            //await Task.WhenAll(runners);
-            GamePlayers.ForEach(g =>
-            {
-                _controller.AddGamePlayer(g.GameId, g.PlayerId, g.CharacterId, g.WeaponId, g.IsWinner);
-            });
+            await Task.WhenAll(runners);
+            //GamePlayers.ForEach(g =>
+            //{
+            //    _controller.AddGamePlayer(g.GameId, g.PlayerId, g.CharacterId, g.WeaponId, g.IsWinner);
+            //});
             foreach (int c in CharacterDetails.Keys)
             {
                 _controller.AddCharacterDetails(NewSeason.Id, c, CharacterDetails[c].GamesPlayed.GetValueOrDefault(), CharacterDetails[c].GamesWon.GetValueOrDefault());
@@ -111,14 +117,15 @@ namespace GameMaster.Core
                     _controller.UpdatePlayer(p.Id, p.Score.GetValueOrDefault());
                 }
             }
+            _controller.SaveGamePlayers(GamePlayers);
         }
 
-        private void SimulateGames(Queue<Player> players)
+        private void SimulateGames(Queue<Player> players, Queue<Game> games)
         {
-            int games = players.Count * _simulatorSettings.GamesCount / PlayerIds.Count;
             Random random = new();
-            for (int gameNumber = 0; gameNumber < games; gameNumber++)
+            while (games.Count > 0)
             {
+                Game game = games.Dequeue();
                 List<Player> gamePlayers = new(2);
                 int chance = 0;
                 while (players.Count > 0 && gamePlayers.Count < 2)
@@ -134,7 +141,6 @@ namespace GameMaster.Core
                         players.Enqueue(player);
                     }
                 }
-                Game game = _controller.NewGame(NewSeason.Id, gamePlayers[0].RegionId, DateTime.UtcNow);
                 List<int> playerScores = new(2);
                 foreach (Player player in gamePlayers)
                 {
@@ -183,6 +189,7 @@ namespace GameMaster.Core
                     {
                         gamePlayer.IsWinner = false;
                         player.Score -= 10;
+                        player.Score = player.Score < 0 ? 0 : player.Score;
                     }
                     else
                     {
@@ -191,8 +198,9 @@ namespace GameMaster.Core
                         WeaponDetails[weapon.Id].GamesWon += 1;
                     }
                     GamePlayers.Add(gamePlayer);
+                    Rank newRank = Ranks.Where(r => r.Score <= player.Score).OrderByDescending(r => r.Score).First();
+                    Players[(player.RegionId, newRank.Id)].Enqueue(player);
                 }
-                gamePlayers.ForEach(p => players.Enqueue(p));
             }
         }
     }

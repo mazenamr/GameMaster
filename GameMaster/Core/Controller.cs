@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace GameMaster
 {
@@ -197,6 +198,12 @@ namespace GameMaster
             return _dbContext.Database.ExecuteSqlInterpolated($"INSERT INTO [CharacterDetails] (SeasonId, CharacterId, GamesPlayed, GamesWon) VALUES({seasonId}, {characterId}, {gamesPlayed}, {gamesWon})");
         }
 
+        public async Task<int> SaveGamePlayers(List<GamePlayer> gamePlayers)
+        {
+            _dbContext.AddRangeAsync(gamePlayers);
+            return await _dbContext.SaveChangesAsync();
+        }
+
         public int AddWeaponDetails(int seasonId, int weaponId, int gamesPlayed, int gamesWon)
         {
             return _dbContext.Database.ExecuteSqlInterpolated($"INSERT INTO [WeaponDetails] (SeasonId, WeaponId, GamesPlayed, GamesWon) VALUES({seasonId}, {weaponId}, {gamesPlayed}, {gamesWon})");
@@ -211,6 +218,11 @@ namespace GameMaster
         public int UpdatePlayer(int playerId, int score)
         {
             return _dbContext.Database.ExecuteSqlInterpolated($"UPDATE [Player] SET Score = {score} WHERE Id = {playerId}");
+        }
+
+        public Rank GetRank(int score)
+        {
+            return _dbContext.Ranks.FromSqlInterpolated($"SELECT TOP(1) * FROM [Rank] WHERE Score <= {score} ORDER BY Score DESC").AsEnumerable().First();
         }
 
         public Player? GetPlayerByName(string name)
@@ -245,7 +257,9 @@ namespace GameMaster
 
         public int AddPlayer(string firstName, string lastName, string birthday, DateTime dateCreated, string name, int activity, int skill, int temper, int score, int regionId)
         {
-            return _dbContext.Database.ExecuteSqlInterpolated($"EXEC NewPlayer '{firstName}', '{lastName}', '{birthday}', '{dateCreated}', '{name}', {activity}, {skill}, {temper}, {score}, {regionId}");
+            string query = $"EXEC NewPlayer '{firstName}', '{lastName}', '{birthday}', '{dateCreated}', '{name}', {activity}, {skill}, {temper}, {score}, {regionId}";
+            //return _dbContext.Database.ExecuteSqlInterpolated($"EXEC NewPlayer '{firstName}', '{lastName}', '{birthday}', '{dateCreated}', '{name}', {activity}, {skill}, {temper}, {score}, {regionId}");
+            return _dbContext.Database.ExecuteSqlRaw(query);
         }
 
         public List<Person> GetPerson()
