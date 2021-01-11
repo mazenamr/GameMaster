@@ -10,7 +10,6 @@ namespace GameMaster.Models
         public Player()
         {
             GamePlayers = new HashSet<GamePlayer>();
-            Games = new HashSet<Game>();
         }
 
         public int Id { get; set; }
@@ -28,6 +27,5 @@ namespace GameMaster.Models
         public virtual Rank Rank { get; set; }
         public virtual Region Region { get; set; }
         public virtual ICollection<GamePlayer> GamePlayers { get; set; }
-        public virtual ICollection<Game> Games { get; set; }
     }
 }

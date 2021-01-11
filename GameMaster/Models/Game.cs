@@ -15,12 +15,10 @@ namespace GameMaster.Models
         public int Id { get; set; }
         public int SeasonId { get; set; }
         public int RegionId { get; set; }
-        public int WinnerId { get; set; }
         public DateTime StartTime { get; set; }
 
         public virtual Region Region { get; set; }
         public virtual Season Season { get; set; }
-        public virtual Player Winner { get; set; }
         public virtual ICollection<GamePlayer> GamePlayers { get; set; }
     }
 }

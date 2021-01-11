@@ -114,6 +114,19 @@ VALUES (@Name, @StartDate, @EndDate, 1);
 SELECT * FROM @SeasonOutput;
 GO
 
+CREATE PROCEDURE NewGame @SeasonId int, @RegionId int, @StartTime DateTime
+AS
+DECLARE @GameOutput table(Id int,
+                         SeasonId int,
+                         RegionId int,
+                         StartTime DateTime);
+INSERT [Game] (SeasonId, RegionId, StartTime)
+    OUTPUT INSERTED.Id, INSERTED.SeasonId, INSERTED.RegionId, INSERTED.StartTime
+        INTO @GameOutput
+VALUES (@SeasonId, @RegionId, @StartTime);
+SELECT * FROM @GameOutput;
+GO
+
 CREATE PROCEDURE UpdatePlayerRank
 AS
 UPDATE P
