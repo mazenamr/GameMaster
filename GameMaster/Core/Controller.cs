@@ -88,9 +88,9 @@ namespace GameMaster
             return _dbContext.Weapons.FromSqlInterpolated($"SELECT * FROM [Weapon] WHERE Id = {id} AND IsActive = 1").FirstOrDefault();
         }
 
-        public Weapon AddWeapon(string name, int power, int speed, int block)
+        public Weapon AddWeapon(string name, int block, int magic, int power, int speed)
         {
-            return _dbContext.Weapons.FromSqlInterpolated($"Exec NewWeapon {name}, {power}, {speed}, {block}").AsEnumerable().First();
+            return _dbContext.Weapons.FromSqlInterpolated($"Exec NewWeapon {name}, {block}, {magic}, {power}, {speed}").AsEnumerable().First();
         }
 
         public WeaponDetail? GetWeaponDetails(int id)
@@ -118,9 +118,9 @@ namespace GameMaster
             return _dbContext.Characters.FromSqlInterpolated($"SELECT * FROM [Character] WHERE Id = {id} AND IsActive = 1").FirstOrDefault();
         }
 
-        public Character AddCharacter(string name, int strength, int mobility, int health)
+        public Character AddCharacter(string name, int health, int mana, int mobility, int strength)
         {
-            return _dbContext.Characters.FromSqlInterpolated($"Exec NewCharacter {name}, {strength}, {mobility}, {health}").AsEnumerable().First();
+            return _dbContext.Characters.FromSqlInterpolated($"Exec NewCharacter {name}, {health}, {mana}, {mobility}, {strength}").AsEnumerable().First();
         }
 
         public CharacterDetail? GetCharacterDetails(int id)
@@ -211,6 +211,26 @@ namespace GameMaster
         public int GetGamesCountInRegionByRegionIdAndSeasonId(int regionId, int seasonId)
         {
             return _dbContext.Database.ExecuteSqlInterpolated($"SELECT COUNT(*) FROM [Game] WHERE RegionId = {regionId} and SeasonId = {seasonId}");
+        }
+
+        public Weapon? GetMostPopularWeaponByRegionIdAndSeasonId(int regionId, int seasonId)
+        {
+            return _dbContext.Weapons.FromSqlInterpolated($"SELECT * FROM Weapon WHERE ID IN(SELECT TOP(1) GP.WeaponId FROM Region R,Player P,GamePlayer GP,Game G WHERE R.Id = P.RegionId AND R.Id = {regionId} AND P.Id = GP.PlayerId AND G.Id = GP.GameId AND G.SeasonId = {seasonId} GROUP BY GP.WeaponId ORDER BY COUNT(GP.WeaponId) DESC);").FirstOrDefault();
+        }
+
+        public Character? GetMostPopularCharacterByRegionIdAndSeasonId(int regionId, int seasonId)
+        {
+            return _dbContext.Characters.FromSqlInterpolated($"SELECT * FROM Character WHERE ID IN(SELECT TOP(1) GP.CharacterId FROM Region R,Player P,GamePlayer GP,Game G WHERE R.Id = P.RegionId AND R.Id = {regionId} AND P.Id = GP.PlayerId AND G.Id = GP.GameId AND G.SeasonId = {seasonId} GROUP BY GP.CharacterId ORDER BY COUNT(GP.CharacterId) DESC)").FirstOrDefault();
+        }
+
+        public int AddMessage(string message, string username)
+        {
+            return _dbContext.Database.ExecuteSqlInterpolated($"insert into [History] ([Message], [UserId], [TimeCreated]) values({message}, {username}, {DateTime.UtcNow})");
+        }
+
+        public List<History> GetLast10MessagesByTime()
+        {
+            return _dbContext.Histories.FromSqlInterpolated($"SELECT TOP(10) * FROM [History] ORDER BY TimeCreated DESC").ToList();
         }
     }
 }
