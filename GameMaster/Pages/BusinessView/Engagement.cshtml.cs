@@ -26,7 +26,7 @@ namespace GameMaster.Pages.BusinessView
 
         public void OnGet()
         {
-            regions = _controller.GetAllRegions();
+            regions = _controller.GetRegions();
             foreach(var region in regions)
             {
                 regionPlayers.Add(_controller.GetPlayerCountInRegionByRegionId(region.Id));
