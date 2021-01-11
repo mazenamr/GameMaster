@@ -33,19 +33,22 @@
                 @if (userRoleId == GameMaster.Constants.Role.Business || userRoleId == GameMaster.Constants.Role.Admin)
                 {
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-page="/BusinessView/Engagements">Engagements</a>
+                        <a class="nav-link text-dark" asp-area="" asp-page="/BusinessView/Engagement">Engagements</a>
                     </li>
                 }
                 @if (userRoleId == GameMaster.Constants.Role.GameMaster || userRoleId == GameMaster.Constants.Role.Admin)
                 {
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-page="/GameMasterView/"></a>
+                        <a class="nav-link text-dark" asp-area="" asp-page="/GameMasterView/Characters">Edit Characters</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-page="/GameMasterView/Weapons">Edit Weapons</a>
                     </li>
                 }
                 @if (userRoleId == GameMaster.Constants.Role.Admin)
                 {
                     <li>
-                        <a class="nav-link text-dark" asp-area="" asp-page="/AdminView/Region">Edit Regions</a>
+                        <a class="nav-link text-dark" asp-area="" asp-page="/AdminView/Regions">Edit Regions</a>
                     </li>
                 }
             </ul>
