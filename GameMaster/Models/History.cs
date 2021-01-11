@@ -9,9 +9,7 @@ namespace GameMaster.Models
     {
         public int Id { get; set; }
         public string Message { get; set; }
-        public int UserId { get; set; }
+        public string Username { get; set; }
         public DateTime TimeCreated { get; set; }
-
-        public virtual User User { get; set; }
     }
 }

@@ -150,19 +150,15 @@ namespace GameMaster.Models
             {
                 entity.ToTable("History");
 
-                entity.HasIndex(e => e.UserId, "IX_History_UserId");
-
                 entity.Property(e => e.Message)
                     .IsRequired()
                     .HasMaxLength(500);
 
                 entity.Property(e => e.TimeCreated).HasColumnType("datetime");
 
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Histories)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_History_UserId_User_id");
+                entity.Property(e => e.Username)
+                    .IsRequired()
+                    .HasMaxLength(50);
             });
 
             modelBuilder.Entity<Person>(entity =>

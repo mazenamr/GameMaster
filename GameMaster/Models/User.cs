@@ -7,11 +7,6 @@ namespace GameMaster.Models
 {
     public partial class User
     {
-        public User()
-        {
-            Histories = new HashSet<History>();
-        }
-
         public int Id { get; set; }
         public string Email { get; set; }
         public string Username { get; set; }
@@ -22,6 +17,5 @@ namespace GameMaster.Models
 
         public virtual Person Person { get; set; }
         public virtual Role Role { get; set; }
-        public virtual ICollection<History> Histories { get; set; }
     }
 }
