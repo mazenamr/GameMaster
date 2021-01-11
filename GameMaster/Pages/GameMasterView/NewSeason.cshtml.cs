@@ -11,7 +11,7 @@ namespace GameMaster.Pages.GameMasterView
     {
         private readonly Controller _controller;
 
-        public NewSeasonModel(Controller _controller)
+        public NewSeasonModel(Controller controller)
         {
             _controller = controller;
         }
