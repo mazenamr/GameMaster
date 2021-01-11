@@ -102,6 +102,7 @@ namespace GameMaster.Core
             //{
             //    _controller.AddGamePlayer(g.GameId, g.PlayerId, g.CharacterId, g.WeaponId, g.IsWinner);
             //});
+            _controller.SaveGamePlayers(GamePlayers);
             foreach (int c in CharacterDetails.Keys)
             {
                 _controller.AddCharacterDetails(NewSeason.Id, c, CharacterDetails[c].GamesPlayed.GetValueOrDefault(), CharacterDetails[c].GamesWon.GetValueOrDefault());
@@ -117,7 +118,6 @@ namespace GameMaster.Core
                     _controller.UpdatePlayer(p.Id, p.Score.GetValueOrDefault());
                 }
             }
-            _controller.SaveGamePlayers(GamePlayers);
         }
 
         private void SimulateGames(Queue<Player> players, Queue<Game> games)

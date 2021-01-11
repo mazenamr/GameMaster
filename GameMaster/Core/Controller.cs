@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace GameMaster
 {
@@ -198,10 +197,10 @@ namespace GameMaster
             return _dbContext.Database.ExecuteSqlInterpolated($"INSERT INTO [CharacterDetails] (SeasonId, CharacterId, GamesPlayed, GamesWon) VALUES({seasonId}, {characterId}, {gamesPlayed}, {gamesWon})");
         }
 
-        public async Task<int> SaveGamePlayers(List<GamePlayer> gamePlayers)
+        public int SaveGamePlayers(List<GamePlayer> gamePlayers)
         {
-            _dbContext.AddRangeAsync(gamePlayers);
-            return await _dbContext.SaveChangesAsync();
+            _dbContext.AddRange(gamePlayers);
+            return _dbContext.SaveChanges();
         }
 
         public int AddWeaponDetails(int seasonId, int weaponId, int gamesPlayed, int gamesWon)
