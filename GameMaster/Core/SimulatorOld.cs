@@ -1,5 +1,4 @@
-﻿using EFCore.BulkExtensions;
-using GameMaster.Models;
+﻿using GameMaster.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameMaster.Core
 {
-    public class Simulator
+    public class SimulatorOld
     {
         public record SimulatorSettings
         (
@@ -17,7 +16,6 @@ namespace GameMaster.Core
         );
 
         private readonly Controller _controller;
-        private readonly GameMasterContext _dbContext;
         private readonly SimulatorSettings _simulatorSettings;
         private Season NewSeason { get; set; }
         private List<int> PlayerIds { get; set; }
@@ -33,19 +31,18 @@ namespace GameMaster.Core
         private Dictionary<(int, int), UsageWith> UsagesWith { get; set; } = new();
         private List<GamePlayer> GamePlayers { get; set; } = new();
 
-        public Simulator(Controller controller, GameMasterContext dbContext, SimulatorSettings simulatorSettings)
+        public SimulatorOld(Controller controller, SimulatorSettings simulatorSettings)
         {
             _controller = controller;
-            _dbContext = dbContext;
             _simulatorSettings = simulatorSettings;
             NewSeason = _controller.NewSeason(Guid.NewGuid().ToString(), DateTime.UtcNow, DateTime.UtcNow.AddDays(7));
             PlayerIds = _controller.GetPlayerIds();
             Regions = _controller.GetRegions();
             Ranks = _controller.GetRanks();
             Characters = _controller.GetAllCharacters().ToDictionary(x => x.Id, x => x);
-            CharacterDetails = _controller.GetAllCharacters().ToDictionary(x => x.Id, x => new CharacterDetail{ CharacterId = x.Id, GamesPlayed = 0, GamesWon = 0, SeasonId = NewSeason.Id });
+            CharacterDetails = _controller.GetAllCharacters().ToDictionary(x => x.Id, x => new CharacterDetail{ GamesPlayed = 0, GamesWon = 0 });
             Weapons = _controller.GetAllWeapons().ToDictionary(x => x.Id, x => x);
-            WeaponDetails = _controller.GetAllWeapons().ToDictionary(x => x.Id, x => new WeaponDetail{ WeaponId = x.Id, GamesPlayed = 0, GamesWon = 0, SeasonId = NewSeason.Id });
+            WeaponDetails = _controller.GetAllWeapons().ToDictionary(x => x.Id, x => new WeaponDetail{ GamesPlayed = 0, GamesWon = 0 });
             Synergies = _controller.GetSynergies().ToDictionary(x => (x.CharacterId, x.WeaponId), x => x);
             _controller.GetAllCharacters().ForEach(c =>
             {
@@ -94,24 +91,33 @@ namespace GameMaster.Core
                 int gamesCount = Players[q].Count * _simulatorSettings.GamesCount / PlayerIds.Count;
                 Queue<Game> games = new();
                 while (games.Count < gamesCount)
-                    games.Enqueue(new Game { SeasonId = NewSeason.Id, StartTime = DateTime.UtcNow, RegionId = q.Item1 });
-
-                _dbContext.BulkInsert(games.ToArray(), new BulkConfig { PreserveInsertOrder = true, SetOutputIdentity = true, BatchSize = 4000 });
-
+                {
+                    games.Enqueue(_controller.NewGame(NewSeason.Id, (q.Item1), DateTime.Now));
+                }
                 runners.Add(Task.Factory.StartNew(() => SimulateGames(Players[q], games)));
                 //SimulateGames(q);
             }
             await Task.WhenAll(runners);
-            _dbContext.BulkInsert(GamePlayers);
-            _dbContext.BulkInsert(CharacterDetails.Values.ToArray());
-            _dbContext.BulkInsert(WeaponDetails.Values.ToArray());
-
+            //GamePlayers.ForEach(g =>
+            //{
+            //    _controller.AddGamePlayer(g.GameId, g.PlayerId, g.CharacterId, g.WeaponId, g.IsWinner);
+            //});
+            _controller.SaveGamePlayers(GamePlayers);
+            foreach (int c in CharacterDetails.Keys)
+            {
+                _controller.AddCharacterDetails(NewSeason.Id, c, CharacterDetails[c].GamesPlayed.GetValueOrDefault(), CharacterDetails[c].GamesWon.GetValueOrDefault());
+            }
+            foreach (int w in WeaponDetails.Keys)
+            {
+                _controller.AddWeaponDetails(NewSeason.Id, w, WeaponDetails[w].GamesPlayed.GetValueOrDefault(), WeaponDetails[w].GamesWon.GetValueOrDefault());
+            }
             foreach (Queue<Player> q in Players.Values)
             {
-                _dbContext.BulkUpdate(q.ToArray());
+                foreach (Player p in q)
+                {
+                    _controller.UpdatePlayer(p.Id, p.Score.GetValueOrDefault());
+                }
             }
-
-            await _dbContext.SaveChangesAsync();
         }
 
         private void SimulateGames(Queue<Player> players, Queue<Game> games)
@@ -121,22 +127,20 @@ namespace GameMaster.Core
             {
                 Game game = games.Dequeue();
                 List<Player> gamePlayers = new(2);
-
                 int chance = 0;
                 while (players.Count > 0 && gamePlayers.Count < 2)
                 {
                     chance++;
                     Player player = players.Dequeue();
-
                     if (random.Next(100) <= player.Activity + chance)
+                    {
                         gamePlayers.Add(player);
+                    }
                     else
+                    {
                         players.Enqueue(player);
+                    }
                 }
-
-                if (players.Count < 2)
-                    return;
-
                 List<int> playerScores = new(2);
                 foreach (Player player in gamePlayers)
                 {
@@ -153,14 +157,12 @@ namespace GameMaster.Core
                         character = PlayerItems[player.Id].Item1;
                         weapon = PlayerItems[player.Id].Item2;
                     }
-
                     int playerScore = (character.Health * weapon.Block) + (character.Mana * weapon.Magic) + (character.Mobility * weapon.Speed) + (character.Strength * weapon.Power);
                     playerScore *= Synergies[(character.Id, weapon.Id)].Multiplier;
                     playerScore += Synergies[(character.Id, weapon.Id)].Constant;
                     playerScore *= player.Skill;
                     playerScores.Add(playerScore);
                 }
-
                 for (int playerNumber = 0; playerNumber < 2; playerNumber++)
                 {
                     Player player = gamePlayers[playerNumber];
