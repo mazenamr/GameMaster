@@ -135,7 +135,7 @@ namespace GameMaster
 
         public int EditCharacter(int id, string name, int health, int mana, int mobility, int strength)
         {
-            return _dbContext.Database.ExecuteSqlInterpolated($"UPDATE Character SET Name = {name} , Health = {health} , Mana = {mana} , Mobility = {mobility} , Strength = {strength} ,  WHERE Id = {id}");
+            return _dbContext.Database.ExecuteSqlInterpolated($"UPDATE Character SET Name = {name} , Health = {health} , Mana = {mana} , Mobility = {mobility} , Strength = {strength} WHERE Id = {id}");
         }
 
         public int DeleteCharacter(int id)

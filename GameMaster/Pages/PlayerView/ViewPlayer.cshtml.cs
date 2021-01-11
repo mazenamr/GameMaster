@@ -40,7 +40,7 @@ namespace GameMaster.Pages.PlayerView
         public int TotalGamesWon { get; set; } = 0;
 
         public int Matches { get; set; } = 10;
-        public bool PlayerNotFound { get; set; } = false;
+        public bool PlayerNotFound { get; set; } = true;
 
         public ViewPlayerModel(Controller controller)
         {
@@ -79,11 +79,8 @@ namespace GameMaster.Pages.PlayerView
                             OpponentPlayers.Add(_controller.GetPlayerById(OpponentGamePlayers[i].PlayerId));
                         }
                     }
+                    PlayerNotFound = false;
                 }
-                else
-                {
-                    PlayerNotFound = true;
-                }    
             }
 
             return Page();
