@@ -11,7 +11,7 @@ namespace GameMaster.Migration.Tables
                 .AutoId()
                 .WithColumn("Name").AsString(StringLength.Hundred).NotNullable()
                 .WithColumn("StartDate").AsDateTime().NotNullable()
-                .WithColumn("EndDate").AsDateTime().NotNullable()
+                .WithColumn("EndDate").AsDateTime().Nullable()
                 .IsActive();
         }
     }

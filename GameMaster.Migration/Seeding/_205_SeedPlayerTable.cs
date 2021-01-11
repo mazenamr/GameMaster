@@ -34,7 +34,7 @@ namespace GameMaster.Migration.Seeding
                         {
                             string guid = Guid.NewGuid().ToString();
                             int score = rank.Score + random.Next(1001);
-                            int activity = 50 + rank.Score / 50 + random.Next(101);
+                            int activity = 10 + rank.Score / 125 + rank.Score / 250 * random.Next(2) + random.Next(43);
                             int skill = 40 + rank.Score / 125 + rank.Score / 250 * random.Next(2) + random.Next(13);
                             int temper = rank.Score / 500 + random.Next(11);
                             using (IDbCommand cmd = con.CreateCommand())

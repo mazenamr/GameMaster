@@ -100,6 +100,20 @@ VALUES (@Name, @Block, @Magic, @Power, @Speed, 1);
 SELECT * FROM @WeaponOutput;
 GO
 
+CREATE PROCEDURE NewSeason @Name nvarchar(100), @StartDate DateTime, @EndDate DateTime
+AS
+DECLARE @SeasonOutput table(Id int,
+                           Name nvarchar(100),
+                           StartDate DateTime,
+                           EndDate DateTime,
+                           IsActive bit);
+INSERT [Season] (Name, StartDate, EndDate, IsActive)
+    OUTPUT INSERTED.Id, INSERTED.Name, INSERTED.StartDate, INSERTED.EndDate, INSERTED.IsActive
+        INTO @SeasonOutput
+VALUES (@Name, @StartDate, @EndDate, 1);
+SELECT * FROM @SeasonOutput;
+GO
+
 CREATE PROCEDURE UpdatePlayerRank
 AS
 UPDATE P
