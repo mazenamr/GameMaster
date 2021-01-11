@@ -28,8 +28,6 @@
                         <span asp-validation-for="@Model.input.currentPass" class="text-danger"></span>
                     </div>
                 </div>
-            </div>
-            <div class="card-body">
                 <div class="form-row">
                     <div class="form-group col">
                         <label asp-for="@Model.input.newPass" class="col-form-label">Enter New Password</label>
@@ -37,8 +35,6 @@
                         <span asp-validation-for="@Model.input.newPass" class="text-danger"></span>
                     </div>
                 </div>
-            </div>
-            <div class="card-body">
                 <div class="form-row">
                     <div class="form-group col">
                         <label asp-for="@Model.input.verifyPass" class="col-form-label">Verify New Password</label>
@@ -46,8 +42,6 @@
                         <span asp-validation-for="@Model.input.verifyPass" class="text-danger"></span>
                     </div>
                 </div>
-            </div>
-            <div class="card-footer">
                 <div class="form-row">
                     <input asp-page-handler="Edit" class="btn btn-primary" type="submit" value="Edit Password" />
                 </div>
