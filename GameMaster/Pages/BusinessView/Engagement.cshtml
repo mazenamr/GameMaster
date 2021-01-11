@@ -38,9 +38,9 @@
                     <tr>
                         <th scope="row">@counter</th>
                         <td>@Model.Regions[i].Name</td>
-                        <td>@Model.Regionplayers[i]</td>
+                        <td>@Model.RegionPlayers[i]</td>
                         <td>@Model.RegionGames[i]</td>
-                        @if (Model.RegionCharacters is not null)
+                        @if (Model.RegionCharacters[i] is not null)
                         {
                             <td>@Model.RegionCharacters[i].Name</td>
                             <td>@Model.RegionWeapons[i].Name</td>

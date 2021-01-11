@@ -20,5 +20,10 @@ namespace GameMaster.Pages
         public void OnGet()
         {
         }
+
+        public void OnPost()
+        {
+
+        }
     }
 }
