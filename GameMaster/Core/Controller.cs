@@ -174,6 +174,32 @@ namespace GameMaster
             return _dbContext.Seasons.FromSqlInterpolated($"EXEC NewSeason '{name}', '{startDate}', {endDateInQuery}").AsEnumerable().First();
         }
 
+        public Game NewGame(int seasonId, int regionId, DateTime StartTime)
+        {
+            return _dbContext.Games.FromSqlInterpolated($"EXEC NewGame {seasonId}, {regionId}, '{StartTime}'").AsEnumerable().First();
+        }
+
+        public int AddCharacterDetails(int characterId, int gamesPlayed, int gamesWon)
+        {
+            return _dbContext.Database.ExecuteSqlInterpolated($"INSERT INTO [CharacterDetails] (CharacterId, GamesPlayed, GamesWon) VALUES({characterId}, {gamesPlayed}, {gamesWon})");
+        }
+
+        public int AddWeaponDetails(int weaponId, int gamesPlayed, int gamesWon)
+        {
+            return _dbContext.Database.ExecuteSqlInterpolated($"INSERT INTO [WeaponDetails] (WeaponId, GamesPlayed, GamesWon) VALUES({weaponId}, {gamesPlayed}, {gamesWon})");
+        }
+
+        public int AddGamePlayer(int gameId, int playerId, int characterId, int weaponId, bool isWinner)
+        {
+            int isWinnerInt = isWinner ? 1 : 0;
+            return _dbContext.Database.ExecuteSqlInterpolated($"INSERT INTO [GamePlayer] (GameId, PlayerId, CharacterId, WeaponId) VALUES({gameId}, {playerId}, {characterId}, {weaponId}, {isWinnerInt})");
+        }
+
+        public int UpdatePlayer(int playerId, int score)
+        {
+            return _dbContext.Database.ExecuteSqlInterpolated($"UPDATE [Player] SET Score = {score} WHERE Id = {playerId}");
+        }
+
         public Player? GetPlayerByName(string name)
         {
             return _dbContext.Players.FromSqlInterpolated($"SELECT * FROM [Player] WHERE Name={name} and IsActive = 1").FirstOrDefault();
