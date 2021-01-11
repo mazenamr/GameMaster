@@ -86,8 +86,6 @@ namespace GameMaster.Models
 
                 entity.HasIndex(e => e.SeasonId, "IX_Game_SeasonId");
 
-                entity.HasIndex(e => e.WinnerId, "IX_Game_WinnerId");
-
                 entity.Property(e => e.StartTime).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Region)
@@ -101,12 +99,6 @@ namespace GameMaster.Models
                     .HasForeignKey(d => d.SeasonId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Game_SeasonId_Season_id");
-
-                entity.HasOne(d => d.Winner)
-                    .WithMany(p => p.Games)
-                    .HasForeignKey(d => d.WinnerId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Game_WinnerId_Player_id");
             });
 
             modelBuilder.Entity<GamePlayer>(entity =>
@@ -131,13 +123,13 @@ namespace GameMaster.Models
                     .WithMany(p => p.GamePlayers)
                     .HasForeignKey(d => d.GameId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_GamePlayer_GameId_Player_id");
+                    .HasConstraintName("FK_GamePlayer_GameId_Game_id");
 
                 entity.HasOne(d => d.Player)
                     .WithMany(p => p.GamePlayers)
                     .HasForeignKey(d => d.PlayerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_GamePlayer_PlayerId_Game_id");
+                    .HasConstraintName("FK_GamePlayer_PlayerId_Player_id");
 
                 entity.HasOne(d => d.Weapon)
                     .WithMany(p => p.GamePlayers)

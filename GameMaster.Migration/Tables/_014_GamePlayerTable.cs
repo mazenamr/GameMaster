@@ -9,8 +9,8 @@ namespace GameMaster.Migration.Tables
         {
             Create.Table(Constants.Tables.GamePlayer)
                 .AutoId()
-                .IntForeignKeyIndexed("GameId", Constants.Tables.Player, isNullable: false, isPK: false)
-                .IntForeignKeyIndexed("PlayerId", Constants.Tables.Game, isNullable: false, isPK: false)
+                .IntForeignKeyIndexed("GameId", Constants.Tables.Game, isNullable: false, isPK: false)
+                .IntForeignKeyIndexed("PlayerId", Constants.Tables.Player, isNullable: false, isPK: false)
                 .IntForeignKeyIndexed("CharacterId", Constants.Tables.Character, isNullable: false, isPK: false)
                 .IntForeignKeyIndexed("WeaponId", Constants.Tables.Weapon, isNullable: false, isPK: false)
                 .WithColumn("IsWinner").AsBoolean().NotNullable().WithDefaultValue(false);
