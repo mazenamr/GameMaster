@@ -148,6 +148,17 @@ namespace GameMaster
             return _dbContext.Characters.FromSqlInterpolated($"SELECT * FROM Character WHERE Id IN (SELECT TOP (1) CharacterId FROM Gameplayer WHERE PlayerId = {playerId} AND GameId IN (SELECT Id FROM Game WHERE SeasonId = {seasonId}) GROUP BY CharacterId ORDER BY COUNT(CharacterId) DESC)").FirstOrDefault();
         }
 
+        public List<Synergy> GetSynergies()
+        {
+            return _dbContext.Synergies.FromSqlInterpolated($"SELECT * FROM [Synergy]").ToList();
+        }
+
+        public Season NewSeason(string name, DateTime startDate, DateTime? endDate)
+        {
+            string endDateInQuery = endDate.HasValue ? $"'{endDate}'" : "NULL";
+            return _dbContext.Seasons.FromSqlInterpolated($"EXEC NewSeason '{name}', '{startDate}', {endDateInQuery}").AsEnumerable().First();
+        }
+
         public Player? GetPlayerByName(string name)
         {
             return _dbContext.Players.FromSqlInterpolated($"SELECT * FROM [Player] WHERE Name={name} and IsActive = 1").FirstOrDefault();
@@ -158,9 +169,29 @@ namespace GameMaster
             return _dbContext.Players.FromSqlInterpolated($"SELECT * FROM [Player] WHERE Id={id} and IsActive = 1").FirstOrDefault();
         }
 
+        public List<int> GetPlayerIds()
+        {
+            return _dbContext.Players.FromSqlInterpolated($"SELECT * FROM [Player] WHERE IsActive = 1").Select(x => x.Id).ToList();
+        }
+
         public List<Player> GetTop100Players()
         {
             return _dbContext.Players.FromSqlInterpolated($"SELECT TOP (100) * FROM [Player] WHERE IsActive = 1 ORDER BY Score DESC").ToList();
+        }
+
+        public List<Player> GetPlayerByRegionAndRank(int regionId, int rankId)
+        {
+            return _dbContext.Players.FromSqlInterpolated($"SELECT * FROM [Player] WHERE RegionId = {regionId} AND RankId = {rankId} AND IsActive = 1").ToList();
+        }
+
+        public int DeactivatePlayer(int id)
+        {
+            return _dbContext.Database.ExecuteSqlInterpolated($"UPDATE [Player] SET IsActive = 0 WHERE Id = {id}");
+        }
+
+        public int AddPlayer(string firstName, string lastName, string birthday, DateTime dateCreated, string name, int activity, int skill, int temper, int score, int regionId)
+        {
+            return _dbContext.Database.ExecuteSqlInterpolated($"EXEC NewPlayer '{firstName}', '{lastName}', '{birthday}', '{dateCreated}', '{name}', {activity}, {skill}, {temper}, {score}, {regionId}");
         }
 
         public List<Person> GetPerson()
@@ -216,11 +247,6 @@ namespace GameMaster
         public int GetPlayerCountInRegionByRegionId(int regionId)
         {
             return _dbContext.Players.FromSqlInterpolated($"SELECT * FROM [Player] WHERE RegionId = {regionId} and IsActive = 1").Count();
-        }
-
-        public List<Player> GetPlayerByRegionAndRank(int regionId, int rankId)
-        {
-            return _dbContext.Players.FromSqlInterpolated($"SELECT * FROM [Player] WHERE RegionId = {regionId} and RankId = {rankId}").ToList();
         }
 
         public int GetGamesCountInRegionByRegionIdAndSeasonId(int regionId, int seasonId)
