@@ -59,12 +59,13 @@ namespace GameMaster.Pages.PlayerView
             }
 
             Player = _controller.GetPlayerByName(PlayerName);
+            Season currentSeason = _controller.GetCurrentSeason();
             if (Player is not null)
             {
-                TotalGamesPlayed = _controller.NumberOfPlayedGamesByPlayerInASeason(Player.Id, 0);
-                TotalGamesWon = _controller.NumberOfGamesWonByPlayerInSeason(Player.Id, 0);
-                Character = _controller.MostUsedCharacterByPlayerInSeason(Player.Id, 0);
-                Weapon = _controller.MostUsedWeaponByPlayerInSeason(Player.Id, 0);
+                TotalGamesPlayed = _controller.NumberOfPlayedGamesByPlayerInASeason(Player.Id, currentSeason.Id);
+                TotalGamesWon = _controller.NumberOfGamesWonByPlayerInSeason(Player.Id, currentSeason.Id);
+                Character = _controller.MostUsedCharacterByPlayerInSeason(Player.Id, currentSeason.Id);
+                Weapon = _controller.MostUsedWeaponByPlayerInSeason(Player.Id, currentSeason.Id);
                 Rank = _controller.GetRankById(Player.RankId);
                 CurrentPlayer = _controller.LastTenPlayedGamesByPlayer(Player.Id);
                 OpponentGamePlayers = _controller.OpponentsOfPlayerInLastTenGames(Player.Id);
