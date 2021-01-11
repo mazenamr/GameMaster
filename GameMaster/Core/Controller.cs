@@ -168,10 +168,39 @@ namespace GameMaster
             return _dbContext.Synergies.FromSqlInterpolated($"SELECT * FROM [Synergy]").ToList();
         }
 
-        public Season NewSeason(string name, DateTime startDate, DateTime? endDate)
+        public Season NewSeason(string name, DateTime startDate, DateTime endDate)
         {
-            string endDateInQuery = endDate.HasValue ? $"'{endDate}'" : "NULL";
-            return _dbContext.Seasons.FromSqlInterpolated($"EXEC NewSeason '{name}', '{startDate}', {endDateInQuery}").AsEnumerable().First();
+            string query = $"EXEC NewSeason '{name}', '{startDate}', '{endDate}'";
+            //return _dbContext.Seasons.FromSqlInterpolated($"EXEC NewSeason '{name}', '{startDate}', '{endDate}'").AsEnumerable().First();
+            return _dbContext.Seasons.FromSqlRaw(query).AsEnumerable().First();
+        }
+
+        public Game NewGame(int seasonId, int regionId, DateTime StartTime)
+        {
+            string query = $"EXEC NewGame {seasonId}, {regionId}, '{StartTime}'";
+            //return _dbContext.Games.FromSqlInterpolated($"EXEC NewGame {seasonId}, {regionId}, '{StartTime}'").AsEnumerable().First();
+            return _dbContext.Games.FromSqlRaw(query).AsEnumerable().First();
+        }
+
+        public int AddCharacterDetails(int seasonId, int characterId, int gamesPlayed, int gamesWon)
+        {
+            return _dbContext.Database.ExecuteSqlInterpolated($"INSERT INTO [CharacterDetails] (SeasonId, CharacterId, GamesPlayed, GamesWon) VALUES({seasonId}, {characterId}, {gamesPlayed}, {gamesWon})");
+        }
+
+        public int AddWeaponDetails(int seasonId, int weaponId, int gamesPlayed, int gamesWon)
+        {
+            return _dbContext.Database.ExecuteSqlInterpolated($"INSERT INTO [WeaponDetails] (SeasonId, WeaponId, GamesPlayed, GamesWon) VALUES({seasonId}, {weaponId}, {gamesPlayed}, {gamesWon})");
+        }
+
+        public int AddGamePlayer(int gameId, int playerId, int characterId, int weaponId, bool isWinner)
+        {
+            int isWinnerInt = isWinner ? 1 : 0;
+            return _dbContext.Database.ExecuteSqlInterpolated($"INSERT INTO [GamePlayer] (GameId, PlayerId, CharacterId, WeaponId, IsWinner) VALUES({gameId}, {playerId}, {characterId}, {weaponId}, {isWinnerInt})");
+        }
+
+        public int UpdatePlayer(int playerId, int score)
+        {
+            return _dbContext.Database.ExecuteSqlInterpolated($"UPDATE [Player] SET Score = {score} WHERE Id = {playerId}");
         }
 
         public Player? GetPlayerByName(string name)

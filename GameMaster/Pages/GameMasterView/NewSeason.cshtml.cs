@@ -1,7 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using GameMaster.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -9,7 +7,7 @@ namespace GameMaster.Pages.GameMasterView
 {
     public class NewSeasonModel : PageModel
     {
-        private readonly Controller _controller;
+        public Controller _controller { get; set; }
 
         public NewSeasonModel(Controller controller)
         {
@@ -20,9 +18,12 @@ namespace GameMaster.Pages.GameMasterView
         {
         }
 
-        public void OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
-
+            Simulator.SimulatorSettings simulatorSettings = new(100000, 0, 0);
+            Simulator simulator = new(_controller, simulatorSettings);
+            await simulator.SimulateSeason();
+            return Page();
         }
     }
 }
