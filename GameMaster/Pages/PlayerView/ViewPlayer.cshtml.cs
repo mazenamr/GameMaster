@@ -21,19 +21,19 @@ namespace GameMaster.Pages.PlayerView
 
         public Rank? Rank { get; set; }
 
-        public List<GamePlayer> CurrentPlayer { get; set; }
+        public List<GamePlayer> CurrentPlayer { get; set; } = new();
 
-        public List<GamePlayer> OpponentGamePlayers { get; set; }
+        public List<GamePlayer> OpponentGamePlayers { get; set; } = new();
 
-        public List<Player> OpponentPlayers { get; set; }
+        public List<Player> OpponentPlayers { get; set; } = new();
 
-        public List<Weapon> PlayerWeapons { get; set; }
+        public List<Weapon> PlayerWeapons { get; set; } = new();
 
-        public List<Weapon> OpponentWeapons { get; set; }
+        public List<Weapon> OpponentWeapons { get; set; } = new();
 
-        public List<Character> PlayerCharacters { get; set; }
+        public List<Character> PlayerCharacters { get; set; } = new();
 
-        public List<Character> OpponentCharacters { get; set; }
+        public List<Character> OpponentCharacters { get; set; } = new();
 
         public int TotalGamesPlayed { get; set; } = 0;
 
