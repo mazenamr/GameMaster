@@ -58,9 +58,9 @@ namespace GameMaster
             return _dbContext.People.FromSqlInterpolated($"Exec NewPerson {firstName}, {lastName}, {birthday}, {DateTime.UtcNow}").AsEnumerable().First();
         }
 
-        public User? GetUserByEmail(string email)
+        public User? GetUserByEmailOrUsername(string email, string username)
         {
-            return _dbContext.Users.FromSqlInterpolated($"SELECT * FROM [User] where Email = {email} and IsActive = 1").FirstOrDefault();
+            return _dbContext.Users.FromSqlInterpolated($"SELECT * FROM [User] where (Email = {email} or Username = {username}) and IsActive = 1").FirstOrDefault();
         }
 
         public User? GetUserByUsername(string username)

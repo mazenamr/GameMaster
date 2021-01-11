@@ -53,9 +53,9 @@ namespace GameMaster.Pages.Account
                 return Page();
             }
 
-            if (_controller.GetUserByEmail(Input.Email) != null || _controller.GetUserByUsername(Input.Username) != null)
+            if (_controller.GetUserByEmailOrUsername(Input.Email.Trim(), Input.Username.Trim()) != null)
             {
-                ModelState.AddModelError(string.Empty, "Email or username already in use");
+                ModelState.AddModelError(string.Empty, "Email already or username in use");
                 return Page();
             }
 
