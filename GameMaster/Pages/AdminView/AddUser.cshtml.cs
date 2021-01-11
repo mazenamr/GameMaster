@@ -81,9 +81,9 @@ namespace GameMaster.Pages.AdminView
                 return Page();
             }
 
-            if (_controller.GetUserByEmail(Input.Email) != null)
+            if (_controller.GetUserByEmailOrUsername(Input.Email.Trim(), Input.Username.Trim()) != null)
             {
-                ModelState.AddModelError(string.Empty, "Email already in use");
+                ModelState.AddModelError(string.Empty, "Email or username already in use");
                 return Page();
             }
 

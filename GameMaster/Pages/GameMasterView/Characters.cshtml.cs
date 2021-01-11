@@ -24,7 +24,7 @@ namespace GameMaster.Pages.GameMasterView
         public class InputModel
         {
             [Required]
-            [MinLength(8)]
+            [MinLength(0)]
             [MaxLength(50)]
             public string Name { get; set; } = string.Empty;
 

@@ -52,7 +52,7 @@ namespace GameMaster.Pages.Account
 
         public async Task<IActionResult> OnPostAsync()
         {
-            User? user = _controller.GetUserByEmail(Input.Email.Trim());
+            User? user = _controller.GetUserByEmailOrUsername(Input.Email.Trim(), string.Empty);
             if (user is null)
             {
                 ModelState.AddModelError(string.Empty, "No account is registered with this email address");
