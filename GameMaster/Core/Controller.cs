@@ -70,7 +70,7 @@ namespace GameMaster
 
         public List<User> GettAllUsers()
         {
-            return _dbContext.Users.FromSqlInterpolated($"SELECT * FROM [Users] WHERE IsActive = 1").ToList();
+            return _dbContext.Users.FromSqlInterpolated($"SELECT * FROM [User] WHERE IsActive = 1").ToList();
         }
 
         public int EditUserPassword(string username, string password)
