@@ -2,8 +2,8 @@
 
 namespace GameMaster.Migration.Tables
 {
-    [Migration(12)]
-    public class _012_GameTable : AutoReversingMigration
+    [Migration(13)]
+    public class _013_GameTable : AutoReversingMigration
     {
         public override void Up()
         {

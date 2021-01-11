@@ -11,6 +11,7 @@ namespace GameMaster.Migration.Tables
                 .AutoId()
                 .WithColumn("Name").AsString(StringLength.Fifty).NotNullable()
                 .WithColumn("Block").AsInt32().NotNullable()
+                .WithColumn("Magic").AsInt32().NotNullable()
                 .WithColumn("Power").AsInt32().NotNullable()
                 .WithColumn("Speed").AsInt32().NotNullable()
                 .IsActive();

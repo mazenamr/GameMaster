@@ -68,34 +68,36 @@ VALUES (@Name, @Activity, @Skill, @Temper, @Score, (SELECT TOP(1) Id FROM [Rank]
 SELECT * FROM @PlayerOutput;
 GO
 
-CREATE PROCEDURE NewWeapon @Name nvarchar(50), @Power int, @Speed int, @Block int
-AS
-DECLARE @WeaponOutput table(Id int,
-                           Name nvarchar(50),
-                           Power int,
-                           Speed int,
-                           Block int,
-                           IsActive bit);
-INSERT [Weapon] (Name, Power, Speed, Block, IsActive)
-    OUTPUT INSERTED.Id, INSERTED.Name, INSERTED.Power, INSERTED.Speed, INSERTED.Block, INSERTED.IsActive
-        INTO @WeaponOutput
-VALUES (@Name, @Power, @Speed, @Block, 1);
-SELECT * FROM @WeaponOutput;
-GO
-
-CREATE PROCEDURE NewCharacter @Name nvarchar(50), @Strength int, @Mobility int, @Health int
+CREATE PROCEDURE NewCharacter @Name nvarchar(50), @Health int, @Mana int, @Mobility int, @Strength int
 AS
 DECLARE @CharacterOutput table(Id int,
                                Name nvarchar(50),
-                               Strength int,
-                               Mobility int,
                                Health int,
+                               Mana int,
+                               Mobility int,
+                               Strength int,
                                IsActive bit);
-INSERT [Character] (Name, Strength, Mobility, Health, IsActive)
-    OUTPUT INSERTED.Id, INSERTED.Name, INSERTED.Strength, INSERTED.Mobility, INSERTED.Health, INSERTED.IsActive
+INSERT [Character] (Name, Health, Mana, Mobility, Strength, IsActive)
+    OUTPUT INSERTED.Id, INSERTED.Name, INSERTED.Health, INSERTED.Mana, INSERTED.Mobility, INSERTED.Strength, INSERTED.IsActive
         INTO @CharacterOutput
-VALUES (@Name, @Strength, @Mobility, @Health, 1);
+VALUES (@Name, @Health, @Mana, @Mobility, @Strength, 1);
 SELECT * FROM @CharacterOutput;
+GO
+
+CREATE PROCEDURE NewWeapon @Name nvarchar(50), @Block int, @Magic int, @Power int, @Speed int
+AS
+DECLARE @WeaponOutput table(Id int,
+                           Name nvarchar(50),
+                           Block int,
+                           Magic int,
+                           Power int,
+                           Speed int,
+                           IsActive bit);
+INSERT [Weapon] (Name, Block, Magic, Power, Speed, IsActive)
+    OUTPUT INSERTED.Id, INSERTED.Name, INSERTED.Block, INSERTED.Magic, INSERTED.Power, INSERTED.Speed, INSERTED.IsActive
+        INTO @WeaponOutput
+VALUES (@Name, @Block, @Magic, @Power, @Speed, 1);
+SELECT * FROM @WeaponOutput;
 GO
 
 CREATE PROCEDURE UpdatePlayerRank

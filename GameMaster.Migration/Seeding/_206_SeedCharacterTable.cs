@@ -17,6 +17,7 @@ namespace GameMaster.Migration.Seeding
                 {
                     character.Name,
                     character.Health,
+                    character.Mana,
                     character.Mobility,
                     character.Strength
                 });

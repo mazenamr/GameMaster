@@ -26,7 +26,7 @@ namespace GameMaster.Migration.Seeding
                         cmd.Transaction = trans;
                         cmd.CommandText = $"SELECT TOP(1) * FROM {Constants.Tables.Region} WHERE Name = '{region.Name}'";
                         regionId = Convert.ToInt32(cmd.ExecuteScalar());
-                    }    
+                    }
                     Constants.Rank.Ranks.ForEach(rank =>
                     {
                         int rankPlayers = regionPlayers / 100 * rank.PlayerPercentage;

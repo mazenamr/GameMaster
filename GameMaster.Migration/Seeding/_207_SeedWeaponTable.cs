@@ -17,6 +17,7 @@ namespace GameMaster.Migration.Seeding
                 {
                     weapon.Name,
                     weapon.Block,
+                    weapon.Magic,
                     weapon.Power,
                     weapon.Speed
                 });
