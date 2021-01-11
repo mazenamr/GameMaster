@@ -257,7 +257,7 @@ namespace GameMaster
 
         public List<GamePlayer> OpponentsOfPlayerInLastTenGames(int playerId)
         {
-            return _dbContext.GamePlayers.FromSqlInterpolated($"SELECT TOP(10) Gp.* FROM GamePlayer Gp,Game G  WHERE  Gp.PlayerId != {playerId} AND Gp.GameId = G.Id AND G.Id IN (SELECT GameId FROM GamePlayer WHERE PlayerId = 1) ORDER BY G.StartTime DESC").ToList();
+            return _dbContext.GamePlayers.FromSqlInterpolated($"SELECT TOP(10) Gp.* FROM GamePlayer Gp,Game G  WHERE  Gp.PlayerId != {playerId} AND Gp.GameId = G.Id AND G.Id IN (SELECT GameId FROM GamePlayer WHERE PlayerId = {playerId}) ORDER BY G.StartTime DESC").ToList();
         }
 
         public int GetPlayerCountInRegionByRegionId(int regionId)
