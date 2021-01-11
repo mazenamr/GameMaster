@@ -40,14 +40,53 @@ namespace GameMaster.Pages.PlayerView
         public int TotalGamesWon { get; set; } = 0;
 
         public int Matches { get; set; } = 10;
+        public bool PlayerNotFound { get; set; } = false;
 
         public ViewPlayerModel(Controller controller)
         {
             _controller = controller;
         }
 
-        public void OnGet()
+        public IActionResult OnGet(string name)
         {
+            if (name is not null)
+            {
+                Player = _controller.GetPlayerByName(name.Trim());
+                Season currentSeason = _controller.GetCurrentSeason();
+                if (Player is not null)
+                {
+                    TotalGamesPlayed = _controller.NumberOfPlayedGamesByPlayerInASeason(Player.Id, currentSeason.Id);
+                    TotalGamesWon = _controller.NumberOfGamesWonByPlayerInSeason(Player.Id, currentSeason.Id);
+                    Character = _controller.MostUsedCharacterByPlayerInSeason(Player.Id, currentSeason.Id);
+                    Weapon = _controller.MostUsedWeaponByPlayerInSeason(Player.Id, currentSeason.Id);
+                    Rank = _controller.GetRankById(Player.RankId);
+                    CurrentPlayer = _controller.LastTenPlayedGamesByPlayer(Player.Id);
+                    OpponentGamePlayers = _controller.OpponentsOfPlayerInLastTenGames(Player.Id);
+
+                    if (TotalGamesPlayed < 10)
+                    {
+                        Matches = TotalGamesPlayed;
+                    }
+
+                    if (Matches != -1)
+                    {
+                        for (int i = 0; i < Matches; i++)
+                        {
+                            PlayerWeapons.Add(_controller.GetWeaponById(CurrentPlayer[i].WeaponId));
+                            PlayerCharacters.Add(_controller.GetCharacterById(CurrentPlayer[i].CharacterId));
+                            OpponentWeapons.Add(_controller.GetWeaponById(OpponentGamePlayers[i].WeaponId));
+                            OpponentCharacters.Add(_controller.GetCharacterById(OpponentGamePlayers[i].CharacterId));
+                            OpponentPlayers.Add(_controller.GetPlayerById(OpponentGamePlayers[i].PlayerId));
+                        }
+                    }
+                }
+                else
+                {
+                    PlayerNotFound = true;
+                }    
+            }
+
+            return Page();
         }
 
         public IActionResult OnPost()
@@ -58,38 +97,7 @@ namespace GameMaster.Pages.PlayerView
                 return Page();
             }
 
-            Player = _controller.GetPlayerByName(PlayerName);
-            Season currentSeason = _controller.GetCurrentSeason();
-            if (Player is not null)
-            {
-                TotalGamesPlayed = _controller.NumberOfPlayedGamesByPlayerInASeason(Player.Id, currentSeason.Id);
-                TotalGamesWon = _controller.NumberOfGamesWonByPlayerInSeason(Player.Id, currentSeason.Id);
-                Character = _controller.MostUsedCharacterByPlayerInSeason(Player.Id, currentSeason.Id);
-                Weapon = _controller.MostUsedWeaponByPlayerInSeason(Player.Id, currentSeason.Id);
-                Rank = _controller.GetRankById(Player.RankId);
-                CurrentPlayer = _controller.LastTenPlayedGamesByPlayer(Player.Id);
-                OpponentGamePlayers = _controller.OpponentsOfPlayerInLastTenGames(Player.Id);
-
-                if (TotalGamesPlayed < 10)
-                {
-                    Matches = TotalGamesPlayed;
-                }
-
-                if (Matches != -1)
-                {
-                    for (int i = 0; i < Matches; i++)
-                    {
-                        PlayerWeapons.Add(_controller.GetWeaponById(CurrentPlayer[i].WeaponId));
-                        PlayerCharacters.Add(_controller.GetCharacterById(CurrentPlayer[i].CharacterId));
-                        OpponentWeapons.Add(_controller.GetWeaponById(OpponentGamePlayers[i].WeaponId));
-                        OpponentCharacters.Add(_controller.GetCharacterById(OpponentGamePlayers[i].CharacterId));
-                        OpponentPlayers.Add(_controller.GetPlayerById(OpponentGamePlayers[i].PlayerId));
-                    }
-                }
-            }
-
-            return Page();
+            return RedirectToPage("ViewPlayer", new { name = PlayerName });
         }
-
     }
 }

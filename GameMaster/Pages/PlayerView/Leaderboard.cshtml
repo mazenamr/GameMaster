@@ -22,7 +22,7 @@
                 counter++;
                 <tr>
                     <th scope="row">@counter</th>
-                    <td>@player.Name</td>
+                    <td><a asp-page="ViewPlayer" asp-route-name="@player.Name">@player.Name</a></td>
                     <td>@player.Score</td>
                 </tr>
             }

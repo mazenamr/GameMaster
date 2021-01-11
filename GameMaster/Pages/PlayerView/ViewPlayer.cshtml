@@ -21,138 +21,151 @@
     </div>
 </form>
 
+<br />
+
 <div class="container">
-    @if (HttpContextAccessor.HttpContext.Request.Method == "POST")
+    @if (Model.PlayerNotFound)
     {
-        @if (string.IsNullOrWhiteSpace(Model.PlayerName))
-        {
-        }
-        else if (Model.Player is null)
-        {
-            <p class="text-dark">No player found with this name</p>
-        }
-        else
-        {
-            <h1 class="text-dark">@Model.Player.Name's info</h1>
-            <div class="row">
-                <div class="col">
-                    Games played
-                </div>
-                @if (Model.TotalGamesPlayed > 0)
-                {
-                    <div class="col">
-                        @Model.TotalGamesWon
-                    </div>
-                }
-                else
-                {
-                    <div class="col">
-                        0
-                    </div>
-                }
-            </div>
-            <div class="row">
-                <div class="col">
-                    Win rate
-                </div>
-                @if (Model.TotalGamesWon > 0)
-                {
-                    string winrate = $"{(((double)Model.TotalGamesWon / Model.TotalGamesPlayed) * 100):00.00}%";
-                    <div class="col">
-                        @winrate
-                    </div>
-                }
-                else
-                {
-                    <div class="col">
-                        N/A
-                    </div>
-                }
-            </div>
-            @if (Model.Character is not null)
-            {
-                <div class="row">
-                    <div class="col">
-                        Most played character
-                    </div>
-                    <div class="col">
-                        @Model.Character.Name
-                    </div>
-                </div>
-            }
-            @if (Model.Weapon is not null)
-            {
-                <div class="row">
-                    <div class="col">
-                        Most played weapon
-                    </div>
-                    <div class="col">
-                        @Model.Weapon.Name
-                    </div>
-                </div>
-            }
-            @if (Model.Rank is not null)
-            {
-                <div class="row">
-                    <div class="col">
-                        Rank
-                    </div>
-                    <div class="col">
-                        @Model.Rank.Name
-                    </div>
-                </div>
-            }
-            <div class="row">
-                <div class="col">
-                    Score
-                </div>
-                <div class="col">
-                    @Model.Player.Score
-                </div>
+        <p class="text-dark">No player found with this name</p>
+    }
+    else
+    {
+        <h1 class="text-dark">@Model.Player.Name's info</h1>
+        <div class="row">
+            <div class="col">
+                Games played
             </div>
             @if (Model.TotalGamesPlayed > 0)
             {
-                <h2 class="text-dark">Last 10 Matches</h2>
-                <table class="table table-hover">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Character Used</th>
-                            <th scope="col">Weapon Used</th>
-                            <th scope="col">Opponent Name</th>
-                            <th scope="col">Opponent Character</th>
-                            <th scope="col">Opponent Weapon</th>
-                            <th scope="col">Result</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model.TotalGamesPlayed < 10)
-                        {
-                            matches = Model.TotalGamesPlayed;
-                        }
-                        @for (int i = 0; i < matches; i++)
-                        {
-                            count++;
-                            <tr>
-                                <th scope="row">@count</th>
-                                <td>@Model.PlayerCharacters[i].Name</td>
-                                <td>@Model.PlayerWeapons[i].Name</td>
-                                <td>@Model.OpponentPlayers[i].Name</td>
-                                <td>@Model.OpponentCharacters[i].Name</td>
-                                <td>@Model.OpponentWeapons[i].Name</td>
-                                    @if (Model.CurrentPlayer[i].IsWinner)
-                                    {
-                                        <td>Win</td>
-                                    }
-                                    else
-                                    {
-                                        <td>Loss</td>
-                                    }
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                <div class="col">
+                    @Model.TotalGamesPlayed
+                </div>
             }
+            else
+            {
+                <div class="col">
+                    0
+                </div>
+            }
+        </div>
+        <div class="row">
+            <div class="col">
+                Games won
+            </div>
+            @if (Model.TotalGamesWon > 0)
+            {
+                <div class="col">
+                    @Model.TotalGamesWon
+                </div>
+            }
+            else
+            {
+                <div class="col">
+                    0
+                </div>
+            }
+        </div>
+        <div class="row">
+            <div class="col">
+                Win rate
+            </div>
+            @if (Model.TotalGamesPlayed > 0)
+            {
+                string winrate = $"{(((double)Model.TotalGamesWon / Model.TotalGamesPlayed) * 100):00.00}%";
+                <div class="col">
+                    @winrate
+                </div>
+            }
+            else
+            {
+                <div class="col">
+                    N/A
+                </div>
+            }
+        </div>
+        @if (Model.Character is not null)
+        {
+            <div class="row">
+                <div class="col">
+                    Most played character
+                </div>
+                <div class="col">
+                    @Model.Character.Name
+                </div>
+            </div>
+        }
+        @if (Model.Weapon is not null)
+        {
+            <div class="row">
+                <div class="col">
+                    Most played weapon
+                </div>
+                <div class="col">
+                    @Model.Weapon.Name
+                </div>
+            </div>
+        }
+        @if (Model.Rank is not null)
+        {
+            <div class="row">
+                <div class="col">
+                    Rank
+                </div>
+                <div class="col">
+                    @Model.Rank.Name
+                </div>
+            </div>
+        }
+        <div class="row">
+            <div class="col">
+                Score
+            </div>
+            <div class="col">
+                @Model.Player.Score
+            </div>
+        </div>
+        @if (Model.TotalGamesPlayed > 0)
+        {
+            <h2 class="text-dark">Recent Matches</h2>
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Character Used</th>
+                        <th scope="col">Weapon Used</th>
+                        <th scope="col">Opponent Name</th>
+                        <th scope="col">Opponent Character</th>
+                        <th scope="col">Opponent Weapon</th>
+                        <th scope="col">Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.TotalGamesPlayed < 10)
+                    {
+                        matches = Model.TotalGamesPlayed;
+                    }
+                    @for (int i = 0; i < matches; i++)
+                    {
+                        count++;
+                        <tr>
+                            <th scope="row">@count</th>
+                            <td>@Model.PlayerCharacters[i].Name</td>
+                            <td>@Model.PlayerWeapons[i].Name</td>
+                            <td><a asp-page="ViewPlayer" asp-route-name="@Model.OpponentPlayers[i].Name">@Model.OpponentPlayers[i].Name</a></td>
+                            <td>@Model.OpponentCharacters[i].Name</td>
+                            <td>@Model.OpponentWeapons[i].Name</td>
+                                @if (Model.CurrentPlayer[i].IsWinner)
+                                {
+                                    <td>Win</td>
+                                }
+                                else
+                                {
+                                    <td>Loss</td>
+                                }
+                        </tr>
+                    }
+                </tbody>
+            </table>
         }
     }
 </div>
