@@ -83,6 +83,11 @@ namespace GameMaster
             return _dbContext.Weapons.FromSqlInterpolated($"SELECT * FROM [Weapon] WHERE IsActive = 1").ToList();
         }
 
+        public int EditWeapon(int id, string name, int block, int magic, int power, int speed)
+        {
+            return _dbContext.Database.ExecuteSqlInterpolated($"UPDATE Weapon SET Name = {name} , Block = {block} , Magic = {magic} , Power = {power} , Speed = {speed} WHERE Id = {id}");
+        }
+
         public Weapon? GetWeaponById(int id)
         {
             return _dbContext.Weapons.FromSqlInterpolated($"SELECT * FROM [Weapon] WHERE Id = {id} AND IsActive = 1").FirstOrDefault();
@@ -111,6 +116,11 @@ namespace GameMaster
         public List<Character> GetAllCharacters()
         {
             return _dbContext.Characters.FromSqlInterpolated($"SELECT * FROM [Character] WHERE IsActive = 1").ToList();
+        }
+
+        public int EditCharacter(int id, string name, int health, int mana, int mobility, int strength)
+        {
+            return _dbContext.Database.ExecuteSqlInterpolated($"UPDATE Character SET Name = {name} , Health = {health} , Mana = {mana} , Mobility = {mobility} , Strength = {strength} ,  WHERE Id = {id}");
         }
 
         public Character? GetCharacterById(int id)
