@@ -15,11 +15,40 @@
 
 @if (userRoleId == GameMaster.Constants.Role.GameMaster || userRoleId == GameMaster.Constants.Role.Admin)
 {
-<div class="container">
-    <form asp-page="">
-        <button type="submit" class="btn btn-primary">Simulate</button>
-    </form>
-</div>
+    @if (Model.CurrentSeason is not null)
+    {
+        <h1><b>Season #@Model.CurrentSeason.Id:</b> @Model.CurrentSeason.Name</h1>
+    }
+    else
+    {
+        <h1>Welcome to Your First Season!</h1>
+    }
+    <div class="card">
+        <div class="card-header bg-dark text-white">
+            <h4>Simulate a New Season</h4>
+        </div>
+        <form asp-page="">
+            <div class="card-body">
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label asp-for="GamesCount" class="col-form-label">Games Count</label>
+                        <input asp-for="GamesCount" class="form-control" />
+                        <span asp-validation-for="GamesCount" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col">
+                        <label asp-for="NewPlayers" class="col-form-label">New Players Count</label>
+                        <input asp-for="NewPlayers" class="form-control" />
+                        <span asp-validation-for="NewPlayers" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="form-row">
+                    <input class="btn btn-primary" type="submit" value="Generate New Season" />
+                </div>
+            </div>
+        </form>
+    </div>
 }
 else
 {

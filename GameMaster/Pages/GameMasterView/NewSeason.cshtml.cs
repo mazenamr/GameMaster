@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using GameMaster.Core;
 using GameMaster.Models;
@@ -10,6 +11,15 @@ namespace GameMaster.Pages.GameMasterView
     {
         public Controller _controller { get; set; }
         public GameMasterContext _dbContext { get; set; }
+        public Season? CurrentSeason { get; set; }
+        [BindProperty]
+        [Required]
+        [Range(0, 200000)]
+        public int GamesCount { get; set; } = 0;
+        [BindProperty]
+        [Required]
+        [Range(0, 10000)]
+        public int NewPlayers { get; set; } = 0;
 
         public NewSeasonModel(Controller controller, GameMasterContext dbContext)
         {
@@ -19,14 +29,15 @@ namespace GameMaster.Pages.GameMasterView
 
         public void OnGet()
         {
+            CurrentSeason = _controller.GetCurrentSeason();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            Simulator.SimulatorSettings simulatorSettings = new(100000, 1000, 500);
+            Simulator.SimulatorSettings simulatorSettings = new(GamesCount, NewPlayers, NewPlayers / 10);
             Simulator simulator = new(_controller, _dbContext, simulatorSettings);
             await simulator.SimulateSeason();
-            return Page();
+            return RedirectToPage("NewSeason");
         }
     }
 }
