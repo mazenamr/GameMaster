@@ -250,7 +250,7 @@ namespace GameMaster
 
         public int AddMessage(string message, string username)
         {
-            return _dbContext.Database.ExecuteSqlInterpolated($"insert into [History] ([Message], [UserId], [TimeCreated]) values({message}, {username}, {DateTime.UtcNow})");
+            return _dbContext.Database.ExecuteSqlInterpolated($"insert into [History] ([Message], [Username], [TimeCreated]) values({message}, {username}, {DateTime.UtcNow})");
         }
 
         public List<History> GetLast10MessagesByTime()
