@@ -79,11 +79,11 @@ namespace GameMaster.Pages.PlayerView
                 {
                     for (int i = 0; i < Matches; i++)
                     {
-                        PlayerWeapons[i] = _controller.GetWeaponById(CurrentPlayer[i].WeaponId);
-                        PlayerCharacters[i] = _controller.GetCharacterById(CurrentPlayer[i].CharacterId);
-                        OpponentWeapons[i] = _controller.GetWeaponById(OpponentGamePlayers[i].WeaponId);
-                        OpponentCharacters[i] = _controller.GetCharacterById(OpponentGamePlayers[i].CharacterId);
-                        OpponentPlayers[i] = _controller.GetPlayerById(OpponentGamePlayers[i].PlayerId);
+                        PlayerWeapons.Add(_controller.GetWeaponById(CurrentPlayer[i].WeaponId));
+                        PlayerCharacters.Add(_controller.GetCharacterById(CurrentPlayer[i].CharacterId));
+                        OpponentWeapons.Add(_controller.GetWeaponById(OpponentGamePlayers[i].WeaponId));
+                        OpponentCharacters.Add(_controller.GetCharacterById(OpponentGamePlayers[i].CharacterId));
+                        OpponentPlayers.Add(_controller.GetPlayerById(OpponentGamePlayers[i].PlayerId));
                     }
                 }
             }
