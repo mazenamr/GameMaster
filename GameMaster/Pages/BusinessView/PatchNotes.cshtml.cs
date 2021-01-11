@@ -12,7 +12,7 @@ namespace GameMaster.Pages.BusinessView
     {
         private readonly Controller _controller;
 
-        public List<History> Changes { get; set; }
+        public List<History> Changes { get; set; } = new();
 
         public int Count { get; set; } = 0;
 

@@ -13,7 +13,7 @@ namespace GameMaster.Pages.AdminView
     {
         private readonly Controller _controller;
 
-        public List<User> Users { get; set; }
+        public List<User> Users { get; set; } = new();
 
         public List<Role> Roles { get; set; } = new();
 
