@@ -272,7 +272,7 @@ namespace GameMaster
 
         public Weapon? GetMostPopularWeaponByRegionIdAndSeasonId(int regionId, int seasonId)
         {
-            return _dbContext.Weapons.FromSqlInterpolated($"SELECT * FROM Weapon WHERE ID IN(SELECT TOP(1) GP.WeaponId FROM Region R,Player P,GamePlayer GP,Game G WHERE R.Id = P.RegionId AND R.Id = {regionId} AND P.Id = GP.PlayerId AND G.Id = GP.GameId AND G.SeasonId = {seasonId} GROUP BY GP.WeaponId ORDER BY COUNT(GP.WeaponId) DESC);").FirstOrDefault();
+            return _dbContext.Weapons.FromSqlInterpolated($"SELECT * FROM Weapon WHERE ID IN(SELECT TOP(1) GP.WeaponId FROM Region R,Player P,GamePlayer GP,Game G WHERE R.Id = P.RegionId AND R.Id = {regionId} AND P.Id = GP.PlayerId AND G.Id = GP.GameId AND G.SeasonId = {seasonId} GROUP BY GP.WeaponId ORDER BY COUNT(GP.WeaponId) DESC)").FirstOrDefault();
         }
 
         public Character? GetMostPopularCharacterByRegionIdAndSeasonId(int regionId, int seasonId)
