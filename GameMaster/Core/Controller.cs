@@ -43,11 +43,6 @@ namespace GameMaster
             return _dbContext.Ranks.FromSqlInterpolated($"SELECT * FROM Rank WHERE Id = {rankId}").FirstOrDefault();
         }
 
-        public List<Region> GetAllRegions()
-        {
-            return _dbContext.Regions.FromSqlInterpolated($"SELECT * FROM Region WHERE IsActive = 1").ToList();
-        }
-
         public Region? GetRegionById(int regionId)
         {
             return _dbContext.Regions.FromSqlInterpolated($"SELECT * FROM Region WHERE Id = {regionId}").FirstOrDefault();
