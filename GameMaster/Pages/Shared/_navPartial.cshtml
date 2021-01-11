@@ -44,6 +44,9 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-page="/GameMasterView/Weapons">Edit Weapons</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-page="/GameMasterView/NewSeason">Simulator</a>
+                    </li>
                 }
                 @if (userRoleId == GameMaster.Constants.Role.Admin)
                 {
@@ -64,7 +67,7 @@
                         </form>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link btn btn-link text-dark" asp-area="Identity" asp-page="/Account/EditUser">Hello, @name</a>
+                        <a class="nav-link btn btn-link text-dark" asp-area="Identity" asp-page="/Account/EditUser">@name</a>
                     </li>
                 }
                 else

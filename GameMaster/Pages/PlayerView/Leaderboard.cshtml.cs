@@ -12,8 +12,8 @@ namespace GameMaster.Pages.PlayerView
     public class LeaderboardModel : PageModel
     {
         private readonly Controller _controller;
-        public List<Player> Players { get; set; }
-        public List<Person> People { get; set; }
+        public List<Player> Players { get; set; } = new();
+        public List<Person> People { get; set; } = new();
         public LeaderboardModel(Controller controller)
         {
             _controller = controller;
