@@ -68,14 +68,19 @@ namespace GameMaster
             return _dbContext.Users.FromSqlInterpolated($"SELECT * FROM [User] WHERE Username = {username} and IsActive = 1").FirstOrDefault();
         }
 
+        public List<User> GettAllUsers()
+        {
+            return _dbContext.Users.FromSqlInterpolated($"SELECT * FROM [Users] WHERE IsActive = 1").ToList();
+        }
+
         public int EditUserPassword(string username, string password)
         {
             return _dbContext.Database.ExecuteSqlInterpolated($"UPDATE [User] SET password = {password} WHERE Username = {username}");
         }
 
-        public int AddUser(string email, string password, int personId, int roleId)
+        public int AddUser(string email, string username, string password, int personId, int roleId)
         {
-            return _dbContext.Database.ExecuteSqlInterpolated($"INSERT INTO [User] (Email, Password, personId, RoleId) VALUES({email}, {password}, {personId}, {roleId})");
+            return _dbContext.Database.ExecuteSqlInterpolated($"INSERT INTO [User] (Email, Username, Password, personId, RoleId) VALUES({email}, {username}, {password}, {personId}, {roleId})");
         }
 
         public List<Weapon> GetAllWeapons()
@@ -178,7 +183,7 @@ namespace GameMaster
             return _dbContext.People.FromSqlInterpolated($"SELECT * FROM [Person] WHERE IsActive=1" ).ToList();
         }
 
-        public int CreateUser(string firstName, string lastName, DateTime birthday, string email, string password, int roleId)
+        public int CreateUser(string firstName, string lastName, DateTime birthday, string email, string username, string password, int roleId)
         {
             _dbContext.Database.BeginTransaction(System.Data.IsolationLevel.ReadCommitted);
             try
@@ -187,12 +192,13 @@ namespace GameMaster
                 User user = new()
                 {
                     Email = email,
+                    Username = username,
                     PersonId = person.Id,
                     Person = person,
                     RoleId = roleId
                 };
                 string hashedPassword = _hasher.HashPassword(user, password);
-                int result = AddUser(email, hashedPassword, person.Id, roleId);
+                int result = AddUser(email, username, hashedPassword, person.Id, roleId);
                 _dbContext.Database.CommitTransaction();
                 return result;
             }
@@ -256,6 +262,21 @@ namespace GameMaster
         public List<History> GetLast10MessagesByTime()
         {
             return _dbContext.Histories.FromSqlInterpolated($"SELECT TOP(10) * FROM [History] ORDER BY TimeCreated DESC").ToList();
+        }
+
+        public Role? GetRoleById(int id)
+        {
+            return _dbContext.Roles.FromSqlInterpolated($"SELECT * FROM [Role] WHERE Id = {id}").FirstOrDefault();
+        }
+
+        public int EditUser(int id, string username , string email, int roleId)
+        {
+            return _dbContext.Database.ExecuteSqlInterpolated($"UPDATE [User] SET Email = {email} ,Username = {username} , RoleId = {roleId} WHERE Id = {id}");
+        }
+
+        public int DeleteUserById(int id)
+        {
+            return _dbContext.Database.ExecuteSqlInterpolated($"Update [User] Set IsActive = 0 Where Id = {id}");
         }
     }
 }
