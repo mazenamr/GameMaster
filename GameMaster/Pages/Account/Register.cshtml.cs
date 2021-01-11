@@ -8,17 +8,13 @@ namespace GameMaster.Pages.Account
 {
     public class RegisterModel : PageModel
     {
-        private readonly ILogger<RegisterModel> _logger;
-
         private readonly Controller _controller;
-
 
         [BindProperty]
         public InputModel Input { get; set; } = new();
 
-        public RegisterModel(ILogger<RegisterModel> logger, Controller controller)
+        public RegisterModel(Controller controller)
         {
-            _logger = logger;
             _controller = controller;
         }
     
@@ -27,6 +23,12 @@ namespace GameMaster.Pages.Account
             [Required]
             [EmailAddress]
             public string Email { get; set; } = string.Empty;
+
+            [Required]
+            [DataType(DataType.Text)]
+            [MinLength(8)]
+            [MaxLength(50)]
+            public string Username { get; set; } = string.Empty;
 
             [Required]
             [DataType(DataType.Password)]
@@ -66,7 +68,7 @@ namespace GameMaster.Pages.Account
                 return Page();
             }
 
-            _controller.CreateUser(Input.FirstName, Input.LastName, Input.Birthday, Input.Email, Input.Password, Constants.Role.Player);
+            _controller.CreateUser(Input.FirstName, Input.LastName, Input.Birthday, Input.Email, Input.Username, Input.Password, Constants.Role.Player);
             return RedirectToPage("/Index");
         }
     }
