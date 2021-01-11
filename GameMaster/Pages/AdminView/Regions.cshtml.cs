@@ -59,10 +59,11 @@ namespace GameMaster.Pages.AdminView
 
         public IActionResult OnPostDelete(int id)
         {
+            string regionName = _controller.GetRegionById(id).Name;
             _controller.DeleteRegion(id);
 
             string username = _httpContextAccessor.HttpContext.User.Identity.Name;
-            string message = $"Region {RegionName} has been deleted from the game";
+            string message = $"Region {regionName} has been removed from the game";
 
             _controller.AddMessage(message, username);
 
