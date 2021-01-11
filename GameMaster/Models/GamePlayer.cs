@@ -15,8 +15,8 @@ namespace GameMaster.Models
         public bool IsWinner { get; set; }
 
         public virtual Character Character { get; set; }
-        public virtual Player Game { get; set; }
-        public virtual Game Player { get; set; }
+        public virtual Game Game { get; set; }
+        public virtual Player Player { get; set; }
         public virtual Weapon Weapon { get; set; }
     }
 }
