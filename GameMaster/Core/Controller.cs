@@ -304,5 +304,10 @@ namespace GameMaster
         {
             return _dbContext.Database.ExecuteSqlInterpolated($"Update [User] Set IsActive = 0 Where Id = {id}");
         }
+
+        public Season? GetCurrentSeason()
+        {
+            return _dbContext.Seasons.FromSqlInterpolated($"SELECT TOP(1) * FROM [Season] WHERE IsActive = 1 ORDER BY StartDate DESC").FirstOrDefault();
+        }
     }
 }

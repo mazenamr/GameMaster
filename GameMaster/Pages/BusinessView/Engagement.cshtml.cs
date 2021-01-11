@@ -9,15 +9,15 @@ namespace GameMaster.Pages.BusinessView
     {
         private readonly Controller _controller;
 
-        public List<Region> regions { get; set; }
+        public List<Region> Regions { get; set; }
 
-        public List<int> regionPlayers { get; set; } = new();
+        public List<int> Regionplayers { get; set; } = new();
 
-        public List<int> regionGames { get; set; } = new();
+        public List<int> RegionGames { get; set; } = new();
 
-        public List<Character> regionCharacters { get; set; }
+        public List<Character> RegionCharacters { get; set; } = new();
 
-        public List<Weapon> regionWeapons { get; set; }
+        public List<Weapon> RegionWeapons { get; set; } = new();
 
         public EngagementModel(Controller controller)
         {
@@ -26,13 +26,14 @@ namespace GameMaster.Pages.BusinessView
 
         public void OnGet()
         {
-            regions = _controller.GetRegions();
-            foreach(var region in regions)
+            Regions = _controller.GetRegions();
+            Season currentSeason = _controller.GetCurrentSeason();
+            foreach(var region in Regions)
             {
-                regionPlayers.Add(_controller.GetPlayerCountInRegionByRegionId(region.Id));
-                regionGames.Add(_controller.GetGamesCountInRegionByRegionIdAndSeasonId(region.Id, 0));
-                regionCharacters.Add(_controller.GetMostPopularCharacterByRegionIdAndSeasonId(region.Id, 0));
-                regionWeapons.Add(_controller.GetMostPopularWeaponByRegionIdAndSeasonId(region.Id, 0));
+                Regionplayers.Add(_controller.GetPlayerCountInRegionByRegionId(region.Id));
+                RegionGames.Add(_controller.GetGamesCountInRegionByRegionIdAndSeasonId(region.Id, currentSeason.Id));
+                RegionCharacters.Add(_controller.GetMostPopularCharacterByRegionIdAndSeasonId(region.Id, currentSeason.Id));
+                RegionWeapons.Add(_controller.GetMostPopularWeaponByRegionIdAndSeasonId(region.Id, currentSeason.Id));
             }
         }
     }

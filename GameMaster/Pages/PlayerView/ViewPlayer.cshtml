@@ -11,8 +11,8 @@
     <div class="form-row">
         <div class="form-group col">
             <div class="input-group mb-3">
-                <input type="text" class="form-control" asp-for="playerName" placeholder="Enter player name" aria-label="Enter player name">
-                <span asp-validation-for="playerName" class="text-danger" />
+                <input type="text" class="form-control" asp-for="PlayerName" placeholder="Enter player name" aria-label="Enter player name">
+                <span asp-validation-for="PlayerName" class="text-danger" />
                 <div class="input-group-append">
                     <button class="btn btn-outline-primary" type="submit">Search</button>
                 </div>
@@ -24,24 +24,24 @@
 <div class="container">
     @if (HttpContextAccessor.HttpContext.Request.Method == "POST")
     {
-        @if (string.IsNullOrWhiteSpace(Model.playerName))
+        @if (string.IsNullOrWhiteSpace(Model.PlayerName))
         {
         }
-        else if (Model.player is null)
+        else if (Model.Player is null)
         {
             <p class="text-dark">No player found with this name</p>
         }
         else
         {
-            <h1 class="text-dark">@Model.player.Name's info</h1>
+            <h1 class="text-dark">@Model.Player.Name's info</h1>
             <div class="row">
                 <div class="col">
                     Games played
                 </div>
-                @if (Model.totalGamesPlayed > 0)
+                @if (Model.TotalGamesPlayed > 0)
                 {
                     <div class="col">
-                        @Model.totalGamesWon
+                        @Model.TotalGamesWon
                     </div>
                 }
                 else
@@ -55,9 +55,9 @@
                 <div class="col">
                     Win rate
                 </div>
-                @if (Model.totalGamesWon > 0)
+                @if (Model.TotalGamesWon > 0)
                 {
-                    string winrate = $"{(((double)Model.totalGamesWon / Model.totalGamesPlayed) * 100):00.00}%";
+                    string winrate = $"{(((double)Model.TotalGamesWon / Model.TotalGamesPlayed) * 100):00.00}%";
                     <div class="col">
                         @winrate
                     </div>
@@ -69,36 +69,36 @@
                     </div>
                 }
             </div>
-            @if (Model.character is not null)
+            @if (Model.Character is not null)
             {
                 <div class="row">
                     <div class="col">
                         Most played character
                     </div>
                     <div class="col">
-                        @Model.character.Name
+                        @Model.Character.Name
                     </div>
                 </div>
             }
-            @if (Model.weapon is not null)
+            @if (Model.Weapon is not null)
             {
                 <div class="row">
                     <div class="col">
                         Most played weapon
                     </div>
                     <div class="col">
-                        @Model.weapon.Name
+                        @Model.Weapon.Name
                     </div>
                 </div>
             }
-            @if (Model.rank is not null)
+            @if (Model.Rank is not null)
             {
                 <div class="row">
                     <div class="col">
                         Rank
                     </div>
                     <div class="col">
-                        @Model.rank.Name
+                        @Model.Rank.Name
                     </div>
                 </div>
             }
@@ -107,10 +107,10 @@
                     Score
                 </div>
                 <div class="col">
-                    @Model.player.Score
+                    @Model.Player.Score
                 </div>
             </div>
-            @if (Model.totalGamesPlayed > 0)
+            @if (Model.TotalGamesPlayed > 0)
             {
                 <h2 class="text-dark">Last 10 Matches</h2>
                 <table class="table table-hover">
@@ -126,21 +126,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if (Model.totalGamesPlayed < 10)
+                        @if (Model.TotalGamesPlayed < 10)
                         {
-                            matches = Model.totalGamesPlayed;
+                            matches = Model.TotalGamesPlayed;
                         }
                         @for (int i = 0; i < matches; i++)
                         {
                             count++;
                             <tr>
                                 <th scope="row">@count</th>
-                                <td>@Model.playerCharacters[i].Name</td>
-                                <td>@Model.playerWeapons[i].Name</td>
-                                <td>@Model.opponentPlayers[i].Name</td>
-                                <td>@Model.opponentCharacters[i].Name</td>
-                                <td>@Model.opponentWeapons[i].Name</td>
-                                    @if (Model.currentPlayer[i].IsWinner)
+                                <td>@Model.PlayerCharacters[i].Name</td>
+                                <td>@Model.PlayerWeapons[i].Name</td>
+                                <td>@Model.OpponentPlayers[i].Name</td>
+                                <td>@Model.OpponentCharacters[i].Name</td>
+                                <td>@Model.OpponentWeapons[i].Name</td>
+                                    @if (Model.CurrentPlayer[i].IsWinner)
                                     {
                                         <td>Win</td>
                                     }

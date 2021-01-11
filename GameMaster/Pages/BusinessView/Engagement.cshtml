@@ -29,21 +29,21 @@
             </tr>
         </thead>
         <tbody>
-            @if (Model.regions is not null)
+            @if (Model.Regions is not null)
             {
-                int limit = Model.regions.Count;
+                int limit = Model.Regions.Count;
                 @for (int i = 0; i < limit; i++)
                 {
                     counter++;
                     <tr>
                         <th scope="row">@counter</th>
-                        <td>@Model.regions[i].Name</td>
-                        <td>@Model.regionPlayers[i]</td>
-                        <td>@Model.regionGames[i]</td>
-                        @if (Model.regionCharacters is not null)
+                        <td>@Model.Regions[i].Name</td>
+                        <td>@Model.Regionplayers[i]</td>
+                        <td>@Model.RegionGames[i]</td>
+                        @if (Model.RegionCharacters is not null)
                         {
-                            <td>@Model.regionCharacters[i].Name</td>
-                            <td>@Model.regionWeapons[i].Name</td>
+                            <td>@Model.RegionCharacters[i].Name</td>
+                            <td>@Model.RegionWeapons[i].Name</td>
                         }
                     </tr>
                 }

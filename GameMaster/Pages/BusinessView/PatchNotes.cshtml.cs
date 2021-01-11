@@ -14,7 +14,7 @@ namespace GameMaster.Pages.BusinessView
 
         public List<History> Changes { get; set; }
 
-        public int count { get; set; } = 0;
+        public int Count { get; set; } = 0;
 
         public PatchNotesModel(Controller controller)
         {
@@ -24,7 +24,7 @@ namespace GameMaster.Pages.BusinessView
         public void OnGet()
         {
             Changes = _controller.GetLast10MessagesByTime();
-            count = Changes.Count();
+            Count = Changes.Count();
         }
     }
 }
