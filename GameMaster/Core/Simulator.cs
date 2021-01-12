@@ -22,6 +22,7 @@ namespace GameMaster.Core
         private Season NewSeason { get; set; }
         private List<int> PlayerIds { get; set; }
         private Dictionary<(int, int), Queue<Player>> Players { get; set; } = new();
+        private Dictionary<(int, int), bool> RunnerDone { get; set; } = new();
         private Dictionary<int, (Character, Weapon)> PlayerItems { get; set; } = new();
         private List<Region> Regions { get; set; }
         private List<Rank> Ranks { get; set; }
@@ -56,18 +57,26 @@ namespace GameMaster.Core
             });
             DeactivatePlayers();
             AddPlayers();
+            PlayerIds = _controller.GetPlayerIds();
             Regions.ForEach(region => Ranks.ForEach(rank =>
             {
+                //List<Player> p = _controller.GetPlayerByRegionAndRank(region.Id, rank.Id);
+                //Queue<Player> q = new(p.Count + PlayerIds.Count / 10);
+                //p.ForEach(x => q.Enqueue(x));
+                //Players.Add((region.Id, rank.Id), q);
                 Players.Add((region.Id, rank.Id), new(_controller.GetPlayerByRegionAndRank(region.Id, rank.Id)));
+                RunnerDone[(region.Id, rank.Id)] = false;
             }));
         }
 
         private void DeactivatePlayers()
         {
             Random random = new();
-            for (int i = 0; i < _simulatorSettings.DecativatedPlayerCount; i++)
+            int i = _simulatorSettings.DecativatedPlayerCount;
+            while (i > 0 && PlayerIds.Count > 0)
             {
                 _controller.DeactivatePlayer(PlayerIds[random.Next(PlayerIds.Count)]);
+                i--;
             }
         }
 
@@ -81,7 +90,7 @@ namespace GameMaster.Core
                 int score = 0;
                 int activity = random.Next(101);
                 int skill = random.Next(101);
-                int temper = random.Next(21);
+                int temper = random.Next(5);
                 _controller.AddPlayer(guid, guid, "2000-01-01", DateTime.UtcNow, guid, activity, skill, temper, score, region.Id);
             }
         }
@@ -98,7 +107,7 @@ namespace GameMaster.Core
 
                 _dbContext.BulkInsert(games.ToArray(), new BulkConfig { PreserveInsertOrder = true, SetOutputIdentity = true, BatchSize = 4000 });
 
-                runners.Add(Task.Factory.StartNew(() => SimulateGames(Players[q], games)));
+                runners.Add(Task.Factory.StartNew(() => SimulateGames(Players[q], games, q.Item1, q.Item2)));
                 //SimulateGames(q);
             }
             await Task.WhenAll(runners);
@@ -114,7 +123,7 @@ namespace GameMaster.Core
             await _dbContext.SaveChangesAsync();
         }
 
-        private void SimulateGames(Queue<Player> players, Queue<Game> games)
+        private void SimulateGames(Queue<Player> players, Queue<Game> games, int regionId, int rankId)
         {
             Random random = new();
             while (games.Count > 0)
@@ -122,16 +131,18 @@ namespace GameMaster.Core
                 Game game = games.Dequeue();
                 List<Player> gamePlayers = new(2);
 
-                int chance = 0;
                 while (players.Count > 0 && gamePlayers.Count < 2)
                 {
-                    chance++;
                     Player player = players.Dequeue();
 
-                    if (random.Next(100) <= player.Activity + chance)
+                    if (random.Next(100) <= player.Activity)
+                    {
                         gamePlayers.Add(player);
+                    }
                     else
+                    {
                         players.Enqueue(player);
+                    }
                 }
 
                 if (players.Count < 2)
@@ -176,18 +187,26 @@ namespace GameMaster.Core
                         CharacterId = character.Id,
                         WeaponId = weapon.Id
                     };
-                    if (playerScores[playerNumber] > playerScores[1-playerNumber])
+                    int d = playerScores[playerNumber] - playerScores[1 - playerNumber];
+                    int newScore = d > 200 ? 10 : d < -100 ? 100 : d > 0 ? 10 + d / 5 : 10 + d / 2;
+                    if (playerScores[playerNumber] > playerScores[1 - playerNumber])
                     {
                         gamePlayer.IsWinner = true;
-                        player.Score += 10;
+                        player.Score += newScore * 2;
                         CharacterDetails[character.Id].GamesWon += 1;
                         WeaponDetails[weapon.Id].GamesWon += 1;
                     }
-                    else if (playerScores[playerNumber] < playerScores[1-playerNumber])
+                    else if (playerScores[playerNumber] < playerScores[1 - playerNumber])
                     {
                         gamePlayer.IsWinner = false;
-                        player.Score -= 10;
+                        player.Score -= newScore / 4;
                         player.Score = player.Score < 0 ? 0 : player.Score;
+                        if (random.Next(player.Temper) == 0)
+                        {
+                            character = Characters[Characters.Keys.ToList()[random.Next(Characters.Count)]];
+                            weapon = Weapons[Weapons.Keys.ToList()[random.Next(Weapons.Count)]];
+                            PlayerItems[player.Id] = (character, weapon);
+                        }
                     }
                     else
                     {
@@ -197,9 +216,23 @@ namespace GameMaster.Core
                     }
                     GamePlayers.Add(gamePlayer);
                     Rank newRank = Ranks.Where(r => r.Score <= player.Score).OrderByDescending(r => r.Score).First();
-                    Players[(player.RegionId, newRank.Id)].Enqueue(player);
+                    player.RankId = newRank.Id;
+                    player.Rank = newRank;
+                    if (!RunnerDone[(regionId, newRank.Id)])
+                    {
+                        Players[(player.RegionId, newRank.Id)].Enqueue(player);
+                        if (newRank.Id != rankId)
+                        {
+                            System.Console.WriteLine("Nice");
+                        }
+                    }
+                    else
+                    {
+                        Players[(regionId, rankId)].Enqueue(player);
+                    }
                 }
             }
+            RunnerDone[(regionId, rankId)] = true;
         }
     }
 }
