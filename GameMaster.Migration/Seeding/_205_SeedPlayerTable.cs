@@ -13,7 +13,7 @@ namespace GameMaster.Migration.Seeding
 
         public override void Up()
         {
-            int totalPlayers = 10000;
+            int totalPlayers = 1000;
             Random random = new();
             Constants.Region.Regions.ForEach(region =>
             {

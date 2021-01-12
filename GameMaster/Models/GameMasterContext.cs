@@ -29,12 +29,7 @@ namespace GameMaster.Models
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Season> Seasons { get; set; }
         public virtual DbSet<Synergy> Synergies { get; set; }
-        public virtual DbSet<UsageAgainstCharacterCharacter> UsageAgainstCharacterCharacters { get; set; }
-        public virtual DbSet<UsageAgainstCharacterWeapon> UsageAgainstCharacterWeapons { get; set; }
-        public virtual DbSet<UsageAgainstWeaponWeapon> UsageAgainstWeaponWeapons { get; set; }
-        public virtual DbSet<UsageWith> UsageWiths { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<VersionInfo> VersionInfos { get; set; }
         public virtual DbSet<Weapon> Weapons { get; set; }
         public virtual DbSet<WeaponDetail> WeaponDetails { get; set; }
 
@@ -61,10 +56,6 @@ namespace GameMaster.Models
 
             modelBuilder.Entity<CharacterDetail>(entity =>
             {
-                entity.HasIndex(e => e.CharacterId, "IX_CharacterDetails_CharacterId");
-
-                entity.HasIndex(e => e.SeasonId, "IX_CharacterDetails_SeasonId");
-
                 entity.HasOne(d => d.Character)
                     .WithMany(p => p.CharacterDetails)
                     .HasForeignKey(d => d.CharacterId)
@@ -81,10 +72,6 @@ namespace GameMaster.Models
             modelBuilder.Entity<Game>(entity =>
             {
                 entity.ToTable("Game");
-
-                entity.HasIndex(e => e.RegionId, "IX_Game_RegionId");
-
-                entity.HasIndex(e => e.SeasonId, "IX_Game_SeasonId");
 
                 entity.Property(e => e.StartTime).HasColumnType("datetime");
 
@@ -104,14 +91,6 @@ namespace GameMaster.Models
             modelBuilder.Entity<GamePlayer>(entity =>
             {
                 entity.ToTable("GamePlayer");
-
-                entity.HasIndex(e => e.CharacterId, "IX_GamePlayer_CharacterId");
-
-                entity.HasIndex(e => e.GameId, "IX_GamePlayer_GameId");
-
-                entity.HasIndex(e => e.PlayerId, "IX_GamePlayer_PlayerId");
-
-                entity.HasIndex(e => e.WeaponId, "IX_GamePlayer_WeaponId");
 
                 entity.HasOne(d => d.Character)
                     .WithMany(p => p.GamePlayers)
@@ -177,15 +156,6 @@ namespace GameMaster.Models
             modelBuilder.Entity<Player>(entity =>
             {
                 entity.ToTable("Player");
-
-                entity.HasIndex(e => e.Name, "IX_Player_Name")
-                    .IsUnique();
-
-                entity.HasIndex(e => e.PersonId, "IX_Player_PersonId");
-
-                entity.HasIndex(e => e.RankId, "IX_Player_RankId");
-
-                entity.HasIndex(e => e.RegionId, "IX_Player_RegionId");
 
                 entity.Property(e => e.IsActive)
                     .IsRequired()
@@ -276,10 +246,6 @@ namespace GameMaster.Models
             {
                 entity.ToTable("Synergy");
 
-                entity.HasIndex(e => e.CharacterId, "IX_Synergy_CharacterId");
-
-                entity.HasIndex(e => e.WeaponId, "IX_Synergy_WeaponId");
-
                 entity.HasOne(d => d.Character)
                     .WithMany(p => p.Synergies)
                     .HasForeignKey(d => d.CharacterId)
@@ -293,103 +259,9 @@ namespace GameMaster.Models
                     .HasConstraintName("FK_Synergy_WeaponId_Weapon_id");
             });
 
-            modelBuilder.Entity<UsageAgainstCharacterCharacter>(entity =>
-            {
-                entity.ToTable("UsageAgainstCharacterCharacter");
-
-                entity.HasIndex(e => e.Character1Id, "IX_UsageAgainstCharacterCharacter_Character1Id");
-
-                entity.HasIndex(e => e.Character2Id, "IX_UsageAgainstCharacterCharacter_Character2Id");
-
-                entity.HasOne(d => d.Character1)
-                    .WithMany(p => p.UsageAgainstCharacterCharacterCharacter1s)
-                    .HasForeignKey(d => d.Character1Id)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_UsageAgainstCharacterCharacter_Character1Id_Character_id");
-
-                entity.HasOne(d => d.Character2)
-                    .WithMany(p => p.UsageAgainstCharacterCharacterCharacter2s)
-                    .HasForeignKey(d => d.Character2Id)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_UsageAgainstCharacterCharacter_Character2Id_Character_id");
-            });
-
-            modelBuilder.Entity<UsageAgainstCharacterWeapon>(entity =>
-            {
-                entity.ToTable("UsageAgainstCharacterWeapon");
-
-                entity.HasIndex(e => e.CharacterId, "IX_UsageAgainstCharacterWeapon_CharacterId");
-
-                entity.HasIndex(e => e.WeaponId, "IX_UsageAgainstCharacterWeapon_WeaponId");
-
-                entity.HasOne(d => d.Character)
-                    .WithMany(p => p.UsageAgainstCharacterWeapons)
-                    .HasForeignKey(d => d.CharacterId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_UsageAgainstCharacterWeapon_CharacterId_Character_id");
-
-                entity.HasOne(d => d.Weapon)
-                    .WithMany(p => p.UsageAgainstCharacterWeapons)
-                    .HasForeignKey(d => d.WeaponId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_UsageAgainstCharacterWeapon_WeaponId_Weapon_id");
-            });
-
-            modelBuilder.Entity<UsageAgainstWeaponWeapon>(entity =>
-            {
-                entity.ToTable("UsageAgainstWeaponWeapon");
-
-                entity.HasIndex(e => e.Weapon1Id, "IX_UsageAgainstWeaponWeapon_Weapon1Id");
-
-                entity.HasIndex(e => e.Weapon2Id, "IX_UsageAgainstWeaponWeapon_Weapon2Id");
-
-                entity.HasOne(d => d.Weapon1)
-                    .WithMany(p => p.UsageAgainstWeaponWeaponWeapon1s)
-                    .HasForeignKey(d => d.Weapon1Id)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_UsageAgainstWeaponWeapon_Weapon1Id_Weapon_id");
-
-                entity.HasOne(d => d.Weapon2)
-                    .WithMany(p => p.UsageAgainstWeaponWeaponWeapon2s)
-                    .HasForeignKey(d => d.Weapon2Id)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_UsageAgainstWeaponWeapon_Weapon2Id_Weapon_id");
-            });
-
-            modelBuilder.Entity<UsageWith>(entity =>
-            {
-                entity.ToTable("UsageWith");
-
-                entity.HasIndex(e => e.CharacterId, "IX_UsageWith_CharacterId");
-
-                entity.HasIndex(e => e.WeaponId, "IX_UsageWith_WeaponId");
-
-                entity.HasOne(d => d.Character)
-                    .WithMany(p => p.UsageWiths)
-                    .HasForeignKey(d => d.CharacterId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_UsageWith_CharacterId_Character_id");
-
-                entity.HasOne(d => d.Weapon)
-                    .WithMany(p => p.UsageWiths)
-                    .HasForeignKey(d => d.WeaponId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_UsageWith_WeaponId_Weapon_id");
-            });
-
             modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable("User");
-
-                entity.HasIndex(e => e.Email, "IX_User_Email")
-                    .IsUnique();
-
-                entity.HasIndex(e => e.PersonId, "IX_User_PersonId");
-
-                entity.HasIndex(e => e.RoleId, "IX_User_RoleId");
-
-                entity.HasIndex(e => e.Username, "IX_User_Username")
-                    .IsUnique();
 
                 entity.Property(e => e.Email)
                     .IsRequired()
@@ -420,21 +292,6 @@ namespace GameMaster.Models
                     .HasConstraintName("FK_User_RoleId_Role_id");
             });
 
-            modelBuilder.Entity<VersionInfo>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToTable("VersionInfo");
-
-                entity.HasIndex(e => e.Version, "UC_Version")
-                    .IsUnique()
-                    .IsClustered();
-
-                entity.Property(e => e.AppliedOn).HasColumnType("datetime");
-
-                entity.Property(e => e.Description).HasMaxLength(1024);
-            });
-
             modelBuilder.Entity<Weapon>(entity =>
             {
                 entity.ToTable("Weapon");
@@ -450,10 +307,6 @@ namespace GameMaster.Models
 
             modelBuilder.Entity<WeaponDetail>(entity =>
             {
-                entity.HasIndex(e => e.SeasonId, "IX_WeaponDetails_SeasonId");
-
-                entity.HasIndex(e => e.WeaponId, "IX_WeaponDetails_WeaponId");
-
                 entity.HasOne(d => d.Season)
                     .WithMany(p => p.WeaponDetails)
                     .HasForeignKey(d => d.SeasonId)

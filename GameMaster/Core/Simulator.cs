@@ -31,7 +31,6 @@ namespace GameMaster.Core
         private Dictionary<int, Weapon> Weapons { get; set; } = new();
         private Dictionary<int, WeaponDetail> WeaponDetails { get; set; } = new();
         private Dictionary<(int, int), Synergy> Synergies { get; set; } = new();
-        private Dictionary<(int, int), UsageWith> UsagesWith { get; set; } = new();
         private List<GamePlayer> GamePlayers { get; set; } = new();
 
         public Simulator(Controller controller, GameMasterContext dbContext, SimulatorSettings simulatorSettings)
@@ -48,22 +47,11 @@ namespace GameMaster.Core
             Weapons = _controller.GetAllWeapons().ToDictionary(x => x.Id, x => x);
             WeaponDetails = _controller.GetAllWeapons().ToDictionary(x => x.Id, x => new WeaponDetail{ WeaponId = x.Id, GamesPlayed = 0, GamesWon = 0, SeasonId = NewSeason.Id });
             Synergies = _controller.GetSynergies().ToDictionary(x => (x.CharacterId, x.WeaponId), x => x);
-            _controller.GetAllCharacters().ForEach(c =>
-            {
-                _controller.GetAllWeapons().ForEach(w =>
-                {
-                    UsagesWith.Add((c.Id, w.Id), new UsageWith());
-                });
-            });
             DeactivatePlayers();
             AddPlayers();
             PlayerIds = _controller.GetPlayerIds();
             Regions.ForEach(region => Ranks.ForEach(rank =>
             {
-                //List<Player> p = _controller.GetPlayerByRegionAndRank(region.Id, rank.Id);
-                //Queue<Player> q = new(p.Count + PlayerIds.Count / 10);
-                //p.ForEach(x => q.Enqueue(x));
-                //Players.Add((region.Id, rank.Id), q);
                 Players.Add((region.Id, rank.Id), new(_controller.GetPlayerByRegionAndRank(region.Id, rank.Id)));
                 RunnerDone[(region.Id, rank.Id)] = false;
             }));
